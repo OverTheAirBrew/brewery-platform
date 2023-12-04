@@ -20,7 +20,6 @@
       "ESNext"
     ],
     "target": "ESNext",
-    "noUncheckedIndexedAccess": true,
     "noEmit": true
   },
   "exclude": [

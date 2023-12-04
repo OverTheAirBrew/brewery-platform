@@ -10,11 +10,11 @@ export const findPluginConfigurationsOfType = (
   plugins: PluginConfig[],
   key: keyof IFullTypes,
 ) => {
-  return plugins.reduce((prev, curr) => {
-    if (!curr[key]) {
+  return plugins.reduce<any[]>((prev, curr) => {
+    if (!(key in plugins)) {
       return [...prev];
     }
 
-    return [...prev, ...curr[key]];
+    return [...prev, ...(curr as any)[key]];
   }, []);
 };
