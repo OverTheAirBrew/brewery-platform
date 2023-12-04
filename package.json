@@ -9,14 +9,12 @@
     "release": "turbo release"
   },
   "devDependencies": {
-    "@release-it/bumper": "^6.0.1"
+    "@changesets/cli": "^2.27.1"
   },
   "release-it": {
     "git": {
       "requireCleanWorkingDir": false
     }
   },
-  "dependencies": {
-    "@changesets/cli": "^2.27.1"
-  }
+  "dependencies": {}
 }
