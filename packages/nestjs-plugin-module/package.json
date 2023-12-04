@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@nestjs/common": "^10.2.10",
-    "@overtheairbrew/plugins": "workspace:^1.0.0",
+    "@overtheairbrew/plugins": "workspace:^0.0.0",
     "find-node-modules": "^2.1.3"
   },
   "devDependencies": {
