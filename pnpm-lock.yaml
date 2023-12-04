@@ -31,7 +31,7 @@ importers:
         specifier: ^7.1.16
         version: 7.1.16(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(reflect-metadata@0.1.13)
       '@overtheairbrew/nestjs-plugin-module':
-        specifier: ^1.0.0
+        specifier: workspace:^1.0.0
         version: link:../../packages/nestjs-plugin-module
       reflect-metadata:
         specifier: ^0.1.13
