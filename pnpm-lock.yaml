@@ -138,7 +138,7 @@ importers:
   packages/plugins:
     devDependencies:
       '@overtheairbrew/tsconfig':
-        specifier: workspace:*
+        specifier: workspace:^1.0.0
         version: link:../tsconfig
       rimraf:
         specifier: ^5.0.5
