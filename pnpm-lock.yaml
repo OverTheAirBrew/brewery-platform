@@ -110,7 +110,7 @@ importers:
         specifier: ^10.2.10
         version: 10.2.10(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@overtheairbrew/plugins':
-        specifier: workspace:^0.0.0
+        specifier: workspace:^1.0.0
         version: link:../plugins
       find-node-modules:
         specifier: ^2.1.3
