@@ -6,7 +6,8 @@
     "apps/*"
   ],
   "scripts": {
-    "release": "turbo release"
+    "build": "turbo build",
+    "lint": "turbo lint"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1"
@@ -16,5 +17,11 @@
       "requireCleanWorkingDir": false
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "turbo": "^1.10.16"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  }
 }

@@ -7,6 +7,6 @@
         "!.next/cache/**"
       ]
     },
-    "release": {}
+    "lint": {}
   }
 }
