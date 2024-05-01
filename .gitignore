@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 .turbo
+
+
+apps/front-end/src/lib/api-client
