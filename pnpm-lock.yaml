@@ -171,9 +171,6 @@ importers:
       next-auth:
         specifier: ^4.24.6
         version: 4.24.6(next@14.0.4(@opentelemetry/api@1.8.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      prom-client:
-        specifier: ^15.1.0
-        version: 15.1.0
       react:
         specifier: ^18
         version: 18.2.0
@@ -1884,9 +1881,6 @@ packages:
   binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
-
-  bintrees@1.0.2:
-    resolution: {integrity: sha512-VOMgTMwjAaUG580SXn3LacVgjurrbMme7ZZNYGSSV7mmtY6QQRh0Eg3pwIcntQ77DErK1L0NxkbetjcoXzVwKw==}
 
   bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
@@ -4267,10 +4261,6 @@ packages:
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
 
-  prom-client@15.1.0:
-    resolution: {integrity: sha512-cCD7jLTqyPdjEPBo/Xk4Iu8jxjuZgZJ3e/oET3L+ZwOuap/7Cw3dH/TJSsZKs1TQLZ2IHpIlRAKw82ef06kmMw==}
-    engines: {node: ^16 || ^18 || >=20}
-
   promise-inflight@1.0.1:
     resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
     peerDependencies:
@@ -4900,9 +4890,6 @@ packages:
   tar@6.2.0:
     resolution: {integrity: sha512-/Wo7DcT0u5HUV486xg675HtjNd3BXZ6xDbzsCUZPt5iw8bTQ63bP0Raut3mvro9u+CUyq7YQd8Cx55fsZXxqLQ==}
     engines: {node: '>=10'}
-
-  tdigest@0.1.2:
-    resolution: {integrity: sha512-+G0LLgjjo9BZX2MfdvPfH+MKLCrxlXSYec5DaPYP1fe6Iyhf0/fSmJ0bFiZ1F8BT6cGXl2LpltQptzjXKWEkKA==}
 
   term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
@@ -6692,7 +6679,8 @@ snapshots:
       - encoding
       - supports-color
 
-  '@opentelemetry/api@1.8.0': {}
+  '@opentelemetry/api@1.8.0':
+    optional: true
 
   '@panva/hkdf@1.1.1': {}
 
@@ -7422,8 +7410,6 @@ snapshots:
   big-integer@1.6.52: {}
 
   binary-extensions@2.2.0: {}
-
-  bintrees@1.0.2: {}
 
   bl@4.1.0:
     dependencies:
@@ -10314,11 +10300,6 @@ snapshots:
 
   process-nextick-args@2.0.1: {}
 
-  prom-client@15.1.0:
-    dependencies:
-      '@opentelemetry/api': 1.8.0
-      tdigest: 0.1.2
-
   promise-inflight@1.0.1:
     optional: true
 
@@ -11036,10 +11017,6 @@ snapshots:
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
-
-  tdigest@0.1.2:
-    dependencies:
-      bintrees: 1.0.2
 
   term-size@2.2.1: {}
 
