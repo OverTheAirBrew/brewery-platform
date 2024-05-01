@@ -1,4 +1,5 @@
 export * from './base-types';
+export * from './input-types';
 export * from './plugins';
 
 export const DeviceIdentifier = Symbol('DEVICES');

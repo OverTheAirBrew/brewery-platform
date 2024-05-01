@@ -7,23 +7,29 @@
   ],
   "scripts": {
     "build": "turbo build",
+    "start:dev": "turbo start:dev",
+    "prune": "turbo prune",
+    "test": "turbo test",
+    "test:cov": "turbo test:cov",
+    "test:e2e": "turbo test:e2e",
+    "test:e2e:cov": "turbo test:e2e:cov",
+    "test:all": "turbo test && turbo test:e2e",
+    "generate-client": "turbo generate-client && prettier --write ./packages/api-client 'packages/api-client/src/**/*.ts'",
     "lint": "turbo lint",
     "release": "turbo build && changeset publish",
-    "version": "changeset version && pnpm install --lockfile-only"
+    "version": "changeset version && pnpm install --lockfile-only",
+    "dev": "turbo start:dev",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1"
-  },
-  "release-it": {
-    "git": {
-      "requireCleanWorkingDir": false
-    }
-  },
-  "dependencies": {
-    "turbo": "^1.10.16"
+    "@changesets/cli": "^2.27.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "turbo": "^2.0.12"
   },
   "engines": {
     "node": ">=18",
     "pnpm": ">=8"
-  }
+  },
+  "packageManager": "pnpm@9.7.0"
 }

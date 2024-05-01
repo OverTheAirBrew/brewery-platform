@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 
 export class StringPropertyOutput {
   constructor(name: string, required: boolean, placeholder: string) {
@@ -7,9 +8,24 @@ export class StringPropertyOutput {
     this.placeholder = placeholder;
   }
 
+  @ApiProperty({
+    type: 'string',
+  })
   name: string;
+
+  @ApiProperty({
+    type: 'string',
+  })
   type: string;
+
+  @ApiProperty({
+    type: 'boolean',
+  })
   required: boolean;
+
+  @ApiProperty({
+    type: 'string',
+  })
   placeholder: string;
 }
 
@@ -21,9 +37,24 @@ export class NumberPropertyOutput {
     this.defaultValue = defaultValue;
   }
 
+  @ApiProperty({
+    type: 'string',
+  })
   name: string;
+
+  @ApiProperty({
+    type: 'string',
+  })
   type: string;
+
+  @ApiProperty({
+    type: 'boolean',
+  })
   required: boolean;
+
+  @ApiProperty({
+    type: 'number',
+  })
   defaultValue: number;
 }
 
@@ -32,7 +63,7 @@ export class SelectBoxPropertyOutput {
     name: string,
     required: boolean,
     values: string[],
-    defaultValue: string
+    defaultValue: string,
   ) {
     this.name = name;
     this.type = 'select-box';
@@ -41,9 +72,29 @@ export class SelectBoxPropertyOutput {
     this.defaultValue = defaultValue;
   }
 
+  @ApiProperty({
+    type: 'string',
+  })
   name: string;
+
+  @ApiProperty({
+    type: 'string',
+  })
   type: string;
+
+  @ApiProperty({
+    type: 'boolean',
+  })
   required: boolean;
+
+  @ApiProperty({
+    type: 'string',
+    isArray: true,
+  })
   values: string[];
+
+  @ApiProperty({
+    type: 'string',
+  })
   defaultValue: string;
 }

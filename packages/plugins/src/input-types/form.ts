@@ -83,6 +83,8 @@ class SelectBoxInput implements IInput {
   }
 }
 
+export type InputType = StringInput | NumberInput | SelectBoxInput;
+
 export class Form {
   constructor() {}
 
@@ -103,7 +105,7 @@ export class Form {
     return this;
   }
 
-  async build(config: any) {
+  async build(config: any): Promise<InputType[]> {
     return await Promise.all(this.inputs.map((input) => input.getData(config)));
   }
 }

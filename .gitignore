@@ -21,6 +21,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+coverage-*
 *.lcov
 
 # nyc test coverage
@@ -130,3 +131,11 @@ dist
 .pnp.*
 
 .turbo
+
+
+apps/backend/openapi.yaml
+out
+
+packages/api-client/src/.openapi-generator
+
+.DS_Store
