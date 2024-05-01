@@ -7,21 +7,17 @@
   ],
   "scripts": {
     "build": "turbo build",
+    "start:dev": "turbo start:dev",
     "lint": "turbo lint",
     "release": "turbo build && changeset publish",
-    "version": "changeset version && pnpm install --lockfile-only"
+    "version": "changeset version && pnpm install --lockfile-only",
+    "dev": "turbo start:dev"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1"
-  },
-  "release-it": {
-    "git": {
-      "requireCleanWorkingDir": false
-    }
-  },
-  "dependencies": {
+    "@changesets/cli": "^2.27.1",
     "turbo": "^1.10.16"
   },
+  "dependencies": {},
   "engines": {
     "node": ">=18",
     "pnpm": ">=8"

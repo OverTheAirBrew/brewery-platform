@@ -7,8 +7,12 @@
       ],
       "outputs": [
         ".next/**",
-        "!.next/cache/**"
+        "!.next/cache/**",
+        "dist/**"
       ]
+    },
+    "start:dev": {
+      "cache": false
     },
     "lint": {}
   }
