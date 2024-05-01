@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start:dev": "next dev",
-    "build": "next build",
+    "build": "next experimental-compile",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,7 +19,6 @@
     "axios": "^1.6.8",
     "next": "14.0.4",
     "next-auth": "^4.24.6",
-    "prom-client": "^15.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-helmet-async": "^2.0.4"
