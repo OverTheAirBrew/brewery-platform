@@ -1,19 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder } from '@nestjs/swagger';
 import { OpenApiNestFactory } from 'nest-openapi-tools';
 import { AppModule } from './app.module';
 import { swaggerConfig } from './swagger-config';
 
-const PORT = parseInt(process.env.PORT || '3001');
-const VERSION = process.env.VERSION || 'dev';
-
-const IS_DEV = process.env.NODE_ENV === 'development';
-const GENERATE_DOCS = process.env.GENERATE_DOCS === 'true';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     preview: true,
-    abortOnError: false
+    abortOnError: false,
   });
 
   await OpenApiNestFactory.configure(app, swaggerConfig, {
@@ -22,11 +15,11 @@ async function bootstrap() {
       path: '/docs',
     },
     fileGeneratorOptions: {
-      enabled: IS_DEV,
+      enabled: true,
       outputFilePath: './openapi.yaml',
     },
     clientGeneratorOptions: {
-      enabled: IS_DEV,
+      enabled: true,
       type: 'typescript-axios',
       outputFolderPath: '../front-end/src/lib/api-client',
       additionalProperties:

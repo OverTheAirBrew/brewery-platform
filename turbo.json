@@ -14,7 +14,7 @@
     "start:dev": {
       "cache": false
     },
-    "lint": {},
+    "lint": { "cache": false },
     "generate-docs": { "cache": false }
   }
 }
