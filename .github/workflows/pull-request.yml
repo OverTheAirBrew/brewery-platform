@@ -34,5 +34,5 @@ jobs:
       - name: Build Application
         run: pnpm run build --filter=...@overtheairbrew/${{ matrix.appName }}
       - name: Lint Application and Dependencies
-        run: pnpm run lint pnpm run lint --filter=...@overtheairbrew/${{ matrix.appName }}
+        run: pnpm run lint --filter=...@overtheairbrew/${{ matrix.appName }}
 
