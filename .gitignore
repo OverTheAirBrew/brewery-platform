@@ -133,3 +133,4 @@ dist
 
 
 apps/front-end/src/lib/api-client
+apps/backend/openapi.yaml

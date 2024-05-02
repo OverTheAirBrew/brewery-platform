@@ -8,6 +8,7 @@
   "scripts": {
     "build": "turbo build",
     "start:dev": "turbo start:dev",
+    "generate-docs": "turbo generate-docs",
     "lint": "turbo lint",
     "release": "turbo build && changeset publish",
     "version": "changeset version && pnpm install --lockfile-only",
