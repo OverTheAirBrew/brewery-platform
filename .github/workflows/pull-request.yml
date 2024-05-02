@@ -27,10 +27,13 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install Turbo
+        run: npm i -g turbo
       - name: Prune application
-        run: pnpm run prune --filter=...@overtheairbrew/${{ matrix.appName }}
+        run: pnpm run prune @overtheairbrew/${{ matrix.appName }}
+      - name: Install dependencies
+        working-directory: out
+        run: pnpm install --frozen-lockfile
       - name: Build Application
         working-directory: out
         run: pnpm run build
