@@ -21,7 +21,7 @@ async function bootstrap() {
     clientGeneratorOptions: {
       enabled: true,
       type: 'typescript-axios',
-      outputFolderPath: '../front-end/src/lib/api-client',
+      outputFolderPath: '../../packages/api-client/src',
       additionalProperties:
         'apiPackage=clients,modelPackage=models,withoutPrefixEnums=true,withSeparateModelsAndApi=true',
       openApiFilePath: './openapi.yaml', // or ./openapi.json

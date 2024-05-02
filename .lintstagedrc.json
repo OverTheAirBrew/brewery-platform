@@ -1,0 +1,4 @@
+{
+    "*.ts": "prettier --write",
+    "apps/backend/**/*.ts": "pnpm run generate-docs && git add ./packages/api-client"
+}

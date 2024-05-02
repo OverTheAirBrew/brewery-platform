@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { DeviceTypesApi, UsersApi } from './api-client';
+import { DeviceTypesApi, UsersApi } from '@overtheairbrew/api-client';
 import { authOptions } from './auth-options';
 
 const defaultOptions = {
