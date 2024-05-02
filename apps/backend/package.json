@@ -41,6 +41,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@overtheairbrew/tsconfig": "workspace:*",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",

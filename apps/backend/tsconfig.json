@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json", // Extend the config options from the root
+  "extends": "@overtheairbrew/tsconfig/nestjs", 
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,

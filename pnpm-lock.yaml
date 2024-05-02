@@ -84,6 +84,9 @@ importers:
       '@nestjs/testing':
         specifier: ^10.0.0
         version: 10.2.10(@nestjs/common@10.2.10(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.10(@nestjs/common@10.2.10(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/platform-express@10.2.10)(encoding@0.1.13)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/platform-express@10.2.10(@nestjs/common@10.2.10(reflect-metadata@0.1.13)(rxjs@7.8.1))(@nestjs/core@10.2.10))
+      '@overtheairbrew/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.21
@@ -190,6 +193,9 @@ importers:
         specifier: ^7.51.3
         version: 7.51.3(react@18.2.0)
     devDependencies:
+      '@overtheairbrew/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
       '@types/node':
         specifier: ^20
         version: 20.10.4
