@@ -17,7 +17,7 @@ jobs:
       matrix: 
         appName:
           - backend
-          - frontend
+          - front-end
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -29,10 +29,12 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Generate api-client
-        run: pnpm run 
+      - name: Prune application
+        run: pnpm run prune --filter=...@overtheairbrew/${{ matrix.appName }}
       - name: Build Application
-        run: pnpm run build --filter=...@overtheairbrew/${{ matrix.appName }}
+        working-directory: out
+        run: pnpm run build
       - name: Lint Application and Dependencies
+        working-directory: out
         run: pnpm run lint
 
