@@ -9,7 +9,7 @@
     "build": "turbo build",
     "start:dev": "turbo start:dev",
     "prune": "turbo prune",
-    "generate-client": "turbo generate-client && prettier --write ./packages/api-client",
+    "generate-client": "turbo generate-client && prettier --write ./packages/api-client 'packages/api-client/src/**/*.ts'",
     "lint": "turbo lint",
     "release": "turbo build && changeset publish",
     "version": "changeset version && pnpm install --lockfile-only",
