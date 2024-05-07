@@ -10,10 +10,6 @@ async function bootstrap() {
   });
 
   await OpenApiNestFactory.configure(app, swaggerConfig, {
-    webServerOptions: {
-      enabled: true,
-      path: '/docs',
-    },
     fileGeneratorOptions: {
       enabled: true,
       outputFilePath: './openapi.yaml',
@@ -22,10 +18,10 @@ async function bootstrap() {
       enabled: true,
       type: 'typescript-axios',
       outputFolderPath: '../../packages/api-client/src',
-      additionalProperties:
-        'apiPackage=clients,modelPackage=models,withoutPrefixEnums=true,withSeparateModelsAndApi=true',
+      // additionalProperties:
+      //   'apiPackage=clients,modelPackage=models,withoutPrefixEnums=true,withSeparateModelsAndApi=true',
       openApiFilePath: './openapi.yaml', // or ./openapi.json
-      skipValidation: true, // optional, false by default
+      // skipValidation: true, // optional, false by default
     },
   });
 }

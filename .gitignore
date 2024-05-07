@@ -134,3 +134,5 @@ dist
 
 apps/backend/openapi.yaml
 out
+
+packages/api-client/src/.openapi-generator
