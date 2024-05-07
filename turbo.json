@@ -12,7 +12,7 @@
       "persistent": true
     },
     "lint": {},
-    "generate-docs": { 
+    "generate-client": { 
       "cache": false
     }
   }

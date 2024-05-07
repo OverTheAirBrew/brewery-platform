@@ -9,7 +9,7 @@
     "build": "turbo build",
     "start:dev": "turbo start:dev",
     "prune": "turbo prune",
-    "generate-docs": "turbo generate-docs",
+    "generate-client": "turbo generate-client",
     "lint": "turbo lint",
     "release": "turbo build && changeset publish",
     "version": "changeset version && pnpm install --lockfile-only",

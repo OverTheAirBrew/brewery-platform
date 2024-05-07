@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "generate-docs": "nest start -c nest-cli-openapi-generation.json",
+    "generate-client": "nest start -c nest-cli-openapi-generation.json",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
