@@ -4,12 +4,19 @@ on:
     branches: 
       - main
 
+concurrency: 
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   build:
     permissions:
       contents: read
       pull-requests: write
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+      publishedPackages: ${{ steps.changesets.outcome.publishedPackages }}
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -22,9 +29,37 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Create release pull-request of publish
         uses: changesets/action@v1
+        id: changesets
         with:
           publish: pnpm run release
           version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+     
+  push-backend-docker-container:
+    needs:
+      - build
+    if: needs.build.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        id: publishversion
+        with:
+          script: |
+            const versions = JSON.parse("${{ needs.build.outputs.publishedPackages }}")
+            const applicationVersion = versions.find(v => v.name === '@overtheairbrew/backend');
+            return applicationVersion.version || ''
+      - name: Build docker image
+        if: steps.publishversion.outputs.result != ''
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/backend
+          push: true
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: |
+            overtheairbrew/brewery-platform-backend:${{ steps.publishversion.outputs.result }}
+
+  
+      
+  

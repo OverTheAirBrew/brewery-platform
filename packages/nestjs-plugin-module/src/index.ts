@@ -1,34 +1,46 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { Device, DeviceIdentifier, Logic, LogicIdentifier } from '@overtheairbrew/plugins/src';
+import {
+  Device,
+  DeviceIdentifier,
+  Logic,
+  LogicIdentifier,
+  PluginConfig,
+} from '@overtheairbrew/plugins';
 import { findNodeModulesMatchingRegex } from './lib/find-node-modules-matching-regex';
-import { findPluginConfigurationsOfType } from './lib/find-plugin-configurations-of-type';
 
 @Module({})
 export class PluginModule {
   static register(): DynamicModule {
-    const plugins = findNodeModulesMatchingRegex(
-      /((@[\w-]*)\/)?(otabp-[\w-]*)$/
-    )
+    const plugins = findNodeModulesMatchingRegex(/^.*(@otabp\/|otabp-).*$/);
 
-    const pluginImplementations = plugins.map((plugin) => {
+    const pluginImplementations: PluginConfig[] = plugins.map((plugin) => {
       const req = require(plugin.path);
       return req.default;
     });
 
-    const modules = findPluginConfigurationsOfType(
-      pluginImplementations,
-      'modules',
-    );
-    const devices = findPluginConfigurationsOfType(
-      pluginImplementations,
-      'devices',
-    );
-    const logics = findPluginConfigurationsOfType(
-      pluginImplementations,
-      'logics',
-    );
+    const { modules, devices, logics } = pluginImplementations
+      .map((plugin) => ({
+        devices: plugin.type === 'device' ? plugin.devices : [],
+        logics: plugin.type === 'logic' ? plugin.logics : [],
+        modules: plugin.modules || [],
+      }))
+      .reduce(
+        (prev, curr) => {
+          return {
+            devices: [...prev.devices, ...curr.devices],
+            modules: [...prev.modules, ...curr.modules],
+            logics: [...prev.logics, ...curr.logics],
+          };
+        },
+        {
+          devices: [],
+          modules: [],
+          logics: [],
+        },
+      );
 
     return {
+      global: true,
       module: PluginModule,
       imports: [...modules],
       providers: [
