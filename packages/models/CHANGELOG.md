@@ -1,5 +1,11 @@
 # @overtheairbrew/models
 
+## 1.2.0
+
+### Minor Changes
+
+- 485d6ee: Adding update endpoints along with tests
+
 ## 1.1.0
 
 ### Minor Changes

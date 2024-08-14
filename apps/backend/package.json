@@ -1,6 +1,6 @@
 {
   "name": "@overtheairbrew/backend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "author": "",
   "private": true,
@@ -37,6 +37,7 @@
     "@overtheairbrew/models": "workspace:*",
     "@overtheairbrew/nestjs-plugin-module": "workspace:*",
     "@overtheairbrew/plugins": "workspace:*",
+    "@overtheairbrew/socket-events": "workspace:*",
     "@wahyubucil/nestjs-zod-openapi": "^0.1.2",
     "generate-api-key": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
@@ -94,7 +95,15 @@
     "coveragePathIgnorePatterns": [
       "src/data/migrations",
       "src/controllers",
-      "src/data"
+      "src/auth",
+      "src/data",
+      "src/events/events.gateway.ts",
+      "src/events/events.module.ts",
+      "src/app.module.ts",
+      "src/global.config.ts",
+      "src/swagger-config.ts",
+      "src/main.ts",
+      "src/validation/exception.handler.ts"
     ]
   }
 }

@@ -1,23 +1,7 @@
-export module DisplayRegisteredMessage {
-  export const Topic = 'NewDisplayRegistered';
+export namespace DisplayUpdatedMessage {
+  export const Topic = 'DisplayUpdated';
   export interface Data {
-    display_id: string;
+    deviceCode: string;
   }
-  export const Data: Data = {} as any;
-}
-
-export module NewTapBeerMessage {
-  export const Topic = 'NewTapBeer';
-  export interface Data {
-    display_id: string;
-  }
-  export const Data: Data = {} as any;
-}
-
-export module TapConfiguredMessage {
-  export const Topic = 'TapConfigured';
-  export interface Data {
-    display_id: string;
-  }
-  export const Data: Data = {} as any;
+  export const Message: Data = {} as any;
 }

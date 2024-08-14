@@ -32,4 +32,25 @@ describe('ApiKeyController (e2e)', () => {
 
     expect(displayApiKeys).toHaveLength(1);
   });
+
+  it('PATCH /api-keys/:apiKeyId', async () => {
+    const { id } = await repositories.apiKeys.create({
+      key: 'testing-key',
+      name: 'testing-key',
+    });
+
+    const response = await request(app.getHttpServer())
+      .patch(`/api-keys/${id}`)
+      .send();
+
+    expect(response.status).toBe(200);
+
+    const updatedApiKey = await repositories.apiKeys.findByPk(id);
+
+    expect(updatedApiKey).toMatchObject({
+      id,
+      key: expect.not.stringContaining('testing-key'),
+      name: 'testing-key',
+    });
+  });
 });

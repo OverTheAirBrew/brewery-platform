@@ -3,6 +3,7 @@ import { ApiKeySchema } from '@overtheairbrew/models';
 import generateApiKey from 'generate-api-key';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { ApiKey } from '../data/entities/api-key.entity';
+import { ApiKeyDoesNotExistError } from '../errors/api-key-does-not-exist-error';
 
 @Injectable()
 export class ApiKeyService {
@@ -12,7 +13,7 @@ export class ApiKeyService {
   ) {}
 
   async createApiKey(name: string) {
-    const apiKey = generateApiKey({ length: 32, prefix: 'OTA_' });
+    const apiKey = await this.generateNewApiKey();
     const key = await this.apiKeyRepository.create({
       name,
       key: apiKey.toString(),
@@ -29,5 +30,19 @@ export class ApiKeyService {
     });
 
     return apiKeyValid > 0;
+  }
+
+  async regenerateApiKey(id: string) {
+    const apiKey = await this.apiKeyRepository.findByPk(id);
+    if (!apiKey) throw new ApiKeyDoesNotExistError(id);
+    await apiKey.update({
+      key: await this.generateNewApiKey(),
+    });
+    await apiKey.save();
+    return ApiKeySchema.parse(apiKey);
+  }
+
+  private async generateNewApiKey() {
+    return generateApiKey({ length: 32, prefix: 'OTA_' }).toString();
   }
 }

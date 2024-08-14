@@ -1,4 +1,5 @@
 ---
+"@overtheairbrew/socket-events": minor
 "@overtheairbrew/models": minor
 "@overtheairbrew/backend": minor
 ---

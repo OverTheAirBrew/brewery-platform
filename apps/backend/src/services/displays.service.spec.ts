@@ -2,6 +2,10 @@ import { Test } from '@nestjs/testing';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { DisplayDoesNotExistError } from '../errors/display-does-not-exist-error';
 import { IdResponseDto } from '../id.response.dto';
+import {
+  mockEventsGatewayProvider,
+  mockSendMessage,
+} from '../test-utils/mock-events-gateway';
 import { DisplaysService } from './displays.service';
 
 describe('DisplaysService', () => {
@@ -22,6 +26,7 @@ describe('DisplaysService', () => {
           provide: REPOSITORIES.DisplayRepository,
           useValue: mockRepository,
         },
+        mockEventsGatewayProvider,
       ],
     }).compile();
 
@@ -35,6 +40,7 @@ describe('DisplaysService', () => {
   describe('createDisplay', () => {
     beforeEach(() => {
       mockRepository.create.mockResolvedValue({ id: 'id' });
+      mockSendMessage.mockResolvedValue({});
     });
 
     it('should return an IdResponseDto', async () => {
