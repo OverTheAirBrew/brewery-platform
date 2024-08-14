@@ -108,4 +108,41 @@ describe('BeveragesController (e2e)', () => {
       producer_id: id,
     });
   });
+
+  it('/beverages/:beverageId (PUT)', async () => {
+    const { id } = await repositories.producers.create({
+      name: 'TestingProducer',
+    });
+
+    const { id: beverageId } = await repositories.beverages.create({
+      name: 'TestingBeverage',
+      style: 'TestingStyle',
+      abv: 12.11,
+      description: 'TestingDescription',
+      producer_id: id,
+    });
+
+    const response = await request(app.getHttpServer())
+      .put(`/beverages/${beverageId}`)
+      .send({
+        name: 'UpdatedTestingBeverage',
+        style: 'UpdatedTestingStyle',
+        abv: 11.12,
+        description: 'UpdatedTestingDescription',
+        producer_id: id,
+      });
+
+    expect(response.status).toBe(204);
+
+    const updatedBeverage = await repositories.beverages.findByPk(beverageId);
+
+    expect(updatedBeverage).toMatchObject({
+      id: beverageId,
+      name: 'UpdatedTestingBeverage',
+      style: 'UpdatedTestingStyle',
+      abv: 11.12,
+      description: 'UpdatedTestingDescription',
+      producer_id: id,
+    });
+  });
 });

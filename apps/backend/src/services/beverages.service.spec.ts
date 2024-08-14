@@ -106,4 +106,50 @@ describe('BeveragesService', () => {
       });
     });
   });
+
+  describe('updateBeverage', () => {
+    it('should update a beverage', async () => {
+      const mockUpdate = jest.fn();
+      const mockSave = jest.fn();
+
+      mockRepository.findByPk.mockResolvedValue({
+        update: mockUpdate,
+        save: mockSave,
+      });
+
+      await beveragesService.updateBeverage('id', {
+        name: 'name',
+        producer_id: 'producer_id',
+        description: 'description',
+        style: 'style',
+        abv: 5,
+      });
+
+      expect(mockRepository.findByPk).toHaveBeenCalledWith('id');
+
+      expect(mockUpdate).toHaveBeenCalledWith({
+        name: 'name',
+        producer_id: 'producer_id',
+        description: 'description',
+        style: 'style',
+        abv: 5,
+      });
+
+      expect(mockSave).toHaveBeenCalled();
+    });
+
+    it('should throw an error if the beverage does not exist', async () => {
+      mockRepository.findByPk.mockResolvedValue(null);
+
+      await expect(
+        beveragesService.updateBeverage('id', {
+          name: 'name',
+          producer_id: 'producer_id',
+          description: 'description',
+          style: 'style',
+          abv: 5,
+        }),
+      ).rejects.toThrow('Beverage with id id does not exist');
+    });
+  });
 });
