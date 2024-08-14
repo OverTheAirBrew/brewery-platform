@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -40,5 +51,13 @@ export class KegsController {
   })
   async getOneKeg(@Param('kegId') kegId: string) {
     return await this.kegsService.getOneKeg(kegId);
+  }
+
+  @Put('/:kegId')
+  @ApiNoContentResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UsePipes(new ZodBodyValidationPipe(KegSchema))
+  async updateKeg(@Param('kegId') kegId: string, @Body() body: KegDto) {
+    return await this.kegsService.updateKeg(kegId, body);
   }
 }

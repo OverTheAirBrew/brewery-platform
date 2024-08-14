@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { KegDto, KegSchema } from '@overtheairbrew/models';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { Keg } from '../data/entities/keg.entity';
+import { KegDoesNotExistError } from '../errors/keg-does-not-exist-error';
 import { IdResponseDto } from '../id.response.dto';
 
 @Injectable()
@@ -24,5 +25,12 @@ export class KegsService {
   async getOneKeg(kegId: string) {
     const keg = await this.kegRepository.findByPk(kegId);
     return KegSchema.parse(keg);
+  }
+
+  async updateKeg(kegId: string, kegToUpdate: KegDto) {
+    const keg = await this.kegRepository.findByPk(kegId);
+    if (!keg) throw new KegDoesNotExistError(kegId);
+    await keg.update(kegToUpdate);
+    await keg.save();
   }
 }

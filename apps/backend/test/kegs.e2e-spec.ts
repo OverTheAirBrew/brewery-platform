@@ -104,4 +104,40 @@ describe('KegsController (e2e)', () => {
       status: 'IN_STOCK',
     });
   });
+
+  it('/kegs/:kegId (PUT)', async () => {
+    const { id: producerId } = await repositories.producers.create({
+      name: 'TestingProducer',
+    });
+    const { id: beverageId } = await repositories.beverages.create({
+      name: 'TestingBeverage',
+      style: 'TestingStyle',
+      abv: 12,
+      description: 'TestingDescription',
+      producer_id: producerId,
+    });
+    const { id: kegId } = await repositories.kegs.create({
+      beverage_id: beverageId,
+      type: 'KEG',
+      status: 'IN_STOCK',
+    });
+
+    const response = await request(app.getHttpServer())
+      .put(`/kegs/${kegId}`)
+      .send({
+        type: 'KEG',
+        status: 'IN_USE',
+        beverage_id: beverageId,
+      });
+
+    expect(response.status).toBe(204);
+
+    const updatedKeg = await repositories.kegs.findByPk(kegId);
+    expect(updatedKeg).toMatchObject({
+      id: kegId,
+      beverage_id: beverageId,
+      type: 'KEG',
+      status: 'IN_USE',
+    });
+  });
 });
