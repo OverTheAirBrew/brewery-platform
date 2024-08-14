@@ -16,7 +16,7 @@ import {
   DisplayTapInformationDto,
 } from '@overtheairbrew/models';
 import { DisplaysService } from '../services/displays.service';
-import { ZodValidationPipe } from '../validation/validation.pipe';
+import { ZodBodyValidationPipe } from '../validation/validation.pipe';
 
 @ApiTags('displays')
 @Controller('/displays')
@@ -27,7 +27,7 @@ export class DisplaysController {
   @ApiCreatedResponse({
     type: IdResponseDto,
   })
-  @UsePipes(new ZodValidationPipe(DisplaySchema))
+  @UsePipes(new ZodBodyValidationPipe(DisplaySchema))
   @ApiBearerAuth()
   async createDisplay(@Body() body: DisplayDto) {
     return await this.displaysService.createDisplay(body);

@@ -8,7 +8,7 @@ import {
 import { ProducersDto, ProducersSchema } from '@overtheairbrew/models';
 import { IdResponseDto } from '../id.response.dto';
 import { ProducersService } from '../services/producer.service';
-import { ZodValidationPipe } from '../validation/validation.pipe';
+import { ZodBodyValidationPipe } from '../validation/validation.pipe';
 
 @ApiTags('producers')
 @Controller('/producers')
@@ -20,7 +20,7 @@ export class ProducersController {
   @ApiCreatedResponse({
     type: IdResponseDto,
   })
-  @UsePipes(new ZodValidationPipe(ProducersSchema))
+  @UsePipes(new ZodBodyValidationPipe(ProducersSchema))
   async createProducer(@Body() body: ProducersDto) {
     return this.producersService.createProducer(body);
   }

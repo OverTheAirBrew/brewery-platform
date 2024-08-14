@@ -9,7 +9,7 @@ import {
 import { TapDto, TapSchema } from '@overtheairbrew/models';
 import { IdResponseDto } from '../id.response.dto';
 import { TapsService } from '../services/taps.service';
-import { ZodValidationPipe } from '../validation/validation.pipe';
+import { ZodBodyValidationPipe } from '../validation/validation.pipe';
 
 @ApiTags('taps')
 @Controller('/taps')
@@ -21,7 +21,7 @@ export class TapsController {
   @ApiCreatedResponse({
     type: IdResponseDto,
   })
-  @UsePipes(new ZodValidationPipe(TapSchema))
+  @UsePipes(new ZodBodyValidationPipe(TapSchema))
   async createTap(@Body() body: TapDto) {
     return this.tapsService.createTap(body);
   }
