@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -40,5 +51,16 @@ export class ProducersController {
   })
   async getOneProducer(@Param('producerId') producerId: string) {
     return this.producersService.getOneProducer(producerId);
+  }
+
+  @Put('/:producerId')
+  @UsePipes(new ZodBodyValidationPipe(ProducersSchema))
+  @ApiNoContentResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async updateProducer(
+    @Param('producerId') producerId: string,
+    @Body() body: ProducersDto,
+  ) {
+    return this.producersService.updateProducer(producerId, body);
   }
 }

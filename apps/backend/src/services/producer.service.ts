@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ProducersDto, ProducersSchema } from '@overtheairbrew/models';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { Producer } from '../data/entities/producer.entity';
+import { ProducerDoesNotExistError } from '../errors/producer-does-not-exist-error';
 import { IdResponseDto } from '../id.response.dto';
 
 @Injectable()
@@ -27,5 +28,12 @@ export class ProducersService {
   async getOneProducer(producersId: string) {
     const producer = await this.producerRepository.findByPk(producersId);
     return ProducersSchema.parse(producer);
+  }
+
+  async updateProducer(producersId: string, producerToUpdate: ProducersDto) {
+    const producer = await this.producerRepository.findByPk(producersId);
+    if (!producer) throw new ProducerDoesNotExistError(producersId);
+    await producer.update(producerToUpdate);
+    await producer.save();
   }
 }
