@@ -10,6 +10,7 @@ import { Display } from '../data/entities/display.entity';
 import { Keg } from '../data/entities/keg.entity';
 import { Producer } from '../data/entities/producer.entity';
 import { Tap } from '../data/entities/tap.entity';
+import { DisplayDoesNotExistError } from '../errors/display-does-not-exist-error';
 import { IdResponseDto } from '../id.response.dto';
 
 enum DisplayStatus {
@@ -82,6 +83,13 @@ export class DisplaysService {
           }
         : undefined,
     });
+  }
+
+  async updateDisplay(displayId: string, displayToUpdate: DisplayDto) {
+    const display = await this.displayRepository.findByPk(displayId);
+    if (!display) throw new DisplayDoesNotExistError(displayId);
+    await display.update(displayToUpdate);
+    await display.save();
   }
 
   private async calculateDisplayStatus(display: Display | null) {
