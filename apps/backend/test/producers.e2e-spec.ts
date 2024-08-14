@@ -70,4 +70,25 @@ describe('ProducersController (e2e)', () => {
       name: 'TestingProducer',
     });
   });
+
+  it('/producers/:id (PUT)', async () => {
+    const { id } = await repositories.producers.create({
+      name: 'TestingProducer',
+    });
+
+    const response = await request(app.getHttpServer())
+      .put(`/producers/${id}`)
+      .send({
+        name: 'UpdatedProducer',
+      });
+
+    expect(response.status).toBe(204);
+
+    const updatedProducer = await repositories.producers.findByPk(id);
+
+    expect(updatedProducer).toMatchObject({
+      id,
+      name: 'UpdatedProducer',
+    });
+  });
 });

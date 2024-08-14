@@ -10,7 +10,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TokenResponseDto, UserDto, UserSchema } from '@overtheairbrew/models';
 import { Public } from '../auth/public.decorator';
 import { UsersService } from '../services/users.service';
-import { ZodValidationPipe } from '../validation/validation.pipe';
+import { ZodBodyValidationPipe } from '../validation/validation.pipe';
 
 @ApiTags('users')
 @Controller('/users')
@@ -24,7 +24,7 @@ export class UsersController {
     description: 'OK',
   })
   @HttpCode(HttpStatus.OK)
-  @UsePipes(new ZodValidationPipe(UserSchema))
+  @UsePipes(new ZodBodyValidationPipe(UserSchema))
   async login(@Body() userLoginDto: UserDto) {
     return this.userService.login(userLoginDto);
   }

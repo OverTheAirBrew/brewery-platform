@@ -55,4 +55,24 @@ describe('TapsController (e2e)', () => {
       name: 'TestingTap',
     });
   });
+
+  it('/taps/:tapId (PUT)', async () => {
+    const { id } = await repositories.taps.create({
+      name: 'TestingTap',
+    });
+
+    const response = await request(app.getHttpServer())
+      .put(`/taps/${id}`)
+      .send({
+        name: 'UpdatedTap',
+      });
+
+    expect(response.status).toBe(204);
+
+    const tap = await repositories.taps.findByPk(id);
+    expect(tap).toMatchObject({
+      id,
+      name: 'UpdatedTap',
+    });
+  });
 });

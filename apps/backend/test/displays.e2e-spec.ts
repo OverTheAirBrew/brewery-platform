@@ -96,4 +96,50 @@ describe('DisplaysController (e2e)', () => {
       status: 'COMPLETE',
     });
   });
+
+  it('/displays/:displayId (PUT)', async () => {
+    const { id: producerId } = await repositories.producers.create({
+      name: 'TestingProducer',
+    });
+    const { id: beverageId } = await repositories.beverages.create({
+      name: 'TestingBeverage',
+      style: 'TestingStyle',
+      abv: 12.11,
+      description: 'TestingDescription',
+      producer_id: producerId,
+    });
+    const { id: kegId } = await repositories.kegs.create({
+      beverage_id: beverageId,
+      status: 'IN_STOCK',
+      type: 'CORNY',
+    });
+    const { id: tapId } = await repositories.taps.create({
+      keg_id: kegId,
+      name: 'TestingTap',
+    });
+    const { id: displayId } = await repositories.displays.create({
+      deviceCode: '54321',
+      name: 'another-device',
+      tap_id: tapId,
+    });
+
+    const response = await request(app.getHttpServer())
+      .put(`/displays/${displayId}`)
+      .send({
+        deviceCode: '54321',
+        name: 'UpdatedDeviceName',
+        tap_id: tapId,
+      });
+
+    expect(response.status).toBe(204);
+
+    const display = await repositories.displays.findByPk(displayId);
+
+    expect(display).toMatchObject({
+      id: displayId,
+      deviceCode: '54321',
+      name: 'UpdatedDeviceName',
+      tap_id: tapId,
+    });
+  });
 });

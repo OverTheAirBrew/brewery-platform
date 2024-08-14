@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -9,7 +20,7 @@ import {
 import { TapDto, TapSchema } from '@overtheairbrew/models';
 import { IdResponseDto } from '../id.response.dto';
 import { TapsService } from '../services/taps.service';
-import { ZodValidationPipe } from '../validation/validation.pipe';
+import { ZodBodyValidationPipe } from '../validation/validation.pipe';
 
 @ApiTags('taps')
 @Controller('/taps')
@@ -21,7 +32,7 @@ export class TapsController {
   @ApiCreatedResponse({
     type: IdResponseDto,
   })
-  @UsePipes(new ZodValidationPipe(TapSchema))
+  @UsePipes(new ZodBodyValidationPipe(TapSchema))
   async createTap(@Body() body: TapDto) {
     return this.tapsService.createTap(body);
   }
@@ -41,5 +52,13 @@ export class TapsController {
   })
   async getOneTap(@Param('tapId') tapId: string) {
     return this.tapsService.getOneTap(tapId);
+  }
+
+  @Put('/:tapId')
+  @ApiNoContentResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UsePipes(new ZodBodyValidationPipe(TapSchema))
+  async updateTap(@Param('tapId') tapId: string, @Body() body: TapDto) {
+    return this.tapsService.updateTap(tapId, body);
   }
 }
