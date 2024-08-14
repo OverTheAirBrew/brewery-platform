@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -41,5 +52,13 @@ export class TapsController {
   })
   async getOneTap(@Param('tapId') tapId: string) {
     return this.tapsService.getOneTap(tapId);
+  }
+
+  @Put('/:tapId')
+  @ApiNoContentResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UsePipes(new ZodBodyValidationPipe(TapSchema))
+  async updateTap(@Param('tapId') tapId: string, @Body() body: TapDto) {
+    return this.tapsService.updateTap(tapId, body);
   }
 }
