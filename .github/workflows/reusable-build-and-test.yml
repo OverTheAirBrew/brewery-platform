@@ -1,0 +1,92 @@
+name: Reusable build and test
+
+on:
+  workflow_call:
+
+env:
+  PNPM_VERSION: 9.7.0
+  MYSQL_ROOT_PASSWORD: testrootpassword
+  MYSQL_DATABASE: testdb
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Application
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm run build
+      - name: Lint
+        run: pnpm run lint
+      - name: Unit Tests
+        run: pnpm run test:cov
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_SECRET }}
+          flags: unittests
+          file: ./apps/backend/coverage/coverage-final.json
+
+  run-backend-e2e-tests:
+    needs:
+      - build-test
+    strategy:
+      matrix:
+        type:
+          - local
+          - mysql
+    runs-on: ubuntu-latest
+    name: E2E Tests - ${{ matrix.type }}
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
+          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Application
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm run build
+      - name: E2E Tests
+        env:
+          PRIVATE_KEY: supersecretkey
+          MIGRATE: true
+          DATABASE_TYPE: ${{ matrix.type }}
+          MYSQL_HOST: localhost
+          MYSQL_PORT: 3306
+          MYSQL_USERNAME: root
+          MYSQL_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
+        run: pnpm run test:e2e:cov --filter @overtheairbrew/backend
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_SECRET }}
+          flags: e2etests-${{ matrix.type }}
+          file: ./apps/backend/coverage-e2e/coverage-final.json
