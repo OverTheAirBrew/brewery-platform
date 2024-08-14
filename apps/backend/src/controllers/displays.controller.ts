@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiSecurity,
   ApiTags,
@@ -16,7 +27,7 @@ import {
   DisplayTapInformationDto,
 } from '@overtheairbrew/models';
 import { DisplaysService } from '../services/displays.service';
-import { ZodValidationPipe } from '../validation/validation.pipe';
+import { ZodBodyValidationPipe } from '../validation/validation.pipe';
 
 @ApiTags('displays')
 @Controller('/displays')
@@ -27,7 +38,7 @@ export class DisplaysController {
   @ApiCreatedResponse({
     type: IdResponseDto,
   })
-  @UsePipes(new ZodValidationPipe(DisplaySchema))
+  @UsePipes(new ZodBodyValidationPipe(DisplaySchema))
   @ApiBearerAuth()
   async createDisplay(@Body() body: DisplayDto) {
     return await this.displaysService.createDisplay(body);
@@ -52,5 +63,17 @@ export class DisplaysController {
   @ApiSecurity('api_key')
   async getDisplayInformation(@Param('displayCode') displayCode: string) {
     return await this.displaysService.getDisplayInformationByCode(displayCode);
+  }
+
+  @Put('/:displayId')
+  @ApiNoContentResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth()
+  @UsePipes(new ZodBodyValidationPipe(DisplaySchema))
+  async updateDisplay(
+    @Param('displayId') displayId: string,
+    @Body() body: DisplayDto,
+  ) {
+    return await this.displaysService.updateDisplay(displayId, body);
   }
 }

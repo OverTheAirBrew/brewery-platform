@@ -1,12 +1,13 @@
 import { Test } from '@nestjs/testing';
 import { REPOSITORIES } from '../data/data.abstractions';
+import { DisplayDoesNotExistError } from '../errors/display-does-not-exist-error';
 import { IdResponseDto } from '../id.response.dto';
 import { DisplaysService } from './displays.service';
 
 describe('DisplaysService', () => {
   let displaysService: DisplaysService;
 
-  const mockDisplayRepository = {
+  const mockRepository = {
     findAll: jest.fn(),
     create: jest.fn(),
     findByPk: jest.fn(),
@@ -19,7 +20,7 @@ describe('DisplaysService', () => {
         DisplaysService,
         {
           provide: REPOSITORIES.DisplayRepository,
-          useValue: mockDisplayRepository,
+          useValue: mockRepository,
         },
       ],
     }).compile();
@@ -33,7 +34,7 @@ describe('DisplaysService', () => {
 
   describe('createDisplay', () => {
     beforeEach(() => {
-      mockDisplayRepository.create.mockResolvedValue({ id: 'id' });
+      mockRepository.create.mockResolvedValue({ id: 'id' });
     });
 
     it('should return an IdResponseDto', async () => {
@@ -42,7 +43,7 @@ describe('DisplaysService', () => {
         deviceCode: 'deviceCode',
       });
 
-      expect(mockDisplayRepository.create).toHaveBeenCalledWith({
+      expect(mockRepository.create).toHaveBeenCalledWith({
         name: 'name',
         deviceCode: 'deviceCode',
       });
@@ -54,7 +55,7 @@ describe('DisplaysService', () => {
 
   describe('getDisplays', () => {
     beforeEach(() => {
-      mockDisplayRepository.findAll.mockResolvedValue([
+      mockRepository.findAll.mockResolvedValue([
         {
           id: 'id',
           name: 'name',
@@ -79,7 +80,7 @@ describe('DisplaysService', () => {
 
   describe('getDisplayInformationByCode', () => {
     beforeEach(() => {
-      mockDisplayRepository.findOne.mockResolvedValue({
+      mockRepository.findOne.mockResolvedValue({
         id: 'id',
         name: 'name',
         deviceCode: 'deviceCode',
@@ -119,7 +120,7 @@ describe('DisplaysService', () => {
     });
 
     it('should return an unregistered status if the display is not found', async () => {
-      mockDisplayRepository.findOne.mockResolvedValue(null);
+      mockRepository.findOne.mockResolvedValue(null);
 
       const result =
         await displaysService.getDisplayInformationByCode('deviceCode');
@@ -130,7 +131,7 @@ describe('DisplaysService', () => {
     });
 
     it('should return a tap unassigned status if the display has no tap', async () => {
-      mockDisplayRepository.findOne.mockResolvedValue({
+      mockRepository.findOne.mockResolvedValue({
         id: 'id',
         name: 'name',
         deviceCode: 'deviceCode',
@@ -145,7 +146,7 @@ describe('DisplaysService', () => {
     });
 
     it('should return a no beverage status if the tap has no keg', async () => {
-      mockDisplayRepository.findOne.mockResolvedValue({
+      mockRepository.findOne.mockResolvedValue({
         id: 'id',
         name: 'name',
         deviceCode: 'deviceCode',
@@ -159,6 +160,41 @@ describe('DisplaysService', () => {
       expect(result).toMatchObject({
         status: 'NOBEVERAGE',
       });
+    });
+  });
+
+  describe('updateDisplay', () => {
+    it('should update the display', async () => {
+      const mockUpdate = jest.fn();
+      const mockSave = jest.fn();
+
+      mockRepository.findByPk.mockResolvedValue({
+        update: mockUpdate,
+        save: mockSave,
+      });
+
+      await displaysService.updateDisplay('id', {
+        name: 'newName',
+        deviceCode: 'newDeviceCode',
+      });
+
+      expect(mockRepository.findByPk).toHaveBeenCalledWith('id');
+      expect(mockUpdate).toHaveBeenCalledWith({
+        name: 'newName',
+        deviceCode: 'newDeviceCode',
+      });
+      expect(mockSave).toHaveBeenCalled();
+    });
+
+    it('should throw an error if the display does not exist', async () => {
+      mockRepository.findByPk.mockResolvedValue(null);
+
+      await expect(
+        displaysService.updateDisplay('id', {
+          name: 'newName',
+          deviceCode: 'newDeviceCode',
+        }),
+      ).rejects.toThrow(DisplayDoesNotExistError);
     });
   });
 });

@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { REPOSITORIES } from '../data/data.abstractions';
+import { TapDoesNotExistError } from '../errors/tap-does-not-exist-error';
 import { TapsService } from './taps.service';
 
 describe('TapsService', () => {
@@ -68,6 +69,38 @@ describe('TapsService', () => {
       const result = await tapService.getOneTap('id');
 
       expect(result).toMatchObject({ name: 'name' });
+    });
+  });
+
+  describe('updateTap', () => {
+    it('should update a tap', async () => {
+      const mockUpdate = jest.fn();
+      const mockSave = jest.fn();
+
+      mockRepository.findByPk.mockResolvedValue({
+        update: mockUpdate,
+        save: mockSave,
+      });
+
+      await tapService.updateTap('id', {
+        name: 'UpdatedName',
+      });
+
+      expect(mockRepository.findByPk).toHaveBeenCalledWith('id');
+      expect(mockUpdate).toHaveBeenCalledWith({
+        name: 'UpdatedName',
+      });
+      expect(mockSave).toHaveBeenCalled();
+    });
+
+    it('should throw an error if the tap does not exist', async () => {
+      mockRepository.findByPk.mockResolvedValue(null);
+
+      await expect(
+        tapService.updateTap('id', {
+          name: 'UpdatedName',
+        }),
+      ).rejects.toThrow(TapDoesNotExistError);
     });
   });
 });
