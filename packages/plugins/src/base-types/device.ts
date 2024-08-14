@@ -1,5 +1,5 @@
 import { ClassType } from '../class-type';
-import { Form } from '../input-types/form';
+import { Form, InputType } from '../input-types/form';
 import { Actor } from './actor';
 import { Sensor } from './sensor';
 
@@ -23,7 +23,7 @@ export abstract class Device<T> implements IDevice<T> {
   abstract actors: Actor<any, any>[];
   abstract sensors: Sensor<any, any>[];
 
-  async getConfigOptions(config: T): Promise<any> {
+  async getConfigOptions(config: T): Promise<InputType[]> {
     return await this.configOptions.build(config);
   }
 

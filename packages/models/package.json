@@ -1,0 +1,25 @@
+{
+  "name": "@overtheairbrew/models",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsup",
+    "lint": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@overtheairbrew/tsconfig": "workspace:*",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.1",
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "@wahyubucil/nestjs-zod-openapi": "^0.1.2",
+    "zod": "^3.23.6"
+  }
+}
