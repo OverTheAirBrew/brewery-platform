@@ -76,7 +76,7 @@ describe('ProducerService', () => {
   });
 
   describe('updateProducer', () => {
-    it('should update a producer', async () => {
+    it('should update a keg', async () => {
       const mockUpdate = jest.fn();
       const mockSave = jest.fn();
 
@@ -96,7 +96,7 @@ describe('ProducerService', () => {
       expect(mockSave).toHaveBeenCalled();
     });
 
-    it('should throw an error if the producer does not exist', async () => {
+    it('should throw an error if the keg does not exist', async () => {
       mockRepository.findByPk.mockResolvedValue(null);
 
       await expect(
