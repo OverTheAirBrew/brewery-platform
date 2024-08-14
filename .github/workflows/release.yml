@@ -12,7 +12,13 @@ env:
   PNPM_VERSION: 9.7.0
 
 jobs:
-  build:
+  build-test:
+    uses: ./.github/workflows/reusable-build-and-test.yml
+    secrets: inherit
+
+  release:
+    needs:
+      - build-test
     permissions:
       contents: write
       packages: write
@@ -44,15 +50,15 @@ jobs:
 
   push-backend-docker-container:
     needs:
-      - build
-    if: needs.build.outputs.hasChangesets == 'true'
+      - release
+    if: needs.release.outputs.hasChangesets == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7
         id: publishversion
         with:
           script: |
-            const versions = JSON.parse("${{ needs.build.outputs.publishedPackages }}")
+            const versions = JSON.parse("${{ needs.release.outputs.publishedPackages }}")
             const applicationVersion = versions.find(v => v.name === '@overtheairbrew/backend');
             return applicationVersion.version || ''
       - name: Login to Docker Hub
