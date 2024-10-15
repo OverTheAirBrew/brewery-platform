@@ -1,5 +1,11 @@
 # @overtheairbrew/backend
 
+## 0.3.5
+
+### Patch Changes
+
+- 76513d6: Only build 64 bit docker images
+
 ## 0.3.4
 
 ### Patch Changes
