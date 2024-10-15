@@ -1,5 +1,11 @@
 # @overtheairbrew/backend
 
+## 0.3.2
+
+### Patch Changes
+
+- 1cc2cd0: Update package to trigger build
+
 ## 0.3.1
 
 ### Patch Changes
