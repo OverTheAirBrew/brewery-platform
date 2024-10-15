@@ -1,5 +1,11 @@
 # @overtheairbrew/backend
 
+## 0.3.3
+
+### Patch Changes
+
+- b9b1348: Update package to trigger build
+
 ## 0.3.2
 
 ### Patch Changes
