@@ -1,0 +1,46 @@
+name: Push backend docker image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/backend/**'
+
+jobs:
+  has-backend-changed:
+    runs-on: ubuntu-latest
+    outputs:
+      hasChanged: ${{ steps.version-updated.outputs.has-updated }}
+      currentVersion: ${{ steps.version-updated.outputs.current-package-version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          sparse-checkout: 'apps/backend'
+      - uses: MontyD/package-json-updated-action
+        id: version-updated
+        with:
+          path: ./apps/backend/package.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  push-backend-docker-container:
+    needs:
+      - has-backend-changed
+    runs-on: ubuntu-latest
+    if: ${{ needs.has-backend-changed.outputs.hasChanged == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/backend
+          push: true
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: |
+            overtheairbrew/brewery-platform-backend:${{ needs.has-backend-changed.outputs.currentVersion }}

@@ -25,9 +25,6 @@ jobs:
       pull-requests: write
       repository-projects: read
     runs-on: ubuntu-latest
-    outputs:
-      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
-      publishedPackages: ${{ steps.changesets.outcome.publishedPackages }}
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -37,6 +34,12 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
+      - name: Request GitHub token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v2.1.0
+        with:
+          application_id: ${{ vars.OTA_RELEASE_APP_ID }}
+          application_private_key: ${{ secrets.OTA_RELEASE_APP_PRIVATE_KEY }}
       - run: pnpm install --frozen-lockfile
       - name: Create release pull-request of publish
         uses: changesets/action@v1
@@ -45,33 +48,5 @@ jobs:
           publish: pnpm run release
           version: pnpm run version
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }} // using non github token to trigger CI
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  push-backend-docker-container:
-    needs:
-      - release
-    if: needs.release.outputs.hasChangesets == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/github-script@v7
-        id: publishversion
-        with:
-          script: |
-            const versions = JSON.parse("${{ needs.release.outputs.publishedPackages }}")
-            const applicationVersion = versions.find(v => v.name === '@overtheairbrew/backend');
-            return applicationVersion.version || ''
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build docker image
-        if: steps.publishversion.outputs.result != ''
-        uses: docker/build-push-action@v5
-        with:
-          context: ./apps/backend
-          push: true
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          tags: |
-            overtheairbrew/brewery-platform-backend:${{ steps.publishversion.outputs.result }}
