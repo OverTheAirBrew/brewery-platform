@@ -53,5 +53,5 @@ jobs:
           version: pnpm run version
           setupGitUser: false
         env:
-          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }} // using non github token to trigger CI
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }} # using non github token to trigger CI
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
