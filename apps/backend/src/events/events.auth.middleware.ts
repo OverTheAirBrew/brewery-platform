@@ -3,7 +3,10 @@ import { WsException } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { ApiKeyService } from '../services/api-key.service';
 
-type SocketMiddleware = (socket: Socket, next: (err?: Error) => void) => void;
+export type SocketMiddleware = (
+  socket: Socket,
+  next: (err?: Error) => void,
+) => Promise<void>;
 
 export const AuthMiddleware = (
   jwtService: JwtService,
