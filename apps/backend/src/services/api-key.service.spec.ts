@@ -82,5 +82,13 @@ describe('ApiKeyService', () => {
       );
       expect(mockSave).toHaveBeenCalled();
     });
+
+    it('should error if the api key does not exist to regenerate', async () => {
+      mockApiKeyRepository.findByPk.mockResolvedValue(null);
+
+      await expect(apiKeyService.regenerateApiKey('id')).rejects.toThrow(
+        'Api Key with id id does not exist',
+      );
+    });
   });
 });
