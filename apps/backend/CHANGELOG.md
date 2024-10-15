@@ -1,5 +1,12 @@
 # @overtheairbrew/backend
 
+## 0.3.1
+
+### Patch Changes
+
+- 53eae0d: Updates
+- 630bab0: Updates
+
 ## 0.3.0
 
 ### Minor Changes
