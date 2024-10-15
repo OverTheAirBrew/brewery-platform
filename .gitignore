@@ -139,3 +139,4 @@ out
 packages/api-client/src/.openapi-generator
 
 .DS_Store
+database-data

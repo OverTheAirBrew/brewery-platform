@@ -5,6 +5,7 @@ import { ApiKeyService } from './api-key.service';
 const mockApiKeyRepository = {
   create: jest.fn(),
   count: jest.fn(),
+  findByPk: jest.fn(),
 };
 
 describe('ApiKeyService', () => {
@@ -55,6 +56,31 @@ describe('ApiKeyService', () => {
       mockApiKeyRepository.count.mockResolvedValue(0);
       const result = await apiKeyService.validateApiKey('key');
       expect(result).toBeFalsy();
+    });
+  });
+
+  describe('regenerateApiKey', () => {
+    it('should regenerate the api key', async () => {
+      const mockUpdate = jest.fn().mockImplementation(async (data) => data);
+      const mockSave = jest.fn().mockResolvedValue({});
+
+      mockApiKeyRepository.findByPk.mockResolvedValue({
+        key: 'testing-key',
+        name: 'testing',
+        id: 'id',
+        update: mockUpdate,
+        save: mockSave,
+      });
+
+      await apiKeyService.regenerateApiKey('id');
+
+      expect(mockApiKeyRepository.findByPk).toHaveBeenCalledWith('id');
+      expect(mockUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: expect.not.stringContaining('testing-key'),
+        }),
+      );
+      expect(mockSave).toHaveBeenCalled();
     });
   });
 });
