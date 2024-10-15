@@ -45,6 +45,6 @@ jobs:
         with:
           file: ./apps/backend/Dockerfile
           push: true
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           tags: |
             overtheairbrew/brewery-platform-backend:${{ needs.has-backend-changed.outputs.currentVersion }}
