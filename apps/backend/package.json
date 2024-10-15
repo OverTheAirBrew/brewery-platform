@@ -95,7 +95,15 @@
     "coveragePathIgnorePatterns": [
       "src/data/migrations",
       "src/controllers",
-      "src/data"
+      "src/auth",
+      "src/data",
+      "src/events/events.gateway.ts",
+      "src/events/events.module.ts",
+      "src/app.module.ts",
+      "src/global.config.ts",
+      "src/swagger-config.ts",
+      "src/main.ts",
+      "src/validation/exception.handler.ts"
     ]
   }
 }
