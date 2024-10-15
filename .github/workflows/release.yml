@@ -26,15 +26,8 @@ jobs:
       repository-projects: read
     runs-on: ubuntu-latest
     steps:
-      - name: Request GitHub token
-        id: get_workflow_token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ vars.OTA_RELEASE_APP_ID }}
-          private-key: ${{ secrets.OTA_RELEASE_APP_PRIVATE_KEY }}
       - uses: actions/checkout@v3
         with:
-          token: ${{ steps.get_workflow_token.outputs.token }}
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
@@ -43,15 +36,19 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
-
       - run: pnpm install --frozen-lockfile
+      - name: Request GitHub token
+        id: get_workflow_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.OTA_RELEASE_APP_ID }}
+          private-key: ${{ secrets.OTA_RELEASE_APP_PRIVATE_KEY }}
       - name: Create release pull-request of publish
         uses: changesets/action@v1
         id: changesets
         with:
           publish: pnpm run release
           version: pnpm run version
-          setupGitUser: false
         env:
           GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }} # using non github token to trigger CI
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
