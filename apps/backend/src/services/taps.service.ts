@@ -3,16 +3,19 @@ import { TapDto, TapSchema } from '@overtheairbrew/models';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { Tap } from '../data/entities/tap.entity';
 import { TapDoesNotExistError } from '../errors/tap-does-not-exist-error';
+import { EventsGateway } from '../events/events.gateway';
 import { IdResponseDto } from '../id.response.dto';
 
 @Injectable()
 export class TapsService {
   constructor(
     @Inject(REPOSITORIES.TapRepository) private tapRepository: typeof Tap,
+    private eventsGateway: EventsGateway,
   ) {}
 
   async createTap(tap: TapDto) {
     const { id } = await this.tapRepository.create(tap);
+
     return new IdResponseDto(id);
   }
 
