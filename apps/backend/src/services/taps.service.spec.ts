@@ -1,6 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { TapDoesNotExistError } from '../errors/tap-does-not-exist-error';
+import {
+  mockEventsGatewayProvider,
+  mockSendMessage,
+} from '../test-utils/mock-events-gateway';
 import { TapsService } from './taps.service';
 
 describe('TapsService', () => {
@@ -20,6 +24,7 @@ describe('TapsService', () => {
           provide: REPOSITORIES.TapRepository,
           useValue: mockRepository,
         },
+        mockEventsGatewayProvider,
       ],
     }).compile();
 
@@ -29,6 +34,7 @@ describe('TapsService', () => {
   describe('createTap', () => {
     beforeEach(() => {
       mockRepository.create.mockResolvedValue({ id: 'id' });
+      mockSendMessage.mockResolvedValue({});
     });
 
     it('should return an IdResponseDto', async () => {

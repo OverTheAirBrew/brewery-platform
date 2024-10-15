@@ -4,6 +4,7 @@ import {
   DisplaySchema,
   DisplayTapInformationSchema,
 } from '@overtheairbrew/models';
+import { DisplayUpdatedMessage } from '@overtheairbrew/socket-events';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { Beverage } from '../data/entities/beverage.entity';
 import { Display } from '../data/entities/display.entity';
@@ -11,6 +12,7 @@ import { Keg } from '../data/entities/keg.entity';
 import { Producer } from '../data/entities/producer.entity';
 import { Tap } from '../data/entities/tap.entity';
 import { DisplayDoesNotExistError } from '../errors/display-does-not-exist-error';
+import { EventsGateway } from '../events/events.gateway';
 import { IdResponseDto } from '../id.response.dto';
 
 enum DisplayStatus {
@@ -26,10 +28,16 @@ export class DisplaysService {
   constructor(
     @Inject(REPOSITORIES.DisplayRepository)
     private displayRepository: typeof Display,
+    private eventsGateway: EventsGateway,
   ) {}
 
   async createDisplay(display: DisplayDto) {
-    const { id } = await this.displayRepository.create(display);
+    const { id, deviceCode } = await this.displayRepository.create(display);
+
+    await this.eventsGateway.sendMessage(DisplayUpdatedMessage)({
+      deviceCode,
+    });
+
     return new IdResponseDto(id);
   }
 
