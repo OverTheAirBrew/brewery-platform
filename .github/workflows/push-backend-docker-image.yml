@@ -1,4 +1,4 @@
-name: Push backend docker image
+name: Push docker images
 
 on:
   push:
@@ -8,43 +8,14 @@ on:
       - 'apps/backend/**'
 
 jobs:
-  has-backend-changed:
-    runs-on: ubuntu-latest
-    outputs:
-      hasChanged: ${{ steps.version-updated.outputs.has-updated }}
-      currentVersion: ${{ steps.version-updated.outputs.current-package-version }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          sparse-checkout: 'apps/backend'
-      - uses: MontyD/package-json-updated-action@1.0.1
-        id: version-updated
-        with:
-          path: ./apps/backend/package.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  push-backend-docker-container:
-    needs:
-      - has-backend-changed
-    runs-on: ubuntu-latest
-    if: ${{ needs.has-backend-changed.outputs.hasChanged == 'true' }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build docker image
-        uses: docker/build-push-action@v5
-        with:
-          file: ./apps/backend/Dockerfile
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            overtheairbrew/brewery-platform-backend:${{ needs.has-backend-changed.outputs.currentVersion }}
+  build-docker-image:
+    strategy:
+      matrix:
+        app:
+          - name: backend
+            image: overtheairbrew/brewery-platform-backend
+    uses: ./.github/workflows/reusable-docker-build-release.yml
+    with:
+      appName: ${{ matrix.app.name }}
+      dockerImageName: ${{ matrix.app.image }}
+    secrets: inherit
