@@ -122,7 +122,7 @@ importers:
         version: 29.5.13
       '@types/jsonwebtoken':
         specifier: ^9.0.5
-        version: 9.0.6
+        version: 9.0.7
       '@types/node':
         specifier: ^20.3.1
         version: 20.12.10
@@ -1221,8 +1221,8 @@ packages:
   '@types/jsonwebtoken@9.0.5':
     resolution: {integrity: sha512-VRLSGzik+Unrup6BsouBeHsf4d1hOEgYWTm/7Nmw1sXoN1+tRly/Gy/po3yeahnP4jfnQWWAhQAqcNfH7ngOkA==}
 
-  '@types/jsonwebtoken@9.0.6':
-    resolution: {integrity: sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==}
+  '@types/jsonwebtoken@9.0.7':
+    resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
 
   '@types/methods@1.1.4':
     resolution: {integrity: sha512-ymXWVrDiCxTBE3+RIrrP533E70eA+9qu7zdWoHuOmGujkYtzf4HQF96b8nwHLqhuf4ykX61IGRIB38CC6/sImQ==}
@@ -5629,7 +5629,7 @@ snapshots:
     dependencies:
       '@types/node': 20.12.10
 
-  '@types/jsonwebtoken@9.0.6':
+  '@types/jsonwebtoken@9.0.7':
     dependencies:
       '@types/node': 20.12.10
 
