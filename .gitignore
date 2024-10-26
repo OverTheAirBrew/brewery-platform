@@ -143,3 +143,12 @@ database-data
 
 .pnpm-store
 apps/front-end/build
+
+## custom rpi images
+pi-image/image/*.zip
+pi-image/custompios_path
+pi-image/build.log
+pi-image/workspace/*
+pi-image/workspace*
+pi-image/workspace*/*
+pi-image/image/*.img.xz

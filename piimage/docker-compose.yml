@@ -1,0 +1,13 @@
+services:
+  custompios:
+    image: guysoft/custompios:devel
+    container_name: test-build
+    tty: true
+    restart: always
+    privileged: true
+    environment:
+      - USER=root
+    volumes:
+      - ./:/distro
+    devices:
+      - /dev/loop-control
