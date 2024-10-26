@@ -1,0 +1,42 @@
+name: Build Image
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - piimage/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant:
+          - hyperpixel2-round
+        base_image:
+          - https://downloads.raspberrypi.com/raspios_oldstable_lite_armhf/images/raspios_oldstable_lite_armhf-2024-10-28/2024-10-22-raspios-bullseye-armhf-lite.img.xz
+    steps:
+      - name: Checkout Project Repository
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            piimage
+      - name: Download Raspbian Image
+        run: cd piimage/src/image && wget -q -c --trust-server-names '${{ matrix.base_image }}'
+      - name: Build image
+        working-directory: piimage
+        run: |
+          sudo modprobe loop 
+          docker run --privileged --rm -v .:/distro --device /dev/loop-control guysoft/custompios:devel /distro/src/build_dist ${{ matrix.variant }}
+      - name: Create release
+        working-directory: piimage
+        run: |
+          docker run --privileged --rm -v .:/distro --device /dev/loop-control guysoft/custompios:devel /distro/src/release_dist ${{ matrix.variant }}
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.variant }}
+          path: piimage/workspace-${{ matrix.variant }}/*.zip
+          retention-days: 1
