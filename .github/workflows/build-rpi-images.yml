@@ -1,0 +1,43 @@
+name: Build Image
+
+on: 
+  pull_request:
+    types: 
+      - opened
+      - synchronize
+    paths: 
+      - pi-image/**
+      - .github/workflows/build-rpi-images.yml
+  push: 
+    branches: 
+      - main
+    paths: 
+      - pi-image/**
+      - .github/workflows/build-rpi-images.yml
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant:
+          - hyperpixel2r
+    steps:
+      - name: Checkout Project Repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            pi-image
+      - uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          cwd: ${{ github.workspace }}/pi-image
+      - name: Build image
+        run: | 
+          docker exec piimage-build build ${{ matrix.variant }} --download  
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.variant }}
+          path: |
+            ${{ github.workspace }}/pi-image/src/workspace-${{ matrix.variant }}/*.img
+          compression-level: 9
