@@ -38,6 +38,9 @@ jobs:
       - name: Update CustomPiOS path
         working-directory: repository/piimage/src
         run: ../../../CustomPiOS/src/update-custompios-paths
+      - name: Pip Install
+        working-directory: CustomPiOS/src
+        run: pip install -r requirements.txt
       - name: Build image
         working-directory: repository/piimage/src
         run: |
