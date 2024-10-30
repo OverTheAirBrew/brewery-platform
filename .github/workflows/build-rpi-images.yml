@@ -30,7 +30,8 @@ jobs:
           repository: 'guysoft/CustomPiOS'
           path: CustomPiOS
       - name: Download Raspbian Image
-        run: cd piimage/src/image && wget -q -c --trust-server-names '${{ matrix.base_image }}'
+        working-directory: repository/piimage/src
+        run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
       - name: Update CustomPiOS path
         working-directory: repository/piimage
         run: ${{ github.workspace }}/CustomPiOS/update-custompios-paths
