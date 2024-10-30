@@ -37,7 +37,7 @@ jobs:
           ls -la ../../../../
       - name: Update CustomPiOS path
         working-directory: piimage/src
-        run: ../../CustomPiOS/update-custompios-paths
+        run: ../../CustomPiOS/src/update-custompios-paths
       - name: Build image
         working-directory: piimage/src
         run: |
