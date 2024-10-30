@@ -33,7 +33,8 @@ jobs:
         working-directory: repository/piimage/src
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
       - name: debugging
-        run: ls -la repository/piimage/src
+        run: |
+          ls -la repository/piimage/src
           ls -la ../../
       - name: Update CustomPiOS path
         working-directory: repository/piimage/src
