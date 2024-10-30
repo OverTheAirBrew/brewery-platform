@@ -24,19 +24,22 @@ jobs:
         run: sudo apt install coreutils p7zip-full qemu-user-static
       - name: Checkout Project Repository
         uses: actions/checkout@v4
+        with:
+          path: repository
+          submodules: true
       - name: Checkout CustomPiOS
         uses: actions/checkout@v4
         with:
           repository: 'guysoft/CustomPiOS'
           path: CustomPiOS
       - name: Download Raspbian Image
-        working-directory: piimage/src/image
+        working-directory: repository/piimage/src/image
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
       - name: Update CustomPiOS path
-        working-directory: piimage/src
+        working-directory: repository/piimage/src
         run: ../../CustomPiOS/src/update-custompios-paths
       - name: Build image
-        working-directory: piimage/src
+        working-directory: repository/piimage/src
         run: |
           sudo modprobe loop
           sudo bash -x ./build_dist ${{ matrix.variant }}
