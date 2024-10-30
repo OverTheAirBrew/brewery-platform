@@ -23,7 +23,12 @@ jobs:
       - name: Install Dependencies
         run: sudo apt install coreutils p7zip-full qemu-user-static
       - name: Checkout Project Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Checkout CustomPiOS
+        uses: actions/checkout@v4
+        with:
+          repository: 'guysoft/CustomPiOS'
+          path: CustomPiOS
       - name: Download Raspbian Image
         working-directory: piimage/src/image
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
