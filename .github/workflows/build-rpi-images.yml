@@ -18,13 +18,20 @@ jobs:
         base_image:
           - https://downloads.raspberrypi.com/raspios_oldstable_lite_armhf/images/raspios_oldstable_lite_armhf-2024-10-28/2024-10-22-raspios-bullseye-armhf-lite.img.xz
     steps:
+      - name: Update apt
+        run: sudo apt-get update
+      - name: Install Dependencies
+        run: sudo apt install coreutils p7zip-full qemu-user-static
       - name: Checkout Project Repository
         uses: actions/checkout@v3
       - name: Download Raspbian Image
         working-directory: piimage/src/image
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
+      - name: Update CustomPiOS path
+        working-directory: piimage/src
+        run: ../../CustomPiOS/src/update-custompios-paths
       - name: Build image
         working-directory: piimage/src
         run: |
           sudo modprobe loop
-          docker run --privileged --rm -v `pwd`:/distro --device /dev/loop-control guysoft/custompios:devel build ${{ matrix.variant }}
+          sudo bash -x ./build_dist ${{ matrix.variant }}
