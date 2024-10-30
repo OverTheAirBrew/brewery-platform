@@ -34,7 +34,7 @@ jobs:
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
       - name: Update CustomPiOS path
         working-directory: repository/piimage
-        run: ${{ github.workspace }}/CustomPiOS/update-custompios-paths
+        run: ../../CustomPiOS/update-custompios-paths
       - name: Build image
         working-directory: repository/piimage/src
         run: |
