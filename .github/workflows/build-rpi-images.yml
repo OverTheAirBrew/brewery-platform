@@ -24,12 +24,12 @@ jobs:
           sparse-checkout: |
             piimage
       - name: Checkout CustomPiOS
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'guysoft/CustomPiOS'
-          path: ${{github.workspace }}/CustomPiOS
+          path: CustomPiOS
       - name: Download Raspbian Image
-        working-directory: piimage/src
+        working-directory: piimage/src/image
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
       - name: debugging
         run: |
