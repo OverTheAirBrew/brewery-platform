@@ -20,26 +20,11 @@ jobs:
     steps:
       - name: Checkout Project Repository
         uses: actions/checkout@v3
-      - name: Checkout CustomPiOS
-        uses: actions/checkout@v3
-        with:
-          repository: 'guysoft/CustomPiOS'
-          path: CustomPiOS
       - name: Download Raspbian Image
         working-directory: piimage/src/image
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
-      - name: debugging
-        working-directory: piimage/src
-        run: |
-          ls -la ../
-          ls -la ../../
-          ls -la ../../../
-          ls -la ../../../../
-      - name: Update CustomPiOS path
-        working-directory: piimage/src
-        run: ../../CustomPiOS/src/update-custompios-paths
       - name: Build image
         working-directory: piimage/src
         run: |
           sudo modprobe loop
-          sudo bash -x ./build_dist ${{ matrix.variant }}
+          docker run --privileged --rm -v `pwd`:/distro --device /dev/loop-control guysoft/custompios:devel build ${{ matrix.variant }}
