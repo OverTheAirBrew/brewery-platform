@@ -32,8 +32,8 @@ jobs:
         working-directory: piimage/src/image
         run: wget -q -c --trust-server-names '${{ matrix.base_image }}'
       - name: debugging
+        working-directory: piimage/src
         run: |
-          ls -la piimage/src
           ls -la ../
           ls -la ../../
           ls -la ../../../
