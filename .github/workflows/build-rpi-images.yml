@@ -21,22 +21,21 @@ jobs:
       - name: Checkout Project Repository
         uses: actions/checkout@v3
         with:
+          path: repository
           sparse-checkout: |
             piimage
+      - name: Checkout CustomPiOS
+        uses: actions/checkout@v2
+        with:
+          repository: 'guysoft/CustomPiOS'
+          path: CustomPiOS
       - name: Download Raspbian Image
         run: cd piimage/src/image && wget -q -c --trust-server-names '${{ matrix.base_image }}'
+      - name: Update CustomPiOS path
+        working-directory: repository/piimage
+        run: ${{ github.workspace }}/CustomPiOS/update-custompios-paths
       - name: Build image
-        working-directory: piimage
+        working-directory: repository/piimage/src
         run: |
-          sudo modprobe loop 
-          docker run --privileged --rm -v .:/distro --device /dev/loop-control guysoft/custompios:devel /distro/src/build_dist ${{ matrix.variant }}
-      - name: Create release
-        working-directory: piimage
-        run: |
-          docker run --privileged --rm -v .:/distro --device /dev/loop-control guysoft/custompios:devel /distro/src/release_dist ${{ matrix.variant }}
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.variant }}
-          path: piimage/workspace-${{ matrix.variant }}/*.zip
-          retention-days: 1
+          sudo modprobe loop
+          sudo bash -x ./build_dist ${{ matrix.variant }}
