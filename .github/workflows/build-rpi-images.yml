@@ -17,7 +17,7 @@ jobs:
       env:
         USER: root
         BASE_BOARD: raspberrypiarm64
-        DIST_PATH: ${{ github.workspace }}/piimage/src
+        DIST_PATH: ${{ github.workspace }}/pi-image/src
     strategy:
       matrix:
         variant:
@@ -26,9 +26,9 @@ jobs:
       - name: Checkout Project Repository
         uses: actions/checkout@v4
         with:
-          sparse-checkout: piimage
+          sparse-checkout: |
+            pi-image
       - name: Build image
-        working-directory: piimage
         run: |
           cp -f ./custom-config/common.sh /CustomPiOS/common.sh
           cp -f ./custom-config/custompios_nightly_build /CustomPiOS/nightly_build_scripts/custompios_nightly_build

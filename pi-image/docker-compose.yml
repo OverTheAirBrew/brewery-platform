@@ -13,8 +13,9 @@ services:
     environment:
       - USER=root
       - BASE_BOARD=raspberrypiarm64
+      - DIST_PATH=/distro2
     volumes:
-      - ./src:/distro
+      - ./src:/distro2
       - ../../CustomPiOS/src:/CustomPiOS
     devices:
       - /dev/loop-control
