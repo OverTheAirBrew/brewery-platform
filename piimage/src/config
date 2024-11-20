@@ -1,16 +1,16 @@
-export DIST_NAME=brewery_platform_tap_display
+export MODULES="base(network,(disable-services(gui(ota-bp)),hyperpixel2r))"
+
+# Image Details
+export DIST_NAME=OverTheAirBrew-TapScreen
 export DIST_VERSION=0.1.0
 
-export BASE_BOOT_MOUNT_PATH=boot
+# Base Overrides
+export BASE_ARCH="arm64"
+export BASE_IMAGE_PATH="${DIST_PATH}/image"
+export BASE_ZIP_IMG=`ls -t $BASE_IMAGE_PATH/*-{raspbian,raspios}-*-arm64-*.zip | head -n 1`
+export BASE_IGNORE_VARIANT_NAME="yes"
+export BASE_BOARD=raspberrypiarm64
 
-# rpi-imager json generator settings
-export RPI_IMAGER_NAME="${DIST_NAME}"
-export RPI_IMAGER_DESCRIPTION="A raspberrypi distro built with CustomPiOS"
-export RPI_IMAGER_WEBSITE="https://github.com/guysoft/CustomPiOS"
-export RPI_IMAGER_ICON="https://raw.githubusercontent.com/guysoft/CustomPiOS/devel/media/rpi-imager-CustomPiOS.png"
-
-export MODULES="base(network,apt-fix(disable-services(gui(piimage))),hyperpixel2-round)"
-
+# Build Configuration
 export BASE_IMAGE_ENLARGEROOT=2000
 export BASE_IMAGE_RESIZEROOT=200
-export GUI_STARTUP_SCRIPT=/opt/brewery_platform/scripts/run_onepageos
