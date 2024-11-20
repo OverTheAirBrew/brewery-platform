@@ -45,7 +45,7 @@ jobs:
         run: |
           sudo modprobe loop 
           cd repository/pi-image/src 
-          export BASE_BOARD=raspberrypiarm64 && sudo bash -x ./build_dist
+          sudo bash -x ./build_dist
       # - name: Copy Output
       #   run: cp ${{ github.workspace }}/repository/src/workspace/*-raspios-*-lite.img build.img
       # - name: Zip Output
