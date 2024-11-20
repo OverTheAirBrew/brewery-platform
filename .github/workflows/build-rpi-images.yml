@@ -40,7 +40,7 @@ jobs:
           cd repository/pi-image/src 
           ../../../CustomPiOS/src/update-custompios-paths
       - name: Copy Fixes
-        run: cp ./repository/pi-image/custom-config/common.sh ../../../CustomPiOS/src/common.sh
+        run: cp ./repository/pi-image/custom-config/common.sh ./CustomPiOS/src/common.sh
       - name: Build Image
         run: sudo modprobe loop && cd repository/src && sudo bash -x ./build_dist
       # - name: Copy Output
