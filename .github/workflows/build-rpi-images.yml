@@ -15,9 +15,7 @@ jobs:
       image: guysoft/custompios:devel
       env:
         USER: root
-        BASE_BOARD: raspberrypiarm64
-        BASE_WORKSPACE: ${{ github.workspace }}/piimage/src
-        DIST_PATH: ${{ github.workspace }}/piimage/src
+
     strategy:
       matrix:
         variant:
@@ -29,6 +27,10 @@ jobs:
           sparse-checkout: piimage/src
       - name: Build image
         working-directory: piimage/src
+        env:
+          BASE_WORKSPACE: ${{ github.workspace }}/piimage/src
+          DIST_PATH: ${{ github.workspace }}/piimage/src
+          BASE_BOARD: raspberrypiarm64
         run: |
           ls -a
 
