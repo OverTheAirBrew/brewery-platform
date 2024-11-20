@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
-            pi-image
+            ./pi-image
       - name: Build image
         run: |
           cp -f ./pi-image/custom-config/common.sh /CustomPiOS/common.sh
