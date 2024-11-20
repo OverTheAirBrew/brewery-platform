@@ -17,6 +17,8 @@ unpack /filesystem/boot /"${BASE_BOOT_MOUNT_PATH}"
 unpack /filesystem/opt /opt
 unpack /filesystem/root_init /
 
+ls -a /"${BASE_BOOT_MOUNT_PATH}"
+
 apt-get update
 
 ## Custom splash screen
@@ -25,6 +27,11 @@ sed -i 's/$/ logo.nologo consoleblank=0 loglevel=0 quiet/' /"${BASE_BOOT_MOUNT_P
 echo "disable_splash=1" >> /"${BASE_BOOT_MOUNT_PATH}"/config.txt
 systemctl enable splashscreen.service
 systemctl disable getty@tty1
+
+if [ ! "${BREW_PLATFORM_SPLASH_IMAGE}" ]; then
+  BREW_PLATFORM_SPLASH_IMAGE="splash"
+fi
+
 cp /"${BASE_BOOT_MOUNT_PATH}"/splash-screens/"${BREW_PLATFORM_SPLASH_IMAGE}".png /boot/splash.png
 
 remove_extra=$(remove_if_installed scratch squeak-plugins-scratch squeak-vm python-minecraftpi minecraft-pi sonic-pi oracle-java8-jdk bluej greenfoot libreoffice-common libreoffice-core freepats)

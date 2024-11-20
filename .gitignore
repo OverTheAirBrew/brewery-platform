@@ -151,4 +151,4 @@ pi-image/build.log
 pi-image/workspace/*
 pi-image/workspace*
 pi-image/workspace*/*
-pi-image/image/*.img.xz
+pi-image/*.img.xz
