@@ -36,3 +36,6 @@ jobs:
           ls -a pi-image/src
 
           build --download ${{ matrix.variant }}
+      - name: Test
+        if: always()
+        run: ls -a pi-image/src
