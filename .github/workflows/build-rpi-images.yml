@@ -28,4 +28,6 @@ jobs:
           sparse-checkout: piimage/src
       - name: Build image
         working-directory: piimage/src
-        run: build --download ${{ matrix.variant }}
+        run: |
+          mkdir -p /distro
+          build --download ${{ matrix.variant }}
