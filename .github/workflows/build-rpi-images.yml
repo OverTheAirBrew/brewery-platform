@@ -33,4 +33,6 @@ jobs:
           cp -f ./pi-image/custom-config/common.sh /CustomPiOS/common.sh
           cp -f ./pi-image/custom-config/custompios_nightly_build /CustomPiOS/nightly_build_scripts/custompios_nightly_build
 
+          ls -a
+
           build --download ${{ matrix.variant }}
