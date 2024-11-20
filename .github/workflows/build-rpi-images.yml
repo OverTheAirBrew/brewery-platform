@@ -29,5 +29,5 @@ jobs:
       - name: Build image
         working-directory: piimage
         run: |
-          mkdir -p src
+          mkdir -p /distro
           build --download ${{ matrix.variant }}
