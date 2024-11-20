@@ -2,5 +2,5 @@
 
 SERIAL=`cat /proc/cpuinfo | grep -i '^Serial' | awk '{ print $3 }'`
 URL_PATH=$($URL_PATH | sed -e "s/{serial}/${SERIAL}/g")
-URL="$(head -n 1 /boot/breweryplatform.txt)"
+URL="$(head -n 1 /${BASE_BOOT_MOUNT_PATH}/breweryplatform.txt)"
 echo "$URL/$URL_PATH"

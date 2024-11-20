@@ -17,6 +17,7 @@ jobs:
         USER: root
         BASE_BOARD: raspberrypiarm64
         BASE_WORKSPACE: ${{ github.workspace }}/piimage/src
+        DIST_PATH: ${{ github.workspace }}/piimage/src
     strategy:
       matrix:
         variant:
