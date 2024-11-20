@@ -30,5 +30,6 @@ jobs:
       - name: Build image
         working-directory: piimage
         run: |
-          ln -s /CustomPiOS/build /usr/bin/build //overwrite the build
+          rm /usr/bin/build
+          ln -s /CustomPiOS/build /usr/bin/build
           build --download ${{ matrix.variant }}
