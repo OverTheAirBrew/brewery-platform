@@ -17,8 +17,6 @@ jobs:
       env:
         USER: root
         BASE_BOARD: raspberrypiarm64
-      volumes:
-        - ${{ github.workspace }}/piimage/src:/distro
     strategy:
       matrix:
         variant:
@@ -28,8 +26,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: piimage/src
+          path: /distro
       - name: Build image
         working-directory: piimage/src
         run: |
-          mkdir -p /distro
           build --download ${{ matrix.variant }}
