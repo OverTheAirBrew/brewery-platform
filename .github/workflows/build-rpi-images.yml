@@ -42,12 +42,10 @@ jobs:
       - name: Copy Fixes
         run: cp ./repository/pi-image/custom-config/common.sh ./CustomPiOS/src/common.sh
       - name: Build Image
-        env:
-          BASE_BOARD: raspberrypiarm64
         run: |
           sudo modprobe loop 
           cd repository/pi-image/src 
-          sudo bash -x ./build_dist
+          export BASE_BOARD=raspberrypiarm64 && sudo bash -x ./build_dist
       # - name: Copy Output
       #   run: cp ${{ github.workspace }}/repository/src/workspace/*-raspios-*-lite.img build.img
       # - name: Zip Output
