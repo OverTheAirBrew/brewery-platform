@@ -30,6 +30,7 @@ jobs:
       - name: Build image
         working-directory: piimage
         run: |
-          rm /usr/bin/build
-          ln -s /CustomPiOS/build /usr/bin/build
+          cp -f ./custom-config/common.sh /CustomPiOS/common.sh
+          cp -f ./custom-config/custompios_nightly_build /CustomPiOS/nightly_build_scripts/custompios_nightly_build
+
           build --download ${{ matrix.variant }}
