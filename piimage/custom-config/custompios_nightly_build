@@ -1,0 +1,91 @@
+#!/bin/bash
+set -e
+
+if [ -z "${DIST_PATH}" ]; then
+    echo "DIST_PATH not set, defaulting to /distro"
+    export DIST_PATH=/distro
+fi
+
+export CUSTOM_PI_OS_PATH=/CustomPiOS
+
+source "$CUSTOM_PI_OS_PATH/argparse.bash" || exit 1
+argparse "$@" <<EOF || exit 1
+
+parser.add_argument('WORKSPACE_SUFFIX', nargs='?', default="default", help="The workspace folder suffix used folder")
+parser.add_argument('-r', '--rpi_imager', action='store_true', help='Create a rpi-imager snipplet to be published')
+parser.add_argument('-u', '--rpi_imager_url', type=str, default="MISSING_URL", help='url to the uploaded image url')
+parser.add_argument('-d', '--download', action='store_true', help='Download the latest image for board type')
+parser.add_argument('-b', '--board', type=str, help='Set board type')
+EOF
+
+if [ "${BOARD}" = "list" ]; then
+    "${CUSTOM_PI_OS_PATH}/custompios_core/list_boards.py"
+    exit
+fi
+set -x
+WORKSPACE_POSTFIX=
+if [ "${WORKSPACE_SUFFIX}" != 'default' ]; then
+  WORKSPACE_POSTFIX=-"${WORKSPACE_SUFFIX}"
+fi
+
+#Update repos used
+#sudo -u guy /home/guy/stuff/scripts/gitmirror/update_git_mirrors
+if [ "${SHA256}" == "yes" ]; then
+    echo "Saving image hash type sha256"
+    sha256sum "${IMG_FILENAME}" > "${IMG_FILENAME}".sha256
+fi
+
+if [ ! -z "${BOARD}" ]; then
+    export BASE_BOARD="${BOARD}"
+fi
+if [ "${BASE_BOARD}" == "" ]; then
+    echo "No BASE_BOARD defined, defaulting to raspberrypiarmhf"
+    export BASE_BOARD="raspberrypiarmhf"
+fi
+
+for i in `lsof "${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/mount" | awk '{print $2}'`; do kill -9 $i; done || true
+
+rm ${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/*.img || true
+rm ${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/*.raw | true
+rm ${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/*.zip || true
+$exit_code
+pushd "${DIST_PATH}"
+    umount "${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/mount/boot" || true
+
+    umount "${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/mount/dev/pts" || true
+    umount "${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/mount" || true
+    #git pull origin devel
+    #export OCTOPI_OCTOPRINT_REPO_BUILD='http://localhost/git/OctoPrint.git/'
+    #export OCTOPI_MJPGSTREAMER_REPO_BUILD='http://localhost/git/mjpg-streamer.git/'
+    #export OCTOPI_WIRINGPI_REPO_BUILD='http://localhost/git/wiringPi.git/'
+
+    # Download latest image of correct board type if possible
+    source "${CUSTOM_PI_OS_PATH}/config" "${WORKSPACE_SUFFIX}"
+    if [ "${DOWNLOAD}" == "yes" ]; then
+        ${CUSTOM_PI_OS_PATH}/custompios_core/base_image_downloader.py "${WORKSPACE_SUFFIX}"
+    fi
+
+    ${CUSTOM_PI_OS_PATH}/build_custom_os "${WORKSPACE_SUFFIX}"
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo "build script failed"
+        exit $exit_code
+    fi
+    EXTRA_FLAGS=""
+    if [ "${RPI_IMAGER}" == "yes" ]; then
+        echo "Creating a rpi-imager json snipplet"
+        EXTRA_FLAGS="--sha256"
+    fi
+    
+    bash -x ${CUSTOM_PI_OS_PATH}/release ${EXTRA_FLAGS} "${WORKSPACE_SUFFIX}"
+    
+    if [ "${RPI_IMAGER}" == "yes" ]; then
+        if [ -z "${CUSTOM_PI_OS_PATH}" ];then
+            echo "Error: you must have \${CUSTOM_PI_OS_PATH} to generate a rpi-imager snipplet"
+            exit 1
+        fi
+        "${CUSTOM_PI_OS_PATH}/custompios_core/make_rpi-imager-snipplet.py" --rpi_imager_url "${RPI_IMAGER_URL}" -- "${WORKSPACE_SUFFIX}"
+    fi
+    
+    chmod 777 ${DIST_PATH}/workspace${WORKSPACE_POSTFIX}/*
+popd
