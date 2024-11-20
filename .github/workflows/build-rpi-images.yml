@@ -16,9 +16,9 @@ jobs:
       options: --privileged
       env:
         USER: root
-        BASE_WORKSPACE: ${{ github.workspace }}/piimage/src
-        DIST_PATH: ${{ github.workspace }}/piimage/src
         BASE_BOARD: raspberrypiarm64
+      volumes:
+        - ${{ github.workspace }}/piimage/src:/distro
     strategy:
       matrix:
         variant:
@@ -31,4 +31,5 @@ jobs:
       - name: Build image
         working-directory: piimage/src
         run: |
+          mkdir -p /distro
           build --download ${{ matrix.variant }}
