@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: guysoft/custompios:devel
+      options: --privileged
       env:
         USER: root
 
