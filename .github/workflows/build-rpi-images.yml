@@ -25,9 +25,8 @@ jobs:
       - name: Checkout Project Repository
         uses: actions/checkout@v4
         with:
-          sparse-checkout: piimage/src
-          path: /distro
+          sparse-checkout: piimage
       - name: Build image
-        working-directory: piimage/src
+        working-directory: piimage
         run: |
           build --download ${{ matrix.variant }}
