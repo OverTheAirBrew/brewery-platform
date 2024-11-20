@@ -1,10 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ -z "${DIST_PATH}" ]; then
-    echo "DIST_PATH not set, defaulting to /distro"
-    export DIST_PATH=/distro
-fi
+[[ -n $DIST_PATH ]] || export DIST_PATH=/distro
 
 export CUSTOM_PI_OS_PATH=/CustomPiOS
 
