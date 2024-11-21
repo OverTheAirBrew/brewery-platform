@@ -6,3 +6,7 @@ export const TokenResponse = z.object({
   emailHash: z.string(),
   token: z.string(),
 });
+
+export const DeviceTokenResponse = z.object({
+  token: z.string(),
+});

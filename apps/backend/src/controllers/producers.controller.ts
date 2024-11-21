@@ -16,7 +16,11 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ProducersDto, ProducersSchema } from '@overtheairbrew/models';
+import {
+  CreateProducersRequest,
+  CreateProducersRequestSchema,
+  GetProducersResponse,
+} from '@overtheairbrew/models';
 import { IdResponseDto } from '../id.response.dto';
 import { ProducersService } from '../services/producer.service';
 import { ZodBodyValidationPipe } from '../validation/validation.pipe';
@@ -31,14 +35,14 @@ export class ProducersController {
   @ApiCreatedResponse({
     type: IdResponseDto,
   })
-  @UsePipes(new ZodBodyValidationPipe(ProducersSchema))
-  async createProducer(@Body() body: ProducersDto) {
+  @UsePipes(new ZodBodyValidationPipe(CreateProducersRequestSchema))
+  async createProducer(@Body() body: CreateProducersRequest) {
     return this.producersService.createProducer(body);
   }
 
   @Get('/')
   @ApiOkResponse({
-    type: ProducersDto,
+    type: GetProducersResponse,
     isArray: true,
   })
   async getAllProducers() {
@@ -47,19 +51,19 @@ export class ProducersController {
 
   @Get('/:producerId')
   @ApiOkResponse({
-    type: ProducersDto,
+    type: GetProducersResponse,
   })
   async getOneProducer(@Param('producerId') producerId: string) {
     return this.producersService.getOneProducer(producerId);
   }
 
   @Put('/:producerId')
-  @UsePipes(new ZodBodyValidationPipe(ProducersSchema))
+  @UsePipes(new ZodBodyValidationPipe(CreateProducersRequestSchema))
   @ApiNoContentResponse()
   @HttpCode(HttpStatus.NO_CONTENT)
   async updateProducer(
     @Param('producerId') producerId: string,
-    @Body() body: ProducersDto,
+    @Body() body: CreateProducersRequest,
   ) {
     return this.producersService.updateProducer(producerId, body);
   }

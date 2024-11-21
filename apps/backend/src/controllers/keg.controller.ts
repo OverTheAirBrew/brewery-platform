@@ -16,7 +16,11 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { KegDto, KegSchema } from '@overtheairbrew/models';
+import {
+  CreateKegRequest,
+  CreateKegRequestSchema,
+  GetKegResponse,
+} from '@overtheairbrew/models';
 import { IdResponseDto } from '../id.response.dto';
 import { KegsService } from '../services/kegs.service';
 import { ZodBodyValidationPipe } from '../validation/validation.pipe';
@@ -31,14 +35,14 @@ export class KegsController {
   @ApiCreatedResponse({
     type: IdResponseDto,
   })
-  @UsePipes(new ZodBodyValidationPipe(KegSchema))
-  async createKeg(@Body() body: KegDto) {
+  @UsePipes(new ZodBodyValidationPipe(CreateKegRequestSchema))
+  async createKeg(@Body() body: CreateKegRequest) {
     return this.kegsService.createKeg(body);
   }
 
   @Get('/')
   @ApiOkResponse({
-    type: KegDto,
+    type: GetKegResponse,
     isArray: true,
   })
   async getAllKegs() {
@@ -47,7 +51,7 @@ export class KegsController {
 
   @Get('/:kegId')
   @ApiOkResponse({
-    type: KegDto,
+    type: GetKegResponse,
   })
   async getOneKeg(@Param('kegId') kegId: string) {
     return await this.kegsService.getOneKeg(kegId);
@@ -56,8 +60,11 @@ export class KegsController {
   @Put('/:kegId')
   @ApiNoContentResponse()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UsePipes(new ZodBodyValidationPipe(KegSchema))
-  async updateKeg(@Param('kegId') kegId: string, @Body() body: KegDto) {
+  @UsePipes(new ZodBodyValidationPipe(CreateKegRequestSchema))
+  async updateKeg(
+    @Param('kegId') kegId: string,
+    @Body() body: CreateKegRequest,
+  ) {
     return await this.kegsService.updateKeg(kegId, body);
   }
 }
