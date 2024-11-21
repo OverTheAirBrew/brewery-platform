@@ -47,3 +47,5 @@ sed -i 's@%BROWSER_START_SCRIPT%@/opt/brewery_platform/scripts/start_chromium_br
 # Add emoji support
 sudo -u pi mkdir -p /home/pi/.fonts
 sudo -u pi wget --directory-prefix /home/pi/.fonts https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf
+
+echo "displays/${BREW_PLATFORM_DISPLAY_TYPE}/{serial}" >> /opt/brewery_platform/display-path

@@ -14,3 +14,5 @@ export BASE_BOARD=raspberrypiarm64
 # Build Configuration
 export BASE_IMAGE_ENLARGEROOT=2000
 export BASE_IMAGE_RESIZEROOT=200
+
+export GUI_STARTUP_SCRIPT=/opt/brewery_platform/scripts/run_onepageos
