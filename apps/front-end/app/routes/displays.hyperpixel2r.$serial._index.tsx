@@ -10,6 +10,8 @@ import { useEventSourceWithId } from '../ota-event-source';
 import { authenticator } from '../services/auth.server';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
+  console.log('HIT DISPLAYS HYPERPIXEL2R LOADER');
+
   const data = await authenticator.isAuthenticated(request, {
     failureRedirect: `/displays/hyperpixel2r/${params.serial}/login`,
   });

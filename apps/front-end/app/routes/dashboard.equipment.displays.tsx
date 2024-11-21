@@ -6,7 +6,7 @@ import { fetch } from '../fetch';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { body } = await fetch<DisplayDto[]>(request)(
-    `${process.env.API_BASE_URL}/displays`
+    `${process.env.API_BASE_URL}/displays`,
   );
 
   return {
@@ -52,7 +52,7 @@ export default function DashboardCellarBeverages() {
                       <Button
                         color="gray"
                         as={Link}
-                        to={`/displays/hyperpixel2-round/${display.deviceCode}`}
+                        to={`/displays/hyperpixel2r/${display.deviceCode}`}
                         target="_blank"
                         rel="noreferrer"
                         size="sm"

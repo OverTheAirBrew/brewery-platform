@@ -11,7 +11,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
   await authenticator.isAuthenticated(request, {
-    successRedirect: `/displays/hyperpixel2-round/${params.serial}`,
+    successRedirect: `/displays/hyperpixel2r/${params.serial}`,
   });
 
   const { body } = await fetchNoToken<
@@ -41,7 +41,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export async function action({ request, context, params }: ActionFunctionArgs) {
   return await authenticator.authenticate('display', request, {
-    successRedirect: `/displays/hyperpixel2-round/${params.serial}`,
+    successRedirect: `/displays/hyperpixel2r/${params.serial}`,
     context,
   });
 }
