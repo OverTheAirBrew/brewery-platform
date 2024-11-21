@@ -140,3 +140,12 @@ packages/api-client/src/.openapi-generator
 
 .DS_Store
 database-data
+
+## custom rpi images
+pi-image/image/*.zip
+pi-image/custompios_path
+pi-image/build.log
+pi-image/workspace/*
+pi-image/workspace*
+pi-image/workspace*/*
+pi-image/*.img.xz
