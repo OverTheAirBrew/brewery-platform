@@ -1,5 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ProducersDto, ProducersSchema } from '@overtheairbrew/models';
+import {
+  CreateProducersRequest,
+  GetProducersResponseSchema,
+  ProducersSchema,
+} from '@overtheairbrew/models';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { Producer } from '../data/entities/producer.entity';
 import { ProducerDoesNotExistError } from '../errors/producer-does-not-exist-error';
@@ -12,7 +16,7 @@ export class ProducersService {
     private producerRepository: typeof Producer,
   ) {}
 
-  async createProducer(producer: ProducersDto) {
+  async createProducer(producer: CreateProducersRequest) {
     const validatedProducer = ProducersSchema.parse(producer);
     const { id } = await this.producerRepository.create(validatedProducer);
     return new IdResponseDto(id);
@@ -21,16 +25,21 @@ export class ProducersService {
   async getAllProducers() {
     const producers = await this.producerRepository.findAll();
     return await Promise.all(
-      producers.map((producer) => ProducersSchema.parseAsync(producer)),
+      producers.map((producer) =>
+        GetProducersResponseSchema.parseAsync(producer),
+      ),
     );
   }
 
   async getOneProducer(producersId: string) {
     const producer = await this.producerRepository.findByPk(producersId);
-    return ProducersSchema.parse(producer);
+    return GetProducersResponseSchema.parse(producer);
   }
 
-  async updateProducer(producersId: string, producerToUpdate: ProducersDto) {
+  async updateProducer(
+    producersId: string,
+    producerToUpdate: CreateProducersRequest,
+  ) {
     const producer = await this.producerRepository.findByPk(producersId);
     if (!producer) throw new ProducerDoesNotExistError(producersId);
     await producer.update(producerToUpdate);

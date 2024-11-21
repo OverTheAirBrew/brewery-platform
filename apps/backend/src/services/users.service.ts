@@ -28,6 +28,7 @@ export class UsersService {
       sub: fetchedUser.userId,
       username: fetchedUser.userName,
       emailHash: createHash('md5').update(fetchedUser.userName).digest('hex'),
+      scopes: ['user'],
     };
 
     return TokenResponseDto.zodSchema.parse({

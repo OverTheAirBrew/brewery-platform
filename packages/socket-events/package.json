@@ -4,6 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "browser": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsup",

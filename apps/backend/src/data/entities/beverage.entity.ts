@@ -10,6 +10,7 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+import { Image } from './image.entity';
 import { Producer } from './producer.entity';
 
 export interface IRepositoryBeverage {
@@ -19,6 +20,7 @@ export interface IRepositoryBeverage {
   abv: number;
   description: string;
   producer_id: string;
+  image_id: string;
 
   producer?: Producer;
 
@@ -53,6 +55,13 @@ export class Beverage extends Model<IRepositoryBeverage> {
 
   @BelongsTo(() => Producer)
   producer?: Producer;
+
+  @Column(DataType.STRING)
+  @ForeignKey(() => Image)
+  image_id: string;
+
+  @BelongsTo(() => Image)
+  image?: Image;
 
   @CreatedAt
   createdAt?: Date;

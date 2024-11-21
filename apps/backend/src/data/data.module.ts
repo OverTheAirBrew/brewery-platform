@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { REPOSITORIES } from './data.abstractions';
 import { databaseProvider } from './data.provider';
-import { ApiKey } from './entities/api-key.entity';
 import { Beverage } from './entities/beverage.entity';
+import { DisplayLogin } from './entities/display-logins';
 import { Display } from './entities/display.entity';
+import { Image } from './entities/image.entity';
 import { Keg } from './entities/keg.entity';
 import { Producer } from './entities/producer.entity';
 import { Tap } from './entities/tap.entity';
@@ -34,8 +35,12 @@ const RepositoryEntries = Object.values(REPOSITORIES);
       useValue: Tap,
     },
     {
-      provide: REPOSITORIES.ApiKeyRepository,
-      useValue: ApiKey,
+      provide: REPOSITORIES.ImageRepository,
+      useValue: Image,
+    },
+    {
+      provide: REPOSITORIES.DeviceLoginsRepository,
+      useValue: DisplayLogin,
     },
   ],
   exports: [databaseProvider, ...RepositoryEntries],

@@ -8,7 +8,9 @@ import { IGlobalConfig } from '../global.config';
 import { DbConfiguration } from './data.config';
 import { ApiKey } from './entities/api-key.entity';
 import { Beverage } from './entities/beverage.entity';
+import { DisplayLogin } from './entities/display-logins';
 import { Display } from './entities/display.entity';
+import { Image } from './entities/image.entity';
 import { Keg } from './entities/keg.entity';
 import { Producer } from './entities/producer.entity';
 import { Tap } from './entities/tap.entity';
@@ -20,6 +22,8 @@ const DatabaseModels: ModelCtor[] = [
   Keg,
   Tap,
   ApiKey,
+  DisplayLogin,
+  Image,
 ];
 
 export const createSequelizeInstance = async (
