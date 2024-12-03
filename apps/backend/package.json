@@ -9,7 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "MIGRATE=true nest start --watch",
+    "start:dev": "nest start --watch",
     "start:dev:mysql": "DATABASE_TYPE=mysql MYSQL_HOST=127.0.0.1 MYSQL_DATABASE=test MYSQL_USERNAME=root MIGRATE=true nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:debug:mysql": "DATABASE_TYPE=mysql MYSQL_HOST=127.0.0.1 MYSQL_DATABASE=test MYSQL_USERNAME=root MIGRATE=true nest start --debug --watch",

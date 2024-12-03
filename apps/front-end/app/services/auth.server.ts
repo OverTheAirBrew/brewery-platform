@@ -27,9 +27,11 @@ authenticator.use(
 
     const user = await login(email!.toString(), password!.toString());
 
+    console.log('user', user);
+
     return user;
   }),
-  'user-pass',
+  'user-pass'
 );
 
 authenticator.use(
@@ -40,5 +42,5 @@ authenticator.use(
       token: token.toString(),
     };
   }),
-  'display',
+  'display'
 );

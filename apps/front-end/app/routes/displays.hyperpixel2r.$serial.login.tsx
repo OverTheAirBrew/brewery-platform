@@ -2,6 +2,7 @@ import { DisplayTapInformationUnauthenticatedDto } from '@overtheairbrew/models'
 import { LoginCallback } from '@overtheairbrew/socket-events';
 import { ActionFunctionArgs, json, LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData, useSubmit } from '@remix-run/react';
+import { HyperPixel2rWrapper } from '../components/display-wrappers/hyperpixel2r';
 import { SerialDisplay } from '../components/serial-display';
 import { fetchNoToken } from '../fetch';
 import { useEventSourceWithId } from '../ota-event-source';
@@ -24,6 +25,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       siteUrl: url.origin,
     },
   });
+
+  console.log(process.env.API_BASE_URL);
 
   return json(
     {
@@ -65,18 +68,16 @@ export default function DisplayHyperpixel() {
   );
 
   return (
-    <div className="size-hyperpixel2r rounded-full border-2 flex items-center justify-center">
-      <div className="grid-rows-1 justify-items-center text-center">
-        <img
-          className="size-48"
-          src={data.qrCode}
-          alt="qr barcode scan to visit"
-        />
-        <span>Scan the code login on this display.</span>
-        <br />
-        <span>It will identify with code:</span>
-        <SerialDisplay serial={serial!} />
-      </div>
-    </div>
+    <HyperPixel2rWrapper>
+      <img
+        className="size-48"
+        src={data.qrCode}
+        alt="qr barcode scan to visit"
+      />
+      <span>Scan the code login on this display.</span>
+      <br />
+      <span>It will identify with code:</span>
+      <SerialDisplay serial={serial!} />
+    </HyperPixel2rWrapper>
   );
 }

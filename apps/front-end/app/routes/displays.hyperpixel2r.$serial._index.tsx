@@ -3,6 +3,7 @@ import { useLoaderData, useRevalidator } from '@remix-run/react';
 
 import { DisplayTapInformationDto } from '@overtheairbrew/models';
 import { DisplayUpdatedMessage } from '@overtheairbrew/socket-events';
+import { HyperPixel2rWrapper } from '../components/display-wrappers/hyperpixel2r';
 import { Logo } from '../components/logo';
 import { SerialDisplay } from '../components/serial-display';
 import { fetch } from '../fetch';
@@ -64,56 +65,48 @@ export default function DisplayHyperpixel() {
 
   if (status === 'UNREGISTERED') {
     return (
-      <div className="size-hyperpixel2r rounded-full border-2 flex items-center justify-center">
-        <div className="grid-rows-1 justify-items-center text-center">
-          <Logo />
-          <br />
-          <div>This device does not seem to be registered.</div>
-          <div>
-            Please register this device in the management console with code:
-          </div>
-          <br />
-          <SerialDisplay serial={serial!} />
+      <HyperPixel2rWrapper>
+        <Logo />
+        <br />
+        <div>This device does not seem to be registered.</div>
+        <div>
+          Please register this device in the management console with code:
         </div>
-      </div>
+        <br />
+        <SerialDisplay serial={serial!} />
+      </HyperPixel2rWrapper>
     );
   }
 
   if (status === 'TAPUNASSIGNED') {
     return (
-      <div className="size-hyperpixel2r rounded-full border-2 flex items-center justify-center">
-        <div className="grid-rows-1 justify-items-center text-center">
-          <Logo />
-          <br />
-          <div>This device is successfully registered.</div>
-          <div>Please assign it to a tap in the admin console.</div>
-        </div>
-      </div>
+      <HyperPixel2rWrapper>
+        <Logo />
+        <br />
+        <div>This device is successfully registered.</div>
+        <div>Please assign it to a tap in the admin console.</div>
+      </HyperPixel2rWrapper>
     );
   }
 
   if (status === 'NOBEVERAGE') {
     return (
-      <div className="size-hyperpixel2r rounded-full border-2 flex items-center justify-center">
-        <div className="grid-rows-1 justify-items-center text-center">
-          <Logo />
-          <br />
-          <div>This device is successfully registered.</div>
-          <div>There is no beverage assigned to this tap.</div>
-        </div>
-      </div>
+      <HyperPixel2rWrapper>
+        <Logo />
+        <br />
+        <div>This device is successfully registered.</div>
+        <div>There is no beverage assigned to this tap.</div>
+      </HyperPixel2rWrapper>
     );
   }
 
   return (
-    <div className="size-hyperpixel2r rounded-full border-2 flex items-center justify-center">
-      <div className="grid-rows-1 justify-items-center text-center">
-        <img
-          src={`${apiUrl}/beverages/${beverage!.id}/image`}
-          alt="beverage"
-          className="object-fill size-hyperpixel2r"
-        />
-      </div>
-    </div>
+    <HyperPixel2rWrapper>
+      <img
+        src={`${apiUrl}/beverages/${beverage!.id}/image`}
+        alt="beverage"
+        className="object-fill size-hyperpixel2r"
+      />
+    </HyperPixel2rWrapper>
   );
 }

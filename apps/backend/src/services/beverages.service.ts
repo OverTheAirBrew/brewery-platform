@@ -4,13 +4,14 @@ import {
   CreateBeverageRequest,
   GetBeverageRequestSchema,
 } from '@overtheairbrew/models';
-import { createReadStream } from 'fs';
+import { createReadStream, existsSync } from 'fs';
 import { join } from 'path';
 import { REPOSITORIES } from '../data/data.abstractions';
 import { Beverage } from '../data/entities/beverage.entity';
 import { Image } from '../data/entities/image.entity';
 import { Producer } from '../data/entities/producer.entity';
 import { BeverageDoesNotExistError } from '../errors/beverage-does-not-exist-error';
+import { ImageDoesNotExistError } from '../errors/image-does-not-exist-error';
 import { IGlobalConfig } from '../global.config';
 import { IdResponseDto } from '../id.response.dto';
 
@@ -97,8 +98,12 @@ export class BeveragesService {
 
     const globalConfig = this.configService.get<IGlobalConfig>('GLOBAL');
 
-    return createReadStream(
-      join(globalConfig!.uploadDirectory, beverage.image.id),
-    );
+    const imagePath = join(globalConfig!.uploadDirectory, beverage.image.id);
+
+    if (existsSync(imagePath)) {
+      return createReadStream(imagePath);
+    }
+
+    throw new ImageDoesNotExistError(beverage.image.id);
   }
 }

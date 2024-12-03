@@ -1,5 +1,4 @@
 import { ActionFunctionArgs, json, LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 import { Button, Card, Label, TextInput } from 'flowbite-react';
 import { Logo } from '../components/logo';
 import { authenticator } from '../services/auth.server';
@@ -47,13 +46,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function SignInPage() {
-  const { returnTo } = useLoaderData<typeof loader>();
-
   return (
     <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
       <div className="my-6 flex items-center gap-x-1 lg:my-0">
         <Logo />
-        {returnTo}
       </div>
       <Card
         horizontal
