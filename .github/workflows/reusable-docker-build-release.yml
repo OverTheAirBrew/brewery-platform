@@ -19,7 +19,7 @@ jobs:
       hasChanged: ${{ steps.version-updated.outputs.has-updated }}
       currentVersion: ${{ steps.version-updated.outputs.current-package-version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           sparse-checkout: 'apps/${{ inputs.appName }}/package.json'
       - uses: MontyD/package-json-updated-action@1.0.1
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.has-changed.outputs.hasChanged == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
