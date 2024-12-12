@@ -76,7 +76,7 @@ importers:
         version: 9.0.2
       mysql2:
         specifier: ^3.11.0
-        version: 3.11.0
+        version: 3.11.3
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.14
@@ -85,10 +85,10 @@ importers:
         version: 7.8.1
       sequelize:
         specifier: ^6.35.2
-        version: 6.37.4(mysql2@3.11.0)(sqlite3@5.1.7)
+        version: 6.37.4(mysql2@3.11.3)(sqlite3@5.1.7)
       sequelize-typescript:
         specifier: ^2.1.6
-        version: 2.1.6(@types/node@20.16.11)(@types/validator@13.12.2)(reflect-metadata@0.1.14)(sequelize@6.37.4(mysql2@3.11.0)(sqlite3@5.1.7))
+        version: 2.1.6(@types/node@20.16.11)(@types/validator@13.12.2)(reflect-metadata@0.1.14)(sequelize@6.37.4(mysql2@3.11.3)(sqlite3@5.1.7))
       socket.io:
         specifier: ^4.7.5
         version: 4.7.5
@@ -1579,8 +1579,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  aws-ssl-profiles@1.1.1:
-    resolution: {integrity: sha512-+H+kuK34PfMaI9PNU/NSjBKL5hh/KDM9J72kwYeYEm0A8B1AC4fuCy3qsjnA7lxklgyXsB68yn8Z2xoZEjgwCQ==}
+  aws-ssl-profiles@1.1.2:
+    resolution: {integrity: sha512-NZKeq9AfyQvEeNlN0zSYAaWrmBffJh3IELMZfRpJVWgrpEbtEpnjvzqBPf+mxoI287JohRDoa+/nsfqqiZmF6g==}
     engines: {node: '>= 6.0.0'}
 
   babel-jest@29.7.0:
@@ -3049,10 +3049,6 @@ packages:
   long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
 
-  lru-cache@10.2.2:
-    resolution: {integrity: sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==}
-    engines: {node: 14 || >=16.14}
-
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
@@ -3070,9 +3066,9 @@ packages:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
 
-  lru-cache@8.0.5:
-    resolution: {integrity: sha512-MhWWlVnuab1RG5/zMRRcVGXZLCXrZTgfwMikgzCegsPnG62yDQo5JnqKkrK4jO5iKqDAZGItAqN5CtKBCBWRUA==}
-    engines: {node: '>=16.14'}
+  lru.min@1.1.1:
+    resolution: {integrity: sha512-FbAj6lXil6t8z4z3j0E5mfRlPzxkySotzUHwRXjlpRh10vc6AI6WN62ehZj82VG7M20rqogJ0GLwar2Xa05a8Q==}
+    engines: {bun: '>=1.0.0', deno: '>=1.30.0', node: '>=8.0.0'}
 
   magic-string@0.30.5:
     resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
@@ -3263,8 +3259,8 @@ packages:
     resolution: {integrity: sha512-avsJQhyd+680gKXyG/sQc0nXaC6rBkPOfyHYcFb9+hdkqQkR9bdnkJ0AMZhke0oesPqIO+mFFJ+IdBc7mst4IA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  mysql2@3.11.0:
-    resolution: {integrity: sha512-J9phbsXGvTOcRVPR95YedzVSxJecpW5A5+cQ57rhHIFXteTP10HCs+VBjS7DHIKfEaI1zQ5tlVrquCd64A6YvA==}
+  mysql2@3.11.3:
+    resolution: {integrity: sha512-Qpu2ADfbKzyLdwC/5d4W7+5Yz7yBzCU05YWt5npWzACST37wJsB23wgOSo00qi043urkiRwXtEvJc9UnuLX/MQ==}
     engines: {node: '>= 8.0'}
 
   mz@2.7.0:
@@ -6089,7 +6085,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  aws-ssl-profiles@1.1.1: {}
+  aws-ssl-profiles@1.1.2: {}
 
   babel-jest@29.7.0(@babel/core@7.24.5):
     dependencies:
@@ -7883,8 +7879,6 @@ snapshots:
 
   long@5.2.3: {}
 
-  lru-cache@10.2.2: {}
-
   lru-cache@10.4.3: {}
 
   lru-cache@4.1.5:
@@ -7902,7 +7896,7 @@ snapshots:
 
   lru-cache@7.18.3: {}
 
-  lru-cache@8.0.5: {}
+  lru.min@1.1.1: {}
 
   magic-string@0.30.5:
     dependencies:
@@ -8087,14 +8081,14 @@ snapshots:
 
   mute-stream@1.0.0: {}
 
-  mysql2@3.11.0:
+  mysql2@3.11.3:
     dependencies:
-      aws-ssl-profiles: 1.1.1
+      aws-ssl-profiles: 1.1.2
       denque: 2.1.0
       generate-function: 2.3.1
       iconv-lite: 0.6.3
       long: 5.2.3
-      lru-cache: 8.0.5
+      lru.min: 1.1.1
       named-placeholders: 1.1.3
       seq-queue: 0.0.5
       sqlstring: 2.3.3
@@ -8294,7 +8288,7 @@ snapshots:
 
   path-scurry@1.10.2:
     dependencies:
-      lru-cache: 10.2.2
+      lru-cache: 10.4.3
       minipass: 7.1.0
 
   path-scurry@1.11.1:
@@ -8610,15 +8604,15 @@ snapshots:
 
   sequelize-pool@7.1.0: {}
 
-  sequelize-typescript@2.1.6(@types/node@20.16.11)(@types/validator@13.12.2)(reflect-metadata@0.1.14)(sequelize@6.37.4(mysql2@3.11.0)(sqlite3@5.1.7)):
+  sequelize-typescript@2.1.6(@types/node@20.16.11)(@types/validator@13.12.2)(reflect-metadata@0.1.14)(sequelize@6.37.4(mysql2@3.11.3)(sqlite3@5.1.7)):
     dependencies:
       '@types/node': 20.16.11
       '@types/validator': 13.12.2
       glob: 7.2.0
       reflect-metadata: 0.1.14
-      sequelize: 6.37.4(mysql2@3.11.0)(sqlite3@5.1.7)
+      sequelize: 6.37.4(mysql2@3.11.3)(sqlite3@5.1.7)
 
-  sequelize@6.37.4(mysql2@3.11.0)(sqlite3@5.1.7):
+  sequelize@6.37.4(mysql2@3.11.3)(sqlite3@5.1.7):
     dependencies:
       '@types/debug': 4.1.12
       '@types/validator': 13.12.2
@@ -8637,7 +8631,7 @@ snapshots:
       validator: 13.12.0
       wkx: 0.5.0
     optionalDependencies:
-      mysql2: 3.11.0
+      mysql2: 3.11.3
       sqlite3: 5.1.7
     transitivePeerDependencies:
       - supports-color
