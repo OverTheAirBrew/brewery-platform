@@ -23,10 +23,10 @@ runs:
       with:
         repository: guysoft/CustomPiOS
         path: CustomPiOS
-    # - name: Download Raspbian Image
-    #   shell: bash
-    #   working-directory: ${{ inputs.build_path}}/src/image
-    #   run: wget -q -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_armhf_latest'
+    - name: Download Raspbian Image
+      shell: bash
+      working-directory: ${{ inputs.build_path}}/src/image
+      run: wget -q -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_armhf_latest'
     - name: Update CustomPiOS Paths
       shell: bash
       working-directory: ${{ inputs.build_path }}/src
