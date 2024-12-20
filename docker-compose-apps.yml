@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile
+    container_name: backend
+    restart: always
+    environment:
+      DATABASE_TYPE: mysql
+      MYSQL_HOST: database
+      MYSQL_DATABASE: test
+      MYSQL_USERNAME: root
+      MIGRATE: true
+      PORT: 3001
+    ports:
+      - '3001:3001'
+    networks:
+      - brewery-platform_brewery_platform
+  front-end:
+    build:
+      context: .
+      dockerfile: ./apps/front-end/Dockerfile
+    container_name: front-end
+    restart: always
+    environment:
+      - API_BASE_URL=http://192.168.1.63:3001
+    ports:
+      - '5173:8080'
+    networks:
+      - brewery-platform_brewery_platform
+
+networks:
+  brewery-platform_brewery_platform:
+    external: true

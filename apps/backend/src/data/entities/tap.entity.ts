@@ -6,11 +6,13 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+import { Display } from './display.entity';
 import { Keg } from './keg.entity';
 
 export interface IRepositoryTap {
@@ -43,6 +45,9 @@ export class Tap extends Model<IRepositoryTap> {
 
   @BelongsTo(() => Keg)
   keg?: Keg;
+
+  @HasMany(() => Display)
+  displays: Display[];
 
   @CreatedAt
   createdAt?: Date;
