@@ -140,3 +140,6 @@ packages/api-client/src/.openapi-generator
 
 .DS_Store
 database-data
+
+.pnpm-store
+apps/front-end/build
