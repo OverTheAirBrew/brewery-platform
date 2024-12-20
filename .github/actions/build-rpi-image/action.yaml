@@ -1,0 +1,44 @@
+name: Build Raspberry Pi Image
+description: Builds raspberry pi images with custom pi os
+
+inputs:
+  variant:
+    description: The variant to build
+    required: true
+  build_path:
+    description: The path to build from
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Update apt
+      shell: bash
+      run: sudo apt-get update
+    - name: Install Dependencies
+      shell: bash
+      run: sudo apt install coreutils p7zip-full qemu-user-static python3-git
+    - name: Checkout CustomPiOS
+      uses: actions/checkout@v4
+      with:
+        repository: guysoft/CustomPiOS
+        path: CustomPiOS
+    - name: Download Raspbian Image
+      shell: bash
+      run: cd ${{ input.build_path }}/src/image && wget -q -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_armhf_latest'
+    - name: Update CustomPiOS Paths
+      shell: bash
+      run: cd ${{ input.build_path }}/src && ../../CustomPiOS/src/update-custompios-paths
+    - name: Build Image
+      shell: bash
+      run: sudo modprobe loop && cd ${{ input.build_path }}/src && sudo bash -x ./build_dist ${{ input.variant }}
+    - name: Copy Output
+      shell: bash
+      run: cp ${{ github.workspace }}/${{ input.build_path }}/src/workspace/*-raspios-*-lite.img build.img
+    - name: Zip Output
+      shell: bash
+      run: gzip build.img
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build.img.gz
+        path: build.img.gz
