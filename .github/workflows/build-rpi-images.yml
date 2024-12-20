@@ -1,0 +1,22 @@
+name: Build Image
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant:
+          - hyperpixel2r
+    steps:
+      - name: Checkout Project Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: repository
+          submodules: true
+      - uses: ./repository/.github/actions/build-rpi-image
+        with:
+          variant: ${{ matrix.variant }}
+          build_path: ./repository/pi-image
