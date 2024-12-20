@@ -25,16 +25,16 @@ runs:
         path: CustomPiOS
     - name: Download Raspbian Image
       shell: bash
-      run: cd ${{ input.build_path }}/src/image && wget -q -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_armhf_latest'
+      run: cd ${{ inputs.build_path }}/src/image && wget -q -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_armhf_latest'
     - name: Update CustomPiOS Paths
       shell: bash
-      run: cd ${{ input.build_path }}/src && ../../CustomPiOS/src/update-custompios-paths
+      run: cd ${{ inputs.build_path }}/src && ../../CustomPiOS/src/update-custompios-paths
     - name: Build Image
       shell: bash
-      run: sudo modprobe loop && cd ${{ input.build_path }}/src && sudo bash -x ./build_dist ${{ input.variant }}
+      run: sudo modprobe loop && cd ${{ inputs.build_path }}/src && sudo bash -x ./build_dist ${{ inputs.variant }}
     - name: Copy Output
       shell: bash
-      run: cp ${{ github.workspace }}/${{ input.build_path }}/src/workspace/*-raspios-*-lite.img build.img
+      run: cp ${{ github.workspace }}/${{ inputs.build_path }}/src/workspace/*-raspios-*-lite.img build.img
     - name: Zip Output
       shell: bash
       run: gzip build.img
