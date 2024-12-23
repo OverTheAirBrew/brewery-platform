@@ -153,4 +153,4 @@ pi-image/workspace*
 pi-image/workspace*/*
 pi-image/*.img.xz
 
-*.img
+*.img.xz
