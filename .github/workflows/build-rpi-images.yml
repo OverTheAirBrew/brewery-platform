@@ -43,9 +43,9 @@ jobs:
       - name: Rename file
         id: copy-file
         run: |
-          DESTINATION_PATH=OverTheAirBrew-TapScreen-${{ matrix.variant}}-${{ steps.package-version.outputs.current-version }}.img
+          DESTINATION_PATH=OverTheAirBrew-TapScreen-${{ matrix.variant }}-${{ steps.package-version.outputs.current-version }}.img
           echo "DESTINATION_PATH=$DESTINATION_PATH" >> $GITHUB_OUTPUT
-          cp ${{ github.workspace }}/pi-image/src/workspace-${{ matrix.variant }}/*-raspios-*-lite.img $DESTINATION_PATH
+          cp ${{ github.workspace }}/pi-image/src/workspace-${{ matrix.variant }}/*.img $DESTINATION_PATH
       - name: Zip Output
         run: gzip ${{ steps.copy-file.outputs.DESTINATION_PATH }}
       - uses: actions/upload-artifact@v4
