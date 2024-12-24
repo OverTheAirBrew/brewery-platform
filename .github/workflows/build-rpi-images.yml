@@ -29,15 +29,26 @@ jobs:
         with:
           sparse-checkout: |
             pi-image
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: ${{ github.workspace }}/pi-image
       - uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           cwd: ${{ github.workspace }}/pi-image
       - name: Build image
         run: | 
           docker exec piimage-build build ${{ matrix.variant }} --download  
+      - name: Rename file
+        id: copy-file
+        run: |
+          DESTINATION_PATH=OverTheAirBrew-TapScreen-${{ matrix.variant}}-${{ steps.package-version.outputs.current-version }}.img
+          echo "DESTINATION_PATH=$DESTINATION_PATH" >> $GITHUB_OUTPUT
+          cp ${{ github.workspace }}/pi-image/src/workspace-${{ matrix.variant }}/*-raspios-*-lite.img $DESTINATION_PATH
+      - name: Zip Output
+        run: gzip ${{ steps.copy-file.outputs.DESTINATION_PATH }}
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.variant }}
-          path: |
-            ${{ github.workspace }}/pi-image/src/workspace-${{ matrix.variant }}/*.img
-          compression-level: 9
+          name: ${{ steps.copy-file.outputs.DESTINATION_PATH }}.gz
+          path: ${{ steps.copy-file.outputs.DESTINATION_PATH }}.gz
