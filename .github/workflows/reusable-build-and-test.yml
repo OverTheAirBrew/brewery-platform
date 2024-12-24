@@ -92,7 +92,7 @@ jobs:
     name: E2E Tests - ${{ matrix.type }}
     services:
       mysql:
-        image: mysql:8.4
+        image: mysql:9.1
         env:
           MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
           MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
