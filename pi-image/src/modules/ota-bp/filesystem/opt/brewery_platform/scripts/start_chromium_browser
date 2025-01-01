@@ -12,6 +12,7 @@ flags=(
    --overscroll-history-navigation=0
    --disable-features=TranslateUI
    --autoplay-policy=no-user-gesture-required
+   --user-data-dir=/home/${BASE_USER}/chrome
 )
 
 # Standard behavior - runs chromium

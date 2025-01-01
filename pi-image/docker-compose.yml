@@ -10,6 +10,7 @@ services:
     environment:
       - USER=root
       - BASE_BOARD=raspberrypiarm64
+      - BASE_RELEASE_IMG_NAME=${BASE_RELEASE_IMG_NAME-default}
     volumes:
       - ./src:/distro
     devices:

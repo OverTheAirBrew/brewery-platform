@@ -17,8 +17,6 @@ unpack /filesystem/boot /"${BASE_BOOT_MOUNT_PATH}"
 unpack /filesystem/opt /opt
 unpack /filesystem/root_init /
 
-ls -a /"${BASE_BOOT_MOUNT_PATH}"
-
 apt-get update
 
 ## Custom splash screen
