@@ -46,5 +46,5 @@ jobs:
           docker exec piimage-build build ${{ matrix.variant }} --download
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.image.outputs.NAME }}.zip
+          name: ${{ steps.image.outputs.NAME }}
           path: ./pi-image/src/workspace-${{ matrix.variant }}/${{ steps.image.outputs.NAME }}.zip
