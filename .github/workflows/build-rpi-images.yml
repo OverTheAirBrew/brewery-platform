@@ -47,4 +47,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.image.outputs.NAME }}.zip
-          path: ./pi-image/workspace-${{ matrix.variant }}/${{ steps.image.outputs.NAME }}.zip
+          path: ./pi-image/src/workspace-${{ matrix.variant }}/${{ steps.image.outputs.NAME }}.zip
