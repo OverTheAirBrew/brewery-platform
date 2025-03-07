@@ -122,7 +122,7 @@ importers:
         version: 29.5.14
       '@types/jsonwebtoken':
         specifier: ^9.0.5
-        version: 9.0.7
+        version: 9.0.9
       '@types/node':
         specifier: ^22.0.0
         version: 22.10.3
@@ -1333,8 +1333,8 @@ packages:
   '@types/jsonwebtoken@9.0.5':
     resolution: {integrity: sha512-VRLSGzik+Unrup6BsouBeHsf4d1hOEgYWTm/7Nmw1sXoN1+tRly/Gy/po3yeahnP4jfnQWWAhQAqcNfH7ngOkA==}
 
-  '@types/jsonwebtoken@9.0.7':
-    resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
+  '@types/jsonwebtoken@9.0.9':
+    resolution: {integrity: sha512-uoe+GxEuHbvy12OUQct2X9JenKM3qAscquYymuQN4fMWG9DBQtykrQEFcAbVACF7qaLw9BePSodUL0kquqBJpQ==}
 
   '@types/methods@1.1.4':
     resolution: {integrity: sha512-ymXWVrDiCxTBE3+RIrrP533E70eA+9qu7zdWoHuOmGujkYtzf4HQF96b8nwHLqhuf4ykX61IGRIB38CC6/sImQ==}
@@ -3413,8 +3413,8 @@ packages:
     resolution: {integrity: sha512-eLoBxg6wE/rZkJPhU/xRX1WTpkFEwDJEN96oxFrTsqBdbT5ec295Q+CoHrL9IT0DipqKhmGcaZmwOt8OON5x1w==}
     engines: {node: '>=12.0.0'}
 
-  nanoid@3.3.8:
-    resolution: {integrity: sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==}
+  nanoid@3.3.9:
+    resolution: {integrity: sha512-SppoicMGpZvbF1l3z4x7No3OlIjP7QJvC9XR7AhZr1kL133KHnKPztkKDc+Ir4aJ/1VhTySrtKhrsycmrMQfvg==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -5947,8 +5947,9 @@ snapshots:
     dependencies:
       '@types/node': 22.10.3
 
-  '@types/jsonwebtoken@9.0.7':
+  '@types/jsonwebtoken@9.0.9':
     dependencies:
+      '@types/ms': 2.1.0
       '@types/node': 22.10.3
 
   '@types/methods@1.1.4': {}
@@ -8376,7 +8377,7 @@ snapshots:
     dependencies:
       lru-cache: 7.18.3
 
-  nanoid@3.3.8:
+  nanoid@3.3.9:
     optional: true
 
   napi-build-utils@1.0.2: {}
@@ -8617,7 +8618,7 @@ snapshots:
 
   postcss@8.4.47:
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.9
       picocolors: 1.1.1
       source-map-js: 1.2.1
     optional: true
