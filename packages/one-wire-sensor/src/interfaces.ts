@@ -1,4 +1,3 @@
-import {} from '@overtheairbrew/plugins';
 import { Temperature } from './models/temperature';
 
 export interface IOneWireController {
