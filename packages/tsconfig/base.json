@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
@@ -20,7 +21,9 @@
       "ESNext"
     ],
     "target": "ESNext",
-    "noEmit": true
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "strictPropertyInitialization": false
   },
   "exclude": [
     "node_modules"

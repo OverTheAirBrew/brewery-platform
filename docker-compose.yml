@@ -1,14 +1,15 @@
-version: '3'
-
 services:
   database:
-    image: mysql:26
+    image: mysql:9.7.0
     container_name: database
     restart: always
     environment:
-      MYSQL_DATABASE: test
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     ports:
-      - '3306:3306'
-    volumes:
-      - ./database-data:/var/lib/mysql
+      - "3306:3306"
+  redis:
+    image: redis:7.2.0
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"

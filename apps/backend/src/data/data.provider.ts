@@ -4,40 +4,31 @@ import { join } from 'path';
 
 import { ModelCtor, Sequelize } from 'sequelize-typescript';
 import { SequelizeStorage, Umzug } from 'umzug';
-import { IGlobalConfig } from '../global.config';
-import { DbConfiguration } from './data.config';
-import { ApiKey } from './entities/api-key.entity';
-import { Beverage } from './entities/beverage.entity';
-import { Display } from './entities/display.entity';
-import { Keg } from './entities/keg.entity';
-import { Producer } from './entities/producer.entity';
-import { Tap } from './entities/tap.entity';
+import { ConfigType } from '../config';
+import { REPOSITORY_ENTITIES } from './data.abstractions';
 
 const DatabaseModels: ModelCtor[] = [
-  Display,
-  Beverage,
-  Producer,
-  Keg,
-  Tap,
-  ApiKey,
+  ...REPOSITORY_ENTITIES.map((entry) => entry.useValue),
 ];
 
 export const createSequelizeInstance = async (
-  config: DbConfiguration,
+  config: ConfigType,
   homeDirectory: string,
 ) => {
   const logger = new Logger('Database');
 
-  logger.log(`Using ${config.type} database`);
+  logger.log(`Using ${config.database.DATABASE_TYPE} database`);
 
-  if (config.type === 'mysql') {
+  if (config.database.DATABASE_TYPE === 'mysql') {
+    const url = new URL(config.database.MYSQL_URL);
+
     return new Sequelize({
       dialect: 'mysql',
-      host: config.host,
-      port: config.port,
-      database: config.database,
-      username: config.username,
-      password: config.password,
+      host: url.hostname,
+      port: parseInt(url.port),
+      database: url.pathname.slice(1), // Remove leading slash from pathname
+      username: url.username,
+      password: url.password,
       models: DatabaseModels,
       dialectOptions: { decimalNumbers: true },
       logging: logger.debug,
@@ -46,7 +37,7 @@ export const createSequelizeInstance = async (
 
   return new Sequelize({
     dialect: 'sqlite',
-    storage: join(homeDirectory, config.database_name),
+    storage: join(homeDirectory, config.database.DATABASE_NAME),
     models: DatabaseModels,
     define: {
       timestamps: true,
@@ -58,15 +49,14 @@ export const createSequelizeInstance = async (
 export const databaseProvider: Provider = {
   provide: 'SEQUELIZE',
   useFactory: async (configService: ConfigService) => {
-    const databaseConfig = configService.get<DbConfiguration>('DATABASE');
-    const globalConfig = configService.get<IGlobalConfig>('GLOBAL');
+    const config = configService.get<ConfigType>('CONFIG');
 
     const sequelizeInstance = await createSequelizeInstance(
-      databaseConfig!,
-      globalConfig!.dataDirectory,
+      config!,
+      config!.global.DATA_DIRECTORY,
     );
 
-    if (databaseConfig!.migrate) {
+    if (config!.database.MIGRATE === 'true') {
       await migrateDatabase(sequelizeInstance);
     }
 

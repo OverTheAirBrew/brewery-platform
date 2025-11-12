@@ -2,13 +2,14 @@
   "name": "@overtheairbrew/socket-events",
   "version": "1.2.0",
   "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "tsc",
-    "start:dev": "tsup --watch"
+    "start:dev": "tsdown --watch"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +17,7 @@
     "@overtheairbrew/tsconfig": "workspace:*",
     "@types/node": "24",
     "rimraf": "^6.0.0",
-    "tsup": "^8.0.1",
+    "tsdown": "^0.22.1",
     "typescript": "^5.1.3"
   },
   "publishConfig": {

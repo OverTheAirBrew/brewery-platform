@@ -6,8 +6,8 @@ import {
 
 import { JwtService } from '@nestjs/jwt';
 import { Server } from 'socket.io';
-import { ApiKeyService } from '../services/api-key.service';
 import { AuthMiddleware } from './events.auth.middleware';
+import { ApiKeysService } from '../api/api-keys/api-keys.service';
 
 interface IWebsocketMessage<Data> {
   Topic: string;
@@ -25,7 +25,7 @@ export class EventsGateway implements OnGatewayInit {
 
   constructor(
     private readonly jwtService: JwtService,
-    private readonly apiKeyService: ApiKeyService,
+    private readonly apiKeysService: ApiKeysService,
   ) {}
 
   public sendMessage<Data>(contract: IWebsocketMessage<Data>) {
@@ -34,8 +34,7 @@ export class EventsGateway implements OnGatewayInit {
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterInit(server: Server): void {
-    server.use(AuthMiddleware(this.jwtService, this.apiKeyService));
+    server.use(AuthMiddleware(this.jwtService, this.apiKeysService));
   }
 }

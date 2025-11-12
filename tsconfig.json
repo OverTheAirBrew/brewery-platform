@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "incremental": true,
@@ -9,14 +8,6 @@
     "noImplicitAny": true,
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@overtheairbrew/backend/*": [
-        "./apps/backend/src/*"
-      ],
-      "@overtheairbrew/*": [
-        "./packages/*"
-      ]
-    }
+    "noFallthroughCasesInSwitch": true
   }
 }

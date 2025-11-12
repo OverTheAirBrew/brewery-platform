@@ -1,18 +1,8 @@
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { createTestApplication } from './helpers/create-test-application';
+import { app } from './helpers/setup';
+import request from 'supertest';
+import { describe, expect, it } from 'vitest';
 
 describe('UsersController (e2e)', () => {
-  let app: INestApplication;
-
-  beforeEach(async () => {
-    ({ app } = await createTestApplication());
-  });
-
-  afterEach(async () => {
-    if (app) await app.close();
-  });
-
   it('/users/login (GET)', async () => {
     const response = await request(app.getHttpServer())
       .post('/users/login')

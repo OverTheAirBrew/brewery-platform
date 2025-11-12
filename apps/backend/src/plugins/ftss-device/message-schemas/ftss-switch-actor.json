@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "FtssDeviceSwitchActor",
+  "description": "The message sent to switch the state of the relays.",
+  "type": "object",
+  "properties": {
+    "actor_id": {
+      "type": "string",
+      "description": "The ID of the actor to switch."
+    },
+    "device_id": {
+      "type": "string",
+      "description": "The ID of the device to switch."
+    },
+    "state": {
+      "type": "string",
+      "enum": ["on", "off"],
+      "description": "The state to switch the actor to."
+    }
+  },
+  "required": ["actor_id", "device_id", "state"],
+  "topic": "ftss/{device_id}/actor/switch"
+}

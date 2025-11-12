@@ -1,0 +1,6 @@
+name: local
+variables:
+  - secret: true
+    name: username
+  - secret: true
+    name: password

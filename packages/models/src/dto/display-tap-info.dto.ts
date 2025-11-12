@@ -1,5 +1,5 @@
-import { createZodDto } from '@wahyubucil/nestjs-zod-openapi';
-import { DisplayTapInformationSchema } from '../schema/display-tap-info.schema';
+import { createZodDto } from 'nestjs-zod';
+import { DisplayTapInformationSchema } from '../schema/display-tap-info.schema.ts';
 
 export class DisplayTapInformationDto extends createZodDto(
   DisplayTapInformationSchema,

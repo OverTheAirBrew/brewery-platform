@@ -6,6 +6,7 @@ export type PluginConfig = IPluginConfig &
 export interface IPluginConfig {
   type: string;
   modules: any[];
+  mqttMessageSchemas?: string[];
 }
 
 export interface IDevicePluginConfig {

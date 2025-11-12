@@ -1,15 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DeviceIdentifier } from '@overtheairbrew/plugins';
+import { DeviceIdentifier, LogicIdentifier } from '@overtheairbrew/plugins';
 import { AppModule } from '../../src/app.module';
 import { AuthGuard } from '../../src/auth/auth.guard';
 import { REPOSITORIES } from '../../src/data/data.abstractions';
 import { ApiKey } from '../../src/data/entities/api-key.entity';
-import { Beverage } from '../../src/data/entities/beverage.entity';
-import { Display } from '../../src/data/entities/display.entity';
-import { Keg } from '../../src/data/entities/keg.entity';
-import { Producer } from '../../src/data/entities/producer.entity';
-import { Tap } from '../../src/data/entities/tap.entity';
 import { TestingDevice } from './test-providers/device';
+import { Sensor } from '../../src/data/entities/sensor.entity';
+import { Telemetry } from '../../src/data/entities/telemetry.entity';
+import { Device } from '../../src/data/entities/device.entity';
+import { Actor } from '../../src/data/entities/actor.entity';
+import { TestingLogic } from './test-providers/logic';
+import { BullModule } from '@nestjs/bullmq';
+import { ConfigService } from '@nestjs/config';
+import { ConfigType } from '../../src/config';
+import { Vessel } from '../../src/data/entities/vessel.entity';
 
 class MockAuthGuard extends AuthGuard {
   async canActivate(): Promise<boolean> {
@@ -18,12 +22,12 @@ class MockAuthGuard extends AuthGuard {
 }
 
 export interface IRepositories {
-  displays: typeof Display;
   apiKeys: typeof ApiKey;
-  beverages: typeof Beverage;
-  producers: typeof Producer;
-  kegs: typeof Keg;
-  taps: typeof Tap;
+  sensors: typeof Sensor;
+  telemetries: typeof Telemetry;
+  devices: typeof Device;
+  actors: typeof Actor;
+  vessels: typeof Vessel;
 }
 
 export const createTestApplication = async () => {
@@ -34,6 +38,9 @@ export const createTestApplication = async () => {
     .useClass(MockAuthGuard)
     .overrideProvider(DeviceIdentifier)
     .useValue([new TestingDevice()])
+    .overrideProvider(LogicIdentifier)
+    .useValue([new TestingLogic()])
+
     // .setLogger(new Logger())
     .compile();
 
@@ -47,24 +54,13 @@ export const createTestApplication = async () => {
 
 export const getDatabases = async (module: TestingModule) => {
   const databases: IRepositories = {
+    telemetries: module.get(REPOSITORIES.TelemetryRepository),
     apiKeys: module.get(REPOSITORIES.ApiKeyRepository),
-    displays: module.get(REPOSITORIES.DisplayRepository),
-    beverages: module.get(REPOSITORIES.BeverageRepository),
-    producers: module.get(REPOSITORIES.ProducerRepository),
-    kegs: module.get(REPOSITORIES.KegRepository),
-    taps: module.get(REPOSITORIES.TapRepository),
+    sensors: module.get(REPOSITORIES.SensorRepository),
+    actors: module.get(REPOSITORIES.ActorRepository),
+    devices: module.get(REPOSITORIES.DeviceRepository),
+    vessels: module.get(REPOSITORIES.VesselRepository),
   };
-
-  try {
-    await databases.apiKeys.destroy({ where: {} });
-    await databases.displays.destroy({ where: {} });
-    await databases.taps.destroy({ where: {} });
-    await databases.kegs.destroy({ where: {} });
-    await databases.beverages.destroy({ where: {} });
-    await databases.producers.destroy({ where: {} });
-  } catch (err) {
-    console.log(err);
-  }
 
   return databases;
 };

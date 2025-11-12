@@ -1,0 +1,31 @@
+info:
+  name: actors
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{actors_base_url}}"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "FtssTest",
+        "type": "FtssDeviceActor",
+        "config": {},
+        "device_id": "{{device_id}}"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        let data = res.body;
+        bru.setVar("actor_id", data.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
