@@ -18,12 +18,14 @@
     "release": "turbo build && changeset publish",
     "version": "changeset version && pnpm install --lockfile-only",
     "dev": "turbo start:dev",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prettier": "prettier"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "prettier": "^3.6.2",
     "turbo": "^2.0.12"
   },
   "engines": {
