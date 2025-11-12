@@ -1,4 +1,4 @@
-import { createZodDto } from '@wahyubucil/nestjs-zod-openapi';
-import { DeviceTypesSchema } from '../schema/device-types.schema';
+import { createZodDto } from 'nestjs-zod';
+import { DeviceTypeSchema } from '../schema/device-type.schema.ts';
 
-export class DeviceTypesDto extends createZodDto(DeviceTypesSchema) {}
+export class DeviceTypeDto extends createZodDto(DeviceTypeSchema) {}

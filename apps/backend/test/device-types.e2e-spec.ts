@@ -1,18 +1,8 @@
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { createTestApplication } from './helpers/create-test-application';
+import request from 'supertest';
+import { describe, it, expect } from 'vitest';
+import { app } from './helpers/setup';
 
 describe('DeviceTypesController (e2e)', () => {
-  let app: INestApplication;
-
-  beforeEach(async () => {
-    ({ app } = await createTestApplication());
-  });
-
-  afterEach(async () => {
-    if (app) await app.close();
-  });
-
   it('/device-types (GET)', async () => {
     const response = await request(app.getHttpServer()).get('/device-types');
 

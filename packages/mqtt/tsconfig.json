@@ -1,0 +1,11 @@
+{
+  "extends": "@overtheairbrew/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "preserveSymlinks": true,
+    "noEmit": false,
+  },
+  "exclude": ["node_modules", "dist"]
+}

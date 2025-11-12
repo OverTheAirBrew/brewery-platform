@@ -1,16 +1,12 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "scripts": {
     "build": "turbo build",
     "start:dev": "turbo start:dev",
     "prune": "turbo prune",
     "test": "turbo test",
-    "test:cov": "turbo test:cov",
+    "test:unit": "turbo test:unit",
     "test:e2e": "turbo test:e2e",
     "test:e2e:cov": "turbo test:e2e:cov",
     "test:all": "turbo test && turbo test:e2e",
@@ -21,14 +17,17 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@changesets/cli": "^3.0.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^17.0.0",
-    "turbo": "^2.0.12"
+    "@changesets/cli": "^2.31.1",
+    "@vitest/coverage-istanbul": "^4.1.10",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.5",
+    "prettier": "^3.8.3",
+    "turbo": "^2.10.7",
+    "vitest": "^4.1.10"
   },
   "engines": {
-    "node": ">=18",
-    "pnpm": ">=8"
+    "node": ">=24",
+    "pnpm": ">=11"
   },
   "packageManager": "pnpm@11.21.0"
 }

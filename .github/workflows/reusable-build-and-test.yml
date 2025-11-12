@@ -2,9 +2,13 @@ name: Reusable build and test
 
 on:
   workflow_call:
+    inputs:
+      PUSH_IMAGES:
+        required: false
+        type: boolean
+        default: false
 
 env:
-  PNPM_VERSION: 9.7.0
   MYSQL_ROOT_PASSWORD: testrootpassword
   MYSQL_DATABASE: testdb
 
@@ -13,16 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build Application
+      - name: Build All
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
@@ -30,24 +32,21 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    needs:
-      - build
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build Application
+      - name: Build
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-        run: pnpm run build
+        run: |
+          pnpm run build
       - name: Lint
         run: pnpm run lint
 
@@ -55,11 +54,10 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+      - lint
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
@@ -72,63 +70,94 @@ jobs:
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
         run: pnpm run build
       - name: Unit Tests
-        run: pnpm run test:cov
+        run: pnpm run test:unit
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v7.0.0
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_SECRET }}
           flags: unittests
-          file: ./apps/backend/coverage/coverage-final.json
+          files: ./apps/backend/coverage/coverage-final.json
 
   run-backend-e2e-tests:
     needs:
       - build
-    strategy:
-      matrix:
-        type:
-          - local
-          - mysql
+      - lint
     runs-on: ubuntu-latest
-    name: E2E Tests - ${{ matrix.type }}
-    services:
-      mysql:
-        image: mysql:26.7
-        env:
-          MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
-          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    name: E2E Tests
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v3
-        with:
-          version: ${{ env.PNPM_VERSION }}
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build Application
+      - name: Build
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-        run: pnpm run build
+        run: |
+          pnpm run build --filter backend
       - name: E2E Tests
         env:
           PRIVATE_KEY: supersecretkey
-          MIGRATE: true
-          DATABASE_TYPE: ${{ matrix.type }}
-          MYSQL_HOST: localhost
-          MYSQL_PORT: 3306
-          MYSQL_USERNAME: root
-          MYSQL_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
-        run: pnpm run test:e2e:cov --filter @overtheairbrew/backend
+        run: pnpm run test:e2e --filter backend
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v7.0.0
         with:
           token: ${{ secrets.CODECOV_SECRET }}
-          flags: e2etests-${{ matrix.type }}
-          file: ./apps/backend/coverage-e2e/coverage-final.json
+          flags: e2etests
+          files: ./apps/backend/coverage/coverage-final.json
+
+  build-docker-images:
+    needs:
+      - test
+      - run-backend-e2e-tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - backend
+          - mqtt-server
+    permissions:
+      id-token: write
+    name: Docker Build
+    steps:
+      - uses: actions/checkout@v7
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v4
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: overtheairbrew/brewery-platform-${{ matrix.image }}
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            PROJECT=${{ matrix.image }}
+          secrets: |
+            TURBO_TOKEN=${{ secrets.TURBO_TOKEN }}
+            TURBO_TEAM=${{ vars.TURBO_TEAM }}
+          platforms: linux/amd64,linux/arm64
+          push: ${{ inputs.PUSH_IMAGES}}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Generate artifact attestation
+        if: ${{ inputs.PUSH_IMAGES }}
+        uses: actions/attest@v4
+        with:
+          subject-name: index.docker.io/overtheairbrew/brewery-platform-${{ matrix.image }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true

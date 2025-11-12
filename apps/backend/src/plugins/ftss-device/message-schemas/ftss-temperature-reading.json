@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "FtssDeviceTemperatureReading",
+  "description": "Message published from the ftss device to the server on a new temperature reading.",
+  "type": "object", 
+  "properties": {
+    "value": {
+      "type": "number",
+      "description": "Temperature in degrees Celsius."
+    },
+    "device_id": {
+      "type": "string",
+      "description": "The ID of the device that sent the reading."
+    },
+    "sensor_id": {
+      "type": "string",
+      "description": "The ID of the sensor that sent the reading."
+    }
+  },
+  "required": ["value", "device_id", "sensor_id"],
+  "topic": "ftss/{device_id}/sensor/{sensor_id}/temperature"
+}

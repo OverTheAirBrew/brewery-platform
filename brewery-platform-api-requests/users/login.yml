@@ -1,0 +1,28 @@
+info:
+  name: login
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{users_url}}/login"
+  body:
+    type: json
+    data: |-
+      {
+        "email": "{{username}}",
+        "password": "{{password}}"
+      }
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        let data = res.body;
+        bru.setVar("token", data.token);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

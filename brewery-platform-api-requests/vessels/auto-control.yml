@@ -1,0 +1,25 @@
+info:
+  name: auto-control
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{vessels_base_url}}/:vessel_id/auto-control"
+  params:
+    - name: vessel_id
+      value: "{{vessel_id}}"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "enabled": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
