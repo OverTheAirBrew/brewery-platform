@@ -20,28 +20,19 @@ export class LocalDeviceDummyActor
     super();
   }
 
-  async validateConfiguration(
-    deviceConfig: ILocalDeviceConfig,
-    sensorConfig: IDummyActorProps,
-  ): Promise<boolean> {
+  async validateConfiguration(): Promise<boolean> {
     return true;
   }
 
-  protected async processOn(
-    params: IActorProps<ILocalDeviceConfig, IDummyActorProps>,
-  ): Promise<void> {
+  protected async processOn(): Promise<void> {
     this.currentState = 'on';
   }
 
-  protected async processOff(
-    params: IActorProps<ILocalDeviceConfig, IDummyActorProps>,
-  ): Promise<void> {
+  protected async processOff(): Promise<void> {
     this.currentState = 'off';
   }
 
-  protected async processCurrentState(
-    params: IActorProps<ILocalDeviceConfig, IDummyActorProps>,
-  ): Promise<{ state: ActorState }> {
+  protected async processCurrentState(): Promise<{ state: ActorState }> {
     return {
       state: this.currentState,
     };

@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { REPOSITORIES } from '../data/data.abstractions';
-import { ApiKeyService } from './api-key.service';
+import { REPOSITORIES } from '../../data/data.abstractions';
+import { KeysService } from './keys.service';
 
 const mockApiKeyRepository = {
   create: jest.fn(),
@@ -8,13 +8,13 @@ const mockApiKeyRepository = {
   findByPk: jest.fn(),
 };
 
-describe('ApiKeyService', () => {
-  let apiKeyService: ApiKeyService;
+describe('KeysService', () => {
+  let apiKeyService: KeysService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
-        ApiKeyService,
+        KeysService,
         {
           provide: REPOSITORIES.ApiKeyRepository,
           useValue: mockApiKeyRepository,
@@ -22,7 +22,7 @@ describe('ApiKeyService', () => {
       ],
     }).compile();
 
-    apiKeyService = module.get<ApiKeyService>(ApiKeyService);
+    apiKeyService = module.get<KeysService>(KeysService);
   });
 
   afterEach(() => {

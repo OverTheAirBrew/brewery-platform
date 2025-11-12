@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { DataModule } from '../data/data.module';
-import { ApiKeyService } from '../services/api-key.service';
 import { EventsGateway } from './events.gateway';
+import { KeysService } from '../api/keys/keys.service';
 
+@Global()
 @Module({
-  providers: [EventsGateway, ApiKeyService],
+  providers: [EventsGateway, KeysService],
   imports: [DataModule],
   exports: [EventsGateway],
 })

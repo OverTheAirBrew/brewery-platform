@@ -17,9 +17,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { BeverageDto, BeverageSchema } from '@overtheairbrew/models';
-import { IdResponseDto } from '../id.response.dto';
-import { BeveragesService } from '../services/beverages.service';
-import { ZodBodyValidationPipe } from '../validation/validation.pipe';
+import { IdResponseDto } from '../../id.response.dto';
+import { BeveragesService } from './beverages.service';
+import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
 
 @ApiTags('beverages')
 @Controller('/beverages')

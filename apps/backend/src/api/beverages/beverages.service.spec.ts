@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { REPOSITORIES } from '../data/data.abstractions';
+import { REPOSITORIES } from '../../data/data.abstractions';
 import { BeveragesService } from './beverages.service';
 
 describe('BeveragesService', () => {

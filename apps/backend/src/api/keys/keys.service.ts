@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ApiKeySchema } from '@overtheairbrew/models';
 import generateApiKey from 'generate-api-key';
-import { REPOSITORIES } from '../data/data.abstractions';
-import { ApiKey } from '../data/entities/api-key.entity';
-import { ApiKeyDoesNotExistError } from '../errors/api-key-does-not-exist-error';
+import { REPOSITORIES } from '../../data/data.abstractions';
+import { ApiKey } from '../../data/entities/api-key.entity';
+import { KeyDoesNotExistError } from './key-does-not-exist-error';
 
 @Injectable()
-export class ApiKeyService {
+export class KeysService {
   constructor(
     @Inject(REPOSITORIES.ApiKeyRepository)
     private apiKeyRepository: typeof ApiKey,
@@ -34,7 +34,7 @@ export class ApiKeyService {
 
   async regenerateApiKey(id: string) {
     const apiKey = await this.apiKeyRepository.findByPk(id);
-    if (!apiKey) throw new ApiKeyDoesNotExistError(id);
+    if (!apiKey) throw new KeyDoesNotExistError(id);
     await apiKey.update({
       key: await this.generateNewApiKey(),
     });

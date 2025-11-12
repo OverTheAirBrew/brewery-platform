@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { KegDto, KegSchema } from '@overtheairbrew/models';
-import { REPOSITORIES } from '../data/data.abstractions';
-import { Keg } from '../data/entities/keg.entity';
-import { KegDoesNotExistError } from '../errors/keg-does-not-exist-error';
-import { IdResponseDto } from '../id.response.dto';
+import { REPOSITORIES } from '../../data/data.abstractions';
+import { Keg } from '../../data/entities/keg.entity';
+import { KegDoesNotExistError } from './keg-does-not-exist-error';
+import { IdResponseDto } from '../../id.response.dto';
 
 @Injectable()
 export class KegsService {

@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
-import { REPOSITORIES } from '../data/data.abstractions';
+import { REPOSITORIES } from '../../data/data.abstractions';
 import { TapDoesNotExistError } from '../errors/tap-does-not-exist-error';
 import {
   mockEventsGatewayProvider,
   mockSendMessage,
-} from '../test-utils/mock-events-gateway';
+} from '../../test-utils/mock-events-gateway';
 import { TapsService } from './taps.service';
 
 describe('TapsService', () => {

@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { REPOSITORIES } from '../data/data.abstractions';
+import { REPOSITORIES } from '../../data/data.abstractions';
 import { ProducerDoesNotExistError } from '../errors/producer-does-not-exist-error';
-import { IdResponseDto } from '../id.response.dto';
+import { IdResponseDto } from '../../id.response.dto';
 import { ProducersService } from './producer.service';
 
 describe('ProducerService', () => {

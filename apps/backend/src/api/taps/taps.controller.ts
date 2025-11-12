@@ -18,9 +18,9 @@ import {
 } from '@nestjs/swagger';
 
 import { TapDto, TapSchema } from '@overtheairbrew/models';
-import { IdResponseDto } from '../id.response.dto';
-import { TapsService } from '../services/taps.service';
-import { ZodBodyValidationPipe } from '../validation/validation.pipe';
+import { IdResponseDto } from '../../id.response.dto';
+import { TapsService } from './taps.service';
+import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
 
 @ApiTags('taps')
 @Controller('/taps')

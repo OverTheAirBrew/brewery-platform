@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { TapDto, TapSchema } from '@overtheairbrew/models';
-import { REPOSITORIES } from '../data/data.abstractions';
-import { Tap } from '../data/entities/tap.entity';
-import { TapDoesNotExistError } from '../errors/tap-does-not-exist-error';
-import { EventsGateway } from '../events/events.gateway';
-import { IdResponseDto } from '../id.response.dto';
+import { REPOSITORIES } from '../../data/data.abstractions';
+import { Tap } from '../../data/entities/tap.entity';
+import { TapDoesNotExistError } from './tap-does-not-exist-error';
+import { EventsGateway } from '../../events/events.gateway';
+import { IdResponseDto } from '../../id.response.dto';
 
 @Injectable()
 export class TapsService {

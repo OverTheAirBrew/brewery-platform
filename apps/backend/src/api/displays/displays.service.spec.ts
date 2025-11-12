@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
-import { REPOSITORIES } from '../data/data.abstractions';
+import { REPOSITORIES } from '../../data/data.abstractions';
 import { DisplayDoesNotExistError } from '../errors/display-does-not-exist-error';
-import { IdResponseDto } from '../id.response.dto';
+import { IdResponseDto } from '../../id.response.dto';
 import {
   mockEventsGatewayProvider,
   mockSendMessage,
-} from '../test-utils/mock-events-gateway';
+} from '../../test-utils/mock-events-gateway';
 import { DisplaysService } from './displays.service';
 
 describe('DisplaysService', () => {

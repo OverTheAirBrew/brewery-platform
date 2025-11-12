@@ -1,6 +1,9 @@
 {
 	"name": "Node.js & TypeScript",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "development",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
 	"forwardPorts": [],
 	"postCreateCommand": "pnpm install",
 	"customizations": {

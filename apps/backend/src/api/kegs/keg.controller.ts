@@ -17,9 +17,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { KegDto, KegSchema } from '@overtheairbrew/models';
-import { IdResponseDto } from '../id.response.dto';
-import { KegsService } from '../services/kegs.service';
-import { ZodBodyValidationPipe } from '../validation/validation.pipe';
+import { IdResponseDto } from '../../id.response.dto';
+import { KegsService } from './kegs.service';
+import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
 
 @ApiTags('kegs')
 @Controller('/kegs')

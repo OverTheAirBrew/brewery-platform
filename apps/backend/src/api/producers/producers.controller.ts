@@ -17,9 +17,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ProducersDto, ProducersSchema } from '@overtheairbrew/models';
-import { IdResponseDto } from '../id.response.dto';
-import { ProducersService } from '../services/producer.service';
-import { ZodBodyValidationPipe } from '../validation/validation.pipe';
+import { IdResponseDto } from '../../id.response.dto';
+import { ProducersService } from './producer.service';
+import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
 
 @ApiTags('producers')
 @Controller('/producers')

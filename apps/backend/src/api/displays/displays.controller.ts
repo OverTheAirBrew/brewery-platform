@@ -18,16 +18,16 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { UseApiKey } from '../auth/api-key.decorator';
-import { IdResponseDto } from '../id.response.dto';
+import { UseApiKey } from '../../auth/api-key.decorator';
+import { IdResponseDto } from '../../id.response.dto';
 
 import {
   DisplayDto,
   DisplaySchema,
   DisplayTapInformationDto,
 } from '@overtheairbrew/models';
-import { DisplaysService } from '../services/displays.service';
-import { ZodBodyValidationPipe } from '../validation/validation.pipe';
+import { DisplaysService } from './displays.service';
+import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
 
 @ApiTags('displays')
 @Controller('/displays')

@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ProducersDto, ProducersSchema } from '@overtheairbrew/models';
-import { REPOSITORIES } from '../data/data.abstractions';
-import { Producer } from '../data/entities/producer.entity';
-import { ProducerDoesNotExistError } from '../errors/producer-does-not-exist-error';
-import { IdResponseDto } from '../id.response.dto';
+import { REPOSITORIES } from '../../data/data.abstractions';
+import { Producer } from '../../data/entities/producer.entity';
+import { ProducerDoesNotExistError } from './producer-does-not-exist-error';
+import { IdResponseDto } from '../../id.response.dto';
 
 @Injectable()
 export class ProducersService {

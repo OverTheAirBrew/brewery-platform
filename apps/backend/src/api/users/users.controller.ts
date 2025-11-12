@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TokenResponseDto, UserDto, UserSchema } from '@overtheairbrew/models';
-import { Public } from '../auth/public.decorator';
-import { UsersService } from '../services/users.service';
-import { ZodBodyValidationPipe } from '../validation/validation.pipe';
+import { Public } from '../../auth/public.decorator';
+import { UsersService } from './users.service';
+import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
 
 @ApiTags('users')
 @Controller('/users')

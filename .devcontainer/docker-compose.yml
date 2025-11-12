@@ -1,0 +1,27 @@
+services:
+  development:
+    volumes:
+      - ..:/workspace:cached
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    networks:
+      - development
+  database:
+    image: mysql:9
+    container_name: database
+    restart: always
+    env_file:
+      - ../apps/backend/.env
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
+    networks:
+      - development
+
+networks:
+  development:

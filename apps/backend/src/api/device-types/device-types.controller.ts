@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeviceTypesDto } from '@overtheairbrew/models';
-import { DeviceTypesService } from '../services/device-types.service';
+import { DeviceTypesService } from './device-types.service';
 
 @ApiTags('device-types')
 @Controller('/device-types')

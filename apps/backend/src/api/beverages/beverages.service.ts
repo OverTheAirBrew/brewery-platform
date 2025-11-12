@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BeverageDto, BeverageSchema } from '@overtheairbrew/models';
-import { REPOSITORIES } from '../data/data.abstractions';
-import { Beverage } from '../data/entities/beverage.entity';
-import { BeverageDoesNotExistError } from '../errors/beverage-does-not-exist-error';
-import { IdResponseDto } from '../id.response.dto';
+import { REPOSITORIES } from '../../data/data.abstractions';
+import { Beverage } from '../../data/entities/beverage.entity';
+import { BeverageDoesNotExistError } from './beverage-does-not-exist-error';
+import { IdResponseDto } from '../../id.response.dto';
 
 @Injectable()
 export class BeveragesService {

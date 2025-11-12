@@ -5,15 +5,15 @@ import {
   DisplayTapInformationSchema,
 } from '@overtheairbrew/models';
 import { DisplayUpdatedMessage } from '@overtheairbrew/socket-events';
-import { REPOSITORIES } from '../data/data.abstractions';
-import { Beverage } from '../data/entities/beverage.entity';
-import { Display } from '../data/entities/display.entity';
-import { Keg } from '../data/entities/keg.entity';
-import { Producer } from '../data/entities/producer.entity';
-import { Tap } from '../data/entities/tap.entity';
-import { DisplayDoesNotExistError } from '../errors/display-does-not-exist-error';
-import { EventsGateway } from '../events/events.gateway';
-import { IdResponseDto } from '../id.response.dto';
+import { REPOSITORIES } from '../../data/data.abstractions';
+import { Beverage } from '../../data/entities/beverage.entity';
+import { Display } from '../../data/entities/display.entity';
+import { Keg } from '../../data/entities/keg.entity';
+import { Producer } from '../../data/entities/producer.entity';
+import { Tap } from '../../data/entities/tap.entity';
+import { DisplayDoesNotExistError } from './display-does-not-exist-error';
+import { EventsGateway } from '../../events/events.gateway';
+import { IdResponseDto } from '../../id.response.dto';
 
 enum DisplayStatus {
   UNREGISTERED = 'UNREGISTERED',
