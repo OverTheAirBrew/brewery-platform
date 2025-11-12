@@ -22,6 +22,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@nestjs/swagger": "^8.0.0"
+    "@nestjs/swagger": "^11.2.1"
   }
 }
