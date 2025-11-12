@@ -78,7 +78,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_SECRET }}
           flags: unittests
-          file: ./apps/backend/coverage/coverage-final.json
+          files: ./apps/backend/coverage/coverage-final.json
 
   run-backend-e2e-tests:
     needs:
@@ -131,4 +131,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_SECRET }}
           flags: e2etests-${{ matrix.type }}
-          file: ./apps/backend/coverage-e2e/coverage-final.json
+          files: ./apps/backend/coverage-e2e/coverage-final.json
