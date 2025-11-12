@@ -143,3 +143,5 @@ database-data
 
 .pnpm-store
 apps/front-end/build
+
+**/credentials.json

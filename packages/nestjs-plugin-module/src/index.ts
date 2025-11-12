@@ -46,15 +46,15 @@ export class PluginModule {
       providers: [
         {
           provide: DeviceIdentifier,
-          useFactory: (devices: Device<any>[] | Device<any>) => {
-            return Array.isArray(devices) ? [...devices] : [devices];
+          useFactory: (...device: Device<any>[]) => {
+            return Array.isArray(device) ? [...device] : [device];
           },
           inject: [...devices],
         },
         {
           provide: LogicIdentifier,
-          useFactory: (logics: Logic<any>[] | Logic<any>) => {
-            return Array.isArray(logics) ? [...logics] : [logics];
+          useFactory: (...logic: Logic<any>[]) => {
+            return Array.isArray(logic) ? [...logic] : [logic];
           },
           inject: [...logics],
         },

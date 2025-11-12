@@ -11,11 +11,29 @@
         "runtimeExecutable": "npm",
         "runtimeArgs": [
           "run",
-          "start:debug:mysql",
+          "start:debug",
           "--",
           "--inspect-brk"
         ],
         "cwd": "${workspaceFolder}/apps/backend",
+        "autoAttachChildProcesses": true,
+        "restart": true,
+        "sourceMaps": true,
+        "stopOnEntry": false,
+        "console": "integratedTerminal",
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug MQTT Server",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+          "run",
+          "start:dev",
+          "--",
+          "--inspect-brk"
+        ],
+        "cwd": "${workspaceFolder}/apps/mqtt-server",
         "autoAttachChildProcesses": true,
         "restart": true,
         "sourceMaps": true,

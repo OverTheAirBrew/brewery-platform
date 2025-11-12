@@ -18,19 +18,11 @@
     "generate-client": {
       "cache": false
     },
-    "test": {
+    "test:unit": {
       "cache": false
-    },
-    "test:cov": {
-      "cache": false
-    },
-    "test:e2e:cov": {
-      "cache": false,
-      "env": ["PRIVATE_KEY", "MIGRATE", "DATABASE_TYPE", "MYSQL_HOST", "MYSQL_PORT", "MYSQL_USERNAME", "MYSQL_DATABASE", "MYSQL_PASSWORD"]
     },
     "test:e2e": {
       "cache": false,
-      "env": ["PRIVATE_KEY", "MIGRATE", "DATABASE_TYPE", "MYSQL_HOST", "MYSQL_PORT", "MYSQL_USERNAME", "MYSQL_DATABASE", "MYSQL_PASSWORD"]
     }
   }
 }

@@ -17,12 +17,14 @@ const processDirectory = (directory: string) => {
       if (
         [
           '.bin',
+          '.vite',
           '.package-lock.json',
           '.DS_Store',
           '.cache',
           '.modules.yaml',
           '.pnpm',
           '.yarn-integrity',
+          '.pnpm-workspace-state-v1.json',
         ].includes(dir)
       )
         continue;

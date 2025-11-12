@@ -1,36 +1,74 @@
-import { Module } from '@nestjs/common';
+import {
+  ZodValidationPipe,
+  ZodSerializerInterceptor,
+  ZodSerializationException,
+} from 'nestjs-zod';
+import {
+  APP_PIPE,
+  APP_INTERCEPTOR,
+  APP_FILTER,
+  BaseExceptionFilter,
+} from '@nestjs/core';
+import { ZodError } from 'zod';
+import {
+  Module,
+  HttpException,
+  ArgumentsHost,
+  Logger,
+  Catch,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
 import { JwtModule } from '@nestjs/jwt';
-import { PluginModule } from '@overtheairbrew/nestjs-plugin-module';
+// import { PluginModule } from '@overtheairbrew/nestjs-plugin-module';
 import { AuthGuard } from './auth/auth.guard';
-import { ApiKeyController } from './controllers/api-key.controller';
-import { BeveragesController } from './controllers/beverages.controller';
-import { DeviceTypesController } from './controllers/device-types.controller';
-import { DisplaysController } from './controllers/displays.controller';
-import { KegsController } from './controllers/keg.controller';
-import { ProducersController } from './controllers/producers.controller';
-import { TapsController } from './controllers/taps.controller';
-import { UsersController } from './controllers/users.controller';
-import databaseConfig from './data/data.config';
+import config, { ConfigType } from './config';
 import { DataModule } from './data/data.module';
 import { EventsModule } from './events/events.module';
-import globalConfig from './global.config';
-import { ApiKeyService } from './services/api-key.service';
-import { BeveragesService } from './services/beverages.service';
-import { DeviceTypesService } from './services/device-types.service';
-import { DisplaysService } from './services/displays.service';
-import { KegsService } from './services/kegs.service';
-import { ProducersService } from './services/producer.service';
-import { TapsService } from './services/taps.service';
-import { UsersService } from './services/users.service';
+import { DeviceTypesModule } from './api/device-types/device-types.module';
+import { KeysModule } from './api/keys/keys.module';
+import { UsersModule } from './api/users/users.module';
+
+import { HealthController } from './api/health/health.controller';
+import { TelemetryModule } from './api/telemetry/telemetry.module';
+import { DevicesModule } from './api/devices/device.module';
+import { SensorsModule } from './api/sensors/sensors.module';
+import { ProcessorsModule } from './processors/processors.module';
+import { PluginsModule } from './plugins/plugins.module';
+import { MqttClientModule } from './mqtt-client/mqtt-client.module';
+import { LogicTypesModule } from './api/logic-types/logic-types.module';
+import { ActorTypesModule } from './api/actor-types/actor-types.module';
+import { VesselsModule } from './api/vessels/vessels.module';
+import { ActorsModule } from './api/actors/actors.module';
+
+import { BullModule } from '@nestjs/bullmq';
+
+@Catch(HttpException)
+class HttpExceptionFilter extends BaseExceptionFilter {
+  private logger = new Logger(HttpExceptionFilter.name);
+
+  catch(exception: HttpException, host: ArgumentsHost) {
+    if (exception instanceof ZodSerializationException) {
+      const zodError = exception.getZodError();
+
+      if (zodError instanceof ZodError) {
+        this.logger.error(`ZodSerializationException: ${zodError.message}`);
+      }
+    }
+
+    super.catch(exception, host);
+  }
+}
 
 @Module({
   imports: [
-    PluginModule.register(),
+    MqttClientModule,
+    PluginsModule.register(),
     DataModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, globalConfig],
+      load: [config],
     }),
     JwtModule.registerAsync({
       global: true,
@@ -39,32 +77,46 @@ import { UsersService } from './services/users.service';
       }),
       inject: [ConfigService],
     }),
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    EventEmitterModule.forRoot(),
+    ScheduleModule.forRoot(),
     EventsModule,
-  ],
-  controllers: [
-    DeviceTypesController,
-    DisplaysController,
-    UsersController,
-    ProducersController,
-    BeveragesController,
-    KegsController,
-    TapsController,
-    ApiKeyController,
+    DeviceTypesModule,
+    KeysModule,
+    UsersModule,
+    TelemetryModule,
+    DevicesModule,
+    SensorsModule,
+    ProcessorsModule,
+    LogicTypesModule,
+    ActorTypesModule,
+    VesselsModule,
+    ActorsModule,
   ],
   providers: [
-    DeviceTypesService,
-    DisplaysService,
-    UsersService,
-    ProducersService,
-    BeveragesService,
-    KegsService,
-    TapsService,
-    ApiKeyService,
     {
       provide: 'APP_GUARD',
       useExisting: AuthGuard,
     },
     AuthGuard,
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ZodSerializerInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}

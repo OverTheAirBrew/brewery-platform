@@ -18,3 +18,5 @@ jobs:
   build-test:
     uses: ./.github/workflows/reusable-build-and-test.yml
     secrets: inherit
+    with:
+      PUSH_IMAGES: false
