@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nestjs/common": "^10.2.10",
+    "@nestjs/common": "^11.1.8",
     "@overtheairbrew/plugins": "workspace:*",
     "find-node-modules": "^2.1.3"
   },
