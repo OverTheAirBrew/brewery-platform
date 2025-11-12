@@ -85,10 +85,10 @@ importers:
         version: 7.8.2
       sequelize:
         specifier: ^6.35.2
-        version: 6.37.6(mysql2@3.11.0)(sqlite3@5.1.7)
+        version: 6.37.7(mysql2@3.11.0)(sqlite3@5.1.7)
       sequelize-typescript:
         specifier: ^2.1.6
-        version: 2.1.6(@types/node@22.10.3)(@types/validator@13.12.2)(reflect-metadata@0.2.2)(sequelize@6.37.6(mysql2@3.11.0)(sqlite3@5.1.7))
+        version: 2.1.6(@types/node@22.10.3)(@types/validator@13.15.7)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.11.0)(sqlite3@5.1.7))
       socket.io:
         specifier: ^4.7.5
         version: 4.7.5
@@ -1549,8 +1549,8 @@ packages:
   '@types/supertest@6.0.3':
     resolution: {integrity: sha512-8WzXq62EXFhJ7QsH3Ocb/iKQ/Ty9ZVWnVzoTKc9tyyFRRF3a74Tk2+TLFgaFFw364Ere+npzHKEJ6ga2LzIL7w==}
 
-  '@types/validator@13.12.2':
-    resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
+  '@types/validator@13.15.7':
+    resolution: {integrity: sha512-ELdb+iErB0wsVvwvHNn42JoyV7uUO7pAsW7UFVkszmiwc1F0zm+eal7tKhdwkK/MqzxF4/kZpmcSkO1UK1v5LA==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2219,6 +2219,15 @@ packages:
 
   debug@4.4.0:
     resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.4.3:
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -3561,8 +3570,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  moment-timezone@0.5.47:
-    resolution: {integrity: sha512-UbNt/JAWS0m/NJOebR0QMRHBk0hu03r5dx9GK8Cs0AS3I81yDcOc9k+DytPItgVvBP7J6Mf6U2n3BPAacAV9oA==}
+  moment-timezone@0.5.48:
+    resolution: {integrity: sha512-f22b8LV1gbTO2ms2j2z13MuPogNoh5UzxL3nzNAYKGraILnbGc9NEE6dyiiiLv46DGRb8A4kg8UKWLjPthxBHw==}
 
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
@@ -3805,8 +3814,8 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  pg-connection-string@2.7.0:
-    resolution: {integrity: sha512-PI2W9mv53rXJQEOb8xNR8lH7Hr+EKa6oJa38zsK0S/ky2er16ios1wLKhZyxzD7jUReiWokc9WK5nxSnC7W1TA==}
+  pg-connection-string@2.9.1:
+    resolution: {integrity: sha512-nkc6NpDcvPVpZXxrreI/FOtX3XemeLl8E0qFr6F2Lrm/I8WOnaWNhIPK2Z7OHpw7gh5XJThi6j6ppgNoaT1w4w==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -4116,8 +4125,8 @@ packages:
       reflect-metadata: '*'
       sequelize: '>=6.20.1'
 
-  sequelize@6.37.6:
-    resolution: {integrity: sha512-4Slqjqpktofs7AVqWviFOInzP9w8ZRQDhF+DnRtm4WKIdIATpyzGgedyseP3xbgpBxapvfQcJv6CeIdZe4ZL2A==}
+  sequelize@6.37.7:
+    resolution: {integrity: sha512-mCnh83zuz7kQxxJirtFD7q6Huy6liPanI67BSlbzSYgVNl5eXVdE2CN1FuAeZwG1SNpGsNRCV+bJAVVnykZAFA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       ibm_db: '*'
@@ -4719,8 +4728,8 @@ packages:
     resolution: {integrity: sha512-/EH/sDgxU2eGxajKdwLCDmQ4FWq+kpi3uCmBGpw1xJtnAxEjlD8j8PEiGWpCIMIs3ciNAgH0d3TTJiUkYzyZjA==}
     engines: {node: '>=10.12.0'}
 
-  validator@13.12.0:
-    resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
+  validator@13.15.23:
+    resolution: {integrity: sha512-4yoz1kEWqUjzi5zsPbAS/903QXSYp0UOtHsPpp7p9rHAw/W+dkInskAE386Fat3oKRROwO98d9ZB0G4cObgUyw==}
     engines: {node: '>= 0.10'}
 
   vary@1.1.2:
@@ -4993,7 +5002,7 @@ snapshots:
       '@babel/traverse': 7.24.5
       '@babel/types': 7.24.5
       convert-source-map: 2.0.0
-      debug: 4.4.0
+      debug: 4.4.3
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -5170,7 +5179,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.24.5
       '@babel/parser': 7.24.5
       '@babel/types': 7.24.5
-      debug: 4.4.0
+      debug: 4.4.3
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -6182,7 +6191,7 @@ snapshots:
 
   '@tokenizer/inflate@0.2.7':
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
       fflate: 0.8.2
       token-types: 6.1.1
     transitivePeerDependencies:
@@ -6346,7 +6355,7 @@ snapshots:
       '@types/methods': 1.1.4
       '@types/superagent': 8.1.9
 
-  '@types/validator@13.12.2': {}
+  '@types/validator@13.15.7': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -6396,7 +6405,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.4.5)
       '@typescript-eslint/utils': 6.21.0(eslint@8.57.1)(typescript@5.4.5)
-      debug: 4.4.0
+      debug: 4.3.4
       eslint: 8.57.1
       ts-api-utils: 1.3.0(typescript@5.4.5)
     optionalDependencies:
@@ -6410,7 +6419,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/visitor-keys': 6.21.0
-      debug: 4.4.0
+      debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
       minimatch: 9.0.3
@@ -6563,7 +6572,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -6771,7 +6780,7 @@ snapshots:
     dependencies:
       bytes: 3.1.2
       content-type: 1.0.5
-      debug: 4.4.0
+      debug: 4.4.3
       http-errors: 2.0.0
       iconv-lite: 0.6.3
       on-finished: 2.4.1
@@ -7077,6 +7086,10 @@ snapshots:
       ms: 2.1.3
 
   debug@4.4.0:
+    dependencies:
+      ms: 2.1.3
+
+  debug@4.4.3:
     dependencies:
       ms: 2.1.3
 
@@ -7443,7 +7456,7 @@ snapshots:
       content-type: 1.0.5
       cookie: 0.7.2
       cookie-signature: 1.2.2
-      debug: 4.4.0
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -7520,7 +7533,7 @@ snapshots:
 
   finalhandler@2.1.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       on-finished: 2.4.1
@@ -7853,7 +7866,7 @@ snapshots:
     dependencies:
       '@tootallnate/once': 1.1.2
       agent-base: 6.0.2
-      debug: 4.4.0
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -7861,7 +7874,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.4.0
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -8019,7 +8032,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
       istanbul-lib-coverage: 3.2.2
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -8701,7 +8714,7 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
-  moment-timezone@0.5.47:
+  moment-timezone@0.5.48:
     dependencies:
       moment: 2.30.1
 
@@ -8948,7 +8961,7 @@ snapshots:
 
   path-type@4.0.0: {}
 
-  pg-connection-string@2.7.0: {}
+  pg-connection-string@2.9.1: {}
 
   picocolors@1.1.1: {}
 
@@ -9184,7 +9197,7 @@ snapshots:
 
   router@2.2.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -9237,7 +9250,7 @@ snapshots:
 
   send@1.2.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -9255,31 +9268,31 @@ snapshots:
 
   sequelize-pool@7.1.0: {}
 
-  sequelize-typescript@2.1.6(@types/node@22.10.3)(@types/validator@13.12.2)(reflect-metadata@0.2.2)(sequelize@6.37.6(mysql2@3.11.0)(sqlite3@5.1.7)):
+  sequelize-typescript@2.1.6(@types/node@22.10.3)(@types/validator@13.15.7)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.11.0)(sqlite3@5.1.7)):
     dependencies:
       '@types/node': 22.10.3
-      '@types/validator': 13.12.2
+      '@types/validator': 13.15.7
       glob: 7.2.0
       reflect-metadata: 0.2.2
-      sequelize: 6.37.6(mysql2@3.11.0)(sqlite3@5.1.7)
+      sequelize: 6.37.7(mysql2@3.11.0)(sqlite3@5.1.7)
 
-  sequelize@6.37.6(mysql2@3.11.0)(sqlite3@5.1.7):
+  sequelize@6.37.7(mysql2@3.11.0)(sqlite3@5.1.7):
     dependencies:
       '@types/debug': 4.1.12
-      '@types/validator': 13.12.2
-      debug: 4.4.0
+      '@types/validator': 13.15.7
+      debug: 4.4.3
       dottie: 2.0.6
       inflection: 1.13.4
       lodash: 4.17.21
       moment: 2.30.1
-      moment-timezone: 0.5.47
-      pg-connection-string: 2.7.0
+      moment-timezone: 0.5.48
+      pg-connection-string: 2.9.1
       retry-as-promised: 7.1.1
-      semver: 7.7.1
+      semver: 7.7.3
       sequelize-pool: 7.1.0
       toposort-class: 1.0.1
       uuid: 8.3.2
-      validator: 13.12.0
+      validator: 13.15.23
       wkx: 0.5.0
     optionalDependencies:
       mysql2: 3.11.0
@@ -9431,7 +9444,7 @@ snapshots:
   socks-proxy-agent@6.2.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.4.0
+      debug: 4.4.3
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
@@ -9574,7 +9587,7 @@ snapshots:
     dependencies:
       component-emitter: 1.3.1
       cookiejar: 2.1.4
-      debug: 4.3.7
+      debug: 4.4.3
       fast-safe-stringify: 2.1.1
       form-data: 4.0.0
       formidable: 3.5.2
@@ -9914,7 +9927,7 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
 
-  validator@13.12.0: {}
+  validator@13.15.23: {}
 
   vary@1.1.2: {}
 
