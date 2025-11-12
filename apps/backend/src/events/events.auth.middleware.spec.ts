@@ -1,15 +1,17 @@
 import { AuthMiddleware, SocketMiddleware } from './events.auth.middleware';
 
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 describe('EventsAuthMiddleware', () => {
   const mockJwtService = {
-    verifyAsync: jest.fn(),
+    verifyAsync: vi.fn(),
   };
 
   const mockApiKeyService = {
-    validateApiKey: jest.fn(),
+    validateApiKey: vi.fn(),
   };
 
-  const mockNext = jest.fn();
+  const mockNext = vi.fn();
 
   let middleware: SocketMiddleware;
 
@@ -24,7 +26,7 @@ describe('EventsAuthMiddleware', () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should validate an api key', async () => {

@@ -1,0 +1,32 @@
+info:
+  name: devices
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{devices_url}}"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "testing",
+        "type": "FtssDevice",
+        "config": {
+          "device_id": "12345"
+        }
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        let data = res.body;
+        bru.setVar("device_id", data.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

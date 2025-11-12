@@ -1,23 +1,9 @@
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import {
-  createTestApplication,
-  IRepositories,
-} from './helpers/create-test-application';
+import request from 'supertest';
+import { describe, expect, it } from 'vitest';
+import { app, repositories } from './helpers/setup';
 
 describe('ApiKeyController (e2e)', () => {
-  let app: INestApplication;
-  let repositories: IRepositories;
-
-  beforeEach(async () => {
-    ({ app, repositories } = await createTestApplication());
-  });
-
-  afterEach(async () => {
-    if (app) await app.close();
-  });
-
-  it('/api-keys (POST)', async () => {
+  it('POST /api-keys', async () => {
     const response = await request(app.getHttpServer()).post(`/api-keys`).send({
       name: 'testing-key',
     });

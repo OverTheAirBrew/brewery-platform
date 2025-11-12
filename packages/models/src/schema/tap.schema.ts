@@ -1,10 +1,9 @@
 import { z } from 'zod';
 
 export const TapSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuid().optional(),
   name: z.string(),
   keg_id: z
-    .string()
     .uuid()
     .nullish()
     .transform((x) => x ?? undefined)

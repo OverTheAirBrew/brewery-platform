@@ -1,0 +1,10 @@
+info:
+  name: devices
+  type: folder
+  seq: 3
+
+request:
+  auth: inherit
+  variables:
+    - name: devices_url
+      value: "{{base_url}}/devices"

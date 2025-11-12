@@ -1,3 +1,5 @@
+import { TestBed } from '@suites/unit';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 import { ZodBodyValidationPipe } from './validation.pipe';
 
@@ -9,10 +11,7 @@ describe('ValidationPipe', () => {
 
     const validationPipe = new ZodBodyValidationPipe(schema);
 
-    const result = validationPipe.transform(
-      { test: 'test', id: 'testing' },
-      { type: 'body' },
-    );
+    const result = validationPipe.transform({ test: 'test' }, { type: 'body' });
     expect(result).toBeDefined();
   });
 
@@ -21,14 +20,11 @@ describe('ValidationPipe', () => {
 
     const validationPipe = new ZodBodyValidationPipe(schema);
 
-    const result = validationPipe.transform('test', {
-      type: 'body',
-    });
-
+    const result = validationPipe.transform('test', { type: 'body' });
     expect(result).toBeDefined();
   });
 
-  it('should return the object if its not body', async () => {
+  it('should return if not body data', async () => {
     const schema = z.object({
       test: z.string(),
     });
@@ -36,26 +32,24 @@ describe('ValidationPipe', () => {
     const validationPipe = new ZodBodyValidationPipe(schema);
 
     const result = validationPipe.transform(
-      { test: 'test', id: 'testing' },
+      { test: 'test' },
       { type: 'query' },
     );
-
     expect(result).toBeDefined();
   });
 
-  it('should omit the id field if present in the body', async () => {
+  it('should remove the id field from the object', async () => {
     const schema = z.object({
       test: z.string(),
-      id: z.string(),
+      id: z.string().optional(),
     });
 
     const validationPipe = new ZodBodyValidationPipe(schema);
 
     const result = validationPipe.transform(
-      { test: 'test', id: 'testing' },
+      { test: 'test', id: '123' },
       { type: 'body' },
     );
-
     expect(result).toEqual({ test: 'test' });
   });
 });
