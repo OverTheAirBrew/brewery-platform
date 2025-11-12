@@ -122,7 +122,7 @@ importers:
         version: 29.5.14
       '@types/jsonwebtoken':
         specifier: ^9.0.5
-        version: 9.0.7
+        version: 9.0.10
       '@types/node':
         specifier: ^22.0.0
         version: 22.10.3
@@ -1509,9 +1509,6 @@ packages:
 
   '@types/jsonwebtoken@9.0.10':
     resolution: {integrity: sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==}
-
-  '@types/jsonwebtoken@9.0.7':
-    resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
 
   '@types/methods@1.1.4':
     resolution: {integrity: sha512-ymXWVrDiCxTBE3+RIrrP533E70eA+9qu7zdWoHuOmGujkYtzf4HQF96b8nwHLqhuf4ykX61IGRIB38CC6/sImQ==}
@@ -6292,10 +6289,6 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 22.10.3
-
-  '@types/jsonwebtoken@9.0.7':
-    dependencies:
       '@types/node': 22.10.3
 
   '@types/methods@1.1.4': {}
