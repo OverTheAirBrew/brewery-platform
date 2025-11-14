@@ -67,7 +67,7 @@ importers:
         version: link:../../packages/socket-events
       '@wahyubucil/nestjs-zod-openapi':
         specifier: ^0.1.2
-        version: 0.1.2(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(zod@3.23.6)
+        version: 0.1.2(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(zod@3.25.76)
       generate-api-key:
         specifier: ^1.0.2
         version: 1.0.2
@@ -100,7 +100,7 @@ importers:
         version: 3.8.2(@types/node@22.19.1)
       zod:
         specifier: ^3.23.6
-        version: 3.23.6
+        version: 3.25.76
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.10
@@ -176,10 +176,10 @@ importers:
     dependencies:
       '@wahyubucil/nestjs-zod-openapi':
         specifier: ^0.1.2
-        version: 0.1.2(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(zod@3.23.6)
+        version: 0.1.2(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(zod@3.25.76)
       zod:
         specifier: ^3.23.6
-        version: 3.23.6
+        version: 3.25.76
     devDependencies:
       '@overtheairbrew/tsconfig':
         specifier: workspace:*
@@ -4876,8 +4876,8 @@ packages:
     resolution: {integrity: sha512-U/PBtDf35ff0D8X8D0jfdzHYEPFxAI7jJlxZXwCSez5M3190m+QobIfh+sWDWSHMCWWJN2AWamkegn6vr6YBTw==}
     engines: {node: '>=18'}
 
-  zod@3.23.6:
-    resolution: {integrity: sha512-RTHJlZhsRbuA8Hmp/iNL7jnfc4nZishjsanDAfEY1QpDQZCahUp3xDzl+zfweE9BklxMUcgBgS1b7Lvie/ZVwA==}
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
 snapshots:
 
@@ -4886,20 +4886,20 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
 
-  '@anatine/zod-nestjs@2.0.8(@anatine/zod-openapi@2.2.5(openapi3-ts@4.3.3)(zod@3.23.6))(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(openapi3-ts@4.3.3)(zod@3.23.6)':
+  '@anatine/zod-nestjs@2.0.8(@anatine/zod-openapi@2.2.5(openapi3-ts@4.3.3)(zod@3.25.76))(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(openapi3-ts@4.3.3)(zod@3.25.76)':
     dependencies:
-      '@anatine/zod-openapi': 2.2.5(openapi3-ts@4.3.3)(zod@3.23.6)
+      '@anatine/zod-openapi': 2.2.5(openapi3-ts@4.3.3)(zod@3.25.76)
       '@nestjs/common': 11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/swagger': 11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2)
       openapi3-ts: 4.3.3
       ts-deepmerge: 6.2.1
-      zod: 3.23.6
+      zod: 3.25.76
 
-  '@anatine/zod-openapi@2.2.5(openapi3-ts@4.3.3)(zod@3.23.6)':
+  '@anatine/zod-openapi@2.2.5(openapi3-ts@4.3.3)(zod@3.25.76)':
     dependencies:
       openapi3-ts: 4.3.3
       ts-deepmerge: 6.2.1
-      zod: 3.23.6
+      zod: 3.25.76
 
   '@angular-devkit/core@19.2.15(chokidar@4.0.3)':
     dependencies:
@@ -4955,10 +4955,10 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@asteasolutions/zod-to-openapi@6.4.0(zod@3.23.6)':
+  '@asteasolutions/zod-to-openapi@6.4.0(zod@3.25.76)':
     dependencies:
       openapi3-ts: 4.3.3
-      zod: 3.23.6
+      zod: 3.25.76
 
   '@babel/code-frame@7.24.2':
     dependencies:
@@ -6469,15 +6469,15 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@wahyubucil/nestjs-zod-openapi@0.1.2(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(zod@3.23.6)':
+  '@wahyubucil/nestjs-zod-openapi@0.1.2(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(zod@3.25.76)':
     dependencies:
-      '@anatine/zod-nestjs': 2.0.8(@anatine/zod-openapi@2.2.5(openapi3-ts@4.3.3)(zod@3.23.6))(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(openapi3-ts@4.3.3)(zod@3.23.6)
-      '@anatine/zod-openapi': 2.2.5(openapi3-ts@4.3.3)(zod@3.23.6)
-      '@asteasolutions/zod-to-openapi': 6.4.0(zod@3.23.6)
+      '@anatine/zod-nestjs': 2.0.8(@anatine/zod-openapi@2.2.5(openapi3-ts@4.3.3)(zod@3.25.76))(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2))(openapi3-ts@4.3.3)(zod@3.25.76)
+      '@anatine/zod-openapi': 2.2.5(openapi3-ts@4.3.3)(zod@3.25.76)
+      '@asteasolutions/zod-to-openapi': 6.4.0(zod@3.25.76)
       '@nestjs/common': 11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/swagger': 11.2.1(@nestjs/common@11.1.8(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2)
       openapi3-ts: 4.3.3
-      zod: 3.23.6
+      zod: 3.25.76
 
   '@webassemblyjs/ast@1.14.1':
     dependencies:
@@ -9999,4 +9999,4 @@ snapshots:
 
   yoctocolors-cjs@2.1.3: {}
 
-  zod@3.23.6: {}
+  zod@3.25.76: {}
