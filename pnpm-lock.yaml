@@ -76,7 +76,7 @@ importers:
         version: 9.0.3
       mysql2:
         specifier: ^3.11.0
-        version: 3.16.2
+        version: 3.16.3
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -85,10 +85,10 @@ importers:
         version: 7.8.2
       sequelize:
         specifier: ^6.35.2
-        version: 6.37.7(mysql2@3.16.2)(sqlite3@5.1.7)
+        version: 6.37.7(mysql2@3.16.3)(sqlite3@5.1.7)
       sequelize-typescript:
         specifier: ^2.1.6
-        version: 2.1.6(@types/node@24.10.10)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.16.2)(sqlite3@5.1.7))
+        version: 2.1.6(@types/node@24.10.10)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.16.3)(sqlite3@5.1.7))
       socket.io:
         specifier: ^4.7.5
         version: 4.8.3
@@ -2748,6 +2748,7 @@ packages:
 
   glob@10.5.0:
     resolution: {integrity: sha512-DfXN8DfhJ7NH3Oe7cFmu3NCu1wKbkReJ8TorzSAFbSKrlNaQSKfIzqYqVY8zlbs2NLBbWpRiU52GX2PbaBVNkg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@13.0.0:
@@ -2756,11 +2757,11 @@ packages:
 
   glob@7.2.0:
     resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-modules@1.0.0:
     resolution: {integrity: sha512-sKzpEkf11GpOFuw0Zzjzmt4B4UZwjOcG757PPvrfhxcLFbq0wpsgpOqxpxtxFiCG4DtG93M6XRVbF2oGdev7bg==}
@@ -3307,8 +3308,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lru.min@1.1.3:
-    resolution: {integrity: sha512-Lkk/vx6ak3rYkRR0Nhu4lFUT2VDnQSxBe8Hbl7f36358p6ow8Bnvr8lrLt98H8J1aGxfhbX4Fs5tYg2+FTwr5Q==}
+  lru.min@1.1.4:
+    resolution: {integrity: sha512-DqC6n3QQ77zdFpCMASA1a3Jlb64Hv2N2DciFGkO/4L9+q/IpIAuRlKOvCXabtRW6cQf8usbmM6BE/TOPysCdIA==}
     engines: {bun: '>=1.0.0', deno: '>=1.30.0', node: '>=8.0.0'}
 
   magic-string@0.30.17:
@@ -3492,8 +3493,8 @@ packages:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  mysql2@3.16.2:
-    resolution: {integrity: sha512-JsqBpYNy7pH20lGfPuSyRSIcCxSeAIwxWADpV64nP9KeyN3ZKpHZgjKXuBKsh7dH6FbOvf1bOgoVKjSUPXRMTw==}
+  mysql2@3.16.3:
+    resolution: {integrity: sha512-+3XhQEt4FEFuvGV0JjIDj4eP2OT/oIj/54dYvqhblnSzlfcxVOuj+cd15Xz6hsG4HU1a+A5+BA9gm0618C4z7A==}
     engines: {node: '>= 8.0'}
 
   mz@2.7.0:
@@ -4263,7 +4264,7 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
-    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
@@ -8192,7 +8193,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lru.min@1.1.3: {}
+  lru.min@1.1.4: {}
 
   magic-string@0.30.17:
     dependencies:
@@ -8377,14 +8378,14 @@ snapshots:
 
   mute-stream@2.0.0: {}
 
-  mysql2@3.16.2:
+  mysql2@3.16.3:
     dependencies:
       aws-ssl-profiles: 1.1.2
       denque: 2.1.0
       generate-function: 2.3.1
       iconv-lite: 0.7.2
       long: 5.3.2
-      lru.min: 1.1.3
+      lru.min: 1.1.4
       named-placeholders: 1.1.6
       seq-queue: 0.0.5
       sqlstring: 2.3.3
@@ -8397,7 +8398,7 @@ snapshots:
 
   named-placeholders@1.1.6:
     dependencies:
-      lru.min: 1.1.3
+      lru.min: 1.1.4
 
   nano-spawn@2.0.0: {}
 
@@ -8879,15 +8880,15 @@ snapshots:
 
   sequelize-pool@7.1.0: {}
 
-  sequelize-typescript@2.1.6(@types/node@24.10.10)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.16.2)(sqlite3@5.1.7)):
+  sequelize-typescript@2.1.6(@types/node@24.10.10)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.16.3)(sqlite3@5.1.7)):
     dependencies:
       '@types/node': 24.10.10
       '@types/validator': 13.15.10
       glob: 7.2.0
       reflect-metadata: 0.2.2
-      sequelize: 6.37.7(mysql2@3.16.2)(sqlite3@5.1.7)
+      sequelize: 6.37.7(mysql2@3.16.3)(sqlite3@5.1.7)
 
-  sequelize@6.37.7(mysql2@3.16.2)(sqlite3@5.1.7):
+  sequelize@6.37.7(mysql2@3.16.3)(sqlite3@5.1.7):
     dependencies:
       '@types/debug': 4.1.12
       '@types/validator': 13.15.10
@@ -8906,7 +8907,7 @@ snapshots:
       validator: 13.15.26
       wkx: 0.5.0
     optionalDependencies:
-      mysql2: 3.16.2
+      mysql2: 3.16.3
       sqlite3: 5.1.7
     transitivePeerDependencies:
       - supports-color
