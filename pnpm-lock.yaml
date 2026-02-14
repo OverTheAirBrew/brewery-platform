@@ -264,6 +264,8 @@ importers:
 
   packages/tsconfig: {}
 
+  pi-image: {}
+
   plugins/local-device:
     dependencies:
       '@nestjs/common':

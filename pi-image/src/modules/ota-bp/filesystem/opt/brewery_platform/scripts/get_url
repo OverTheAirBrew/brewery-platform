@@ -1,0 +1,11 @@
+#!/bin/bash
+
+SERIAL=`cat /proc/cpuinfo | grep -i '^Serial' | awk '{ print $3 }'`
+NON_ZERO_SERIAL=$(echo "$SERIAL" | sed 's/^0*//')
+
+URL="$(head -n 1 /boot/firmware/breweryplatform.txt)"
+PATH="$(head -n 1 /opt/brewery_platform/display-path)"
+URL_PATH=${PATH//\{serial\}/$NON_ZERO_SERIAL}
+BASE_URL=${URL%%+(/)}
+
+echo "$BASE_URL/$URL_PATH"

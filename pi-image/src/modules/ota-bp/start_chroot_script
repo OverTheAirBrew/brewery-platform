@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# <Script Name>
+# <Description what this module does>
+# Written by <Author>
+# GPL V3
+########
+
+# Source error handling, leave this in place
+set -x
+set -e
+
+source /common.sh
+
+# unpack /filesystem/home/pi /home/"${BASE_USER}" "${BASE_USER}"
+# unpack /filesystem/home/root /root root
+unpack /filesystem/boot /"${BASE_BOOT_MOUNT_PATH}"
+unpack /filesystem/opt /opt
+unpack /filesystem/root_init /
+
+apt-get update
+
+## Custom splash screen
+apt-get install -y fbi
+sed -i 's/$/ logo.nologo consoleblank=0 loglevel=0 quiet/' /"${BASE_BOOT_MOUNT_PATH}"/cmdline.txt
+echo "disable_splash=1" >> /"${BASE_BOOT_MOUNT_PATH}"/config.txt
+systemctl enable splashscreen.service
+systemctl disable getty@tty1
+
+if [ ! "${BREW_PLATFORM_SPLASH_IMAGE}" ]; then
+  BREW_PLATFORM_SPLASH_IMAGE="splash"
+fi
+
+cp /"${BASE_BOOT_MOUNT_PATH}"/splash-screens/"${BREW_PLATFORM_SPLASH_IMAGE}".png /boot/splash.png
+
+remove_extra=$(remove_if_installed scratch squeak-plugins-scratch squeak-vm python-minecraftpi minecraft-pi sonic-pi oracle-java8-jdk bluej greenfoot libreoffice-common libreoffice-core freepats)
+apt-get remove -y --purge  $remove_extra
+apt-get autoremove -y
+
+apt-get -y --force-yes install git screen checkinstall avahi-daemon libavahi-compat-libdnssd1 xterm xdotool vim expect feh
+
+## chromium-browser
+apt-get install -y chromium-browser
+sed -i 's@%BROWSER_START_SCRIPT%@/opt/brewery_platform/scripts/start_chromium_browser@g' /opt/brewery_platform/scripts/run_onepageos
+
+# Add emoji support
+sudo -u pi mkdir -p /home/pi/.fonts
+sudo -u pi wget --directory-prefix /home/pi/.fonts https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf
+
+echo "displays/${BREW_PLATFORM_DISPLAY_TYPE}/{serial}" >> /opt/brewery_platform/display-path
