@@ -76,7 +76,7 @@ importers:
         version: 9.0.3
       mysql2:
         specifier: ^3.11.0
-        version: 3.18.1(@types/node@24.10.14)
+        version: 3.18.2(@types/node@24.10.14)
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -85,10 +85,10 @@ importers:
         version: 7.8.2
       sequelize:
         specifier: ^6.35.2
-        version: 6.37.7(mysql2@3.18.1(@types/node@24.10.14))(sqlite3@5.1.7)
+        version: 6.37.7(mysql2@3.18.2(@types/node@24.10.14))(sqlite3@5.1.7)
       sequelize-typescript:
         specifier: ^2.1.6
-        version: 2.1.6(@types/node@24.10.14)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.18.1(@types/node@24.10.14))(sqlite3@5.1.7))
+        version: 2.1.6(@types/node@24.10.14)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.18.2(@types/node@24.10.14))(sqlite3@5.1.7))
       socket.io:
         specifier: ^4.7.5
         version: 4.8.3
@@ -3502,8 +3502,8 @@ packages:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  mysql2@3.18.1:
-    resolution: {integrity: sha512-Mz3yJ+YqppZUFr6Q9tP0g9v3RTWGfLQ/J4RlnQ6CNrWz436+FDtFDICecsbWYwjupgfPpj8ZtNVMsCX79VKpLg==}
+  mysql2@3.18.2:
+    resolution: {integrity: sha512-UfEShBFAZZEAKjySnTUuE7BgqkYT4mx+RjoJ5aqtmwSSvNcJ/QxQPXz/y3jSxNiVRedPfgccmuBtiPCSiEEytw==}
     engines: {node: '>= 8.0'}
     peerDependencies:
       '@types/node': '>= 8'
@@ -8400,7 +8400,7 @@ snapshots:
 
   mute-stream@2.0.0: {}
 
-  mysql2@3.18.1(@types/node@24.10.14):
+  mysql2@3.18.2(@types/node@24.10.14):
     dependencies:
       '@types/node': 24.10.14
       aws-ssl-profiles: 1.1.2
@@ -8900,15 +8900,15 @@ snapshots:
 
   sequelize-pool@7.1.0: {}
 
-  sequelize-typescript@2.1.6(@types/node@24.10.14)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.18.1(@types/node@24.10.14))(sqlite3@5.1.7)):
+  sequelize-typescript@2.1.6(@types/node@24.10.14)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.7(mysql2@3.18.2(@types/node@24.10.14))(sqlite3@5.1.7)):
     dependencies:
       '@types/node': 24.10.14
       '@types/validator': 13.15.10
       glob: 7.2.0
       reflect-metadata: 0.2.2
-      sequelize: 6.37.7(mysql2@3.18.1(@types/node@24.10.14))(sqlite3@5.1.7)
+      sequelize: 6.37.7(mysql2@3.18.2(@types/node@24.10.14))(sqlite3@5.1.7)
 
-  sequelize@6.37.7(mysql2@3.18.1(@types/node@24.10.14))(sqlite3@5.1.7):
+  sequelize@6.37.7(mysql2@3.18.2(@types/node@24.10.14))(sqlite3@5.1.7):
     dependencies:
       '@types/debug': 4.1.12
       '@types/validator': 13.15.10
@@ -8927,7 +8927,7 @@ snapshots:
       validator: 13.15.26
       wkx: 0.5.0
     optionalDependencies:
-      mysql2: 3.18.1(@types/node@24.10.14)
+      mysql2: 3.18.2(@types/node@24.10.14)
       sqlite3: 5.1.7
     transitivePeerDependencies:
       - supports-color
