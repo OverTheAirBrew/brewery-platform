@@ -1,0 +1,16 @@
+export MODULES="apt-fix(base(network,gui(ota-bp),hyperpixel2r))"
+
+# Image Details
+export DIST_NAME=OverTheAirBrew-TapScreen
+export DIST_VERSION=0.1.0
+
+# Base Overrides
+export BASE_ARCH="arm64"
+export BASE_BOARD=raspberrypiarm64
+export BASE_RELEASE_COMPRESS=yes
+
+# Build Configuration
+export BASE_IMAGE_ENLARGEROOT=2000
+export BASE_IMAGE_RESIZEROOT=200
+
+export GUI_STARTUP_SCRIPT=/opt/brewery_platform/scripts/run_onepageos
