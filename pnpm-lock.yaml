@@ -76,7 +76,7 @@ importers:
         version: 9.0.3
       mysql2:
         specifier: ^3.11.0
-        version: 3.20.0(@types/node@24.12.2)
+        version: 3.21.0(@types/node@24.12.2)
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -85,10 +85,10 @@ importers:
         version: 7.8.2
       sequelize:
         specifier: ^6.35.2
-        version: 6.37.8(mysql2@3.20.0(@types/node@24.12.2))(sqlite3@6.0.1)
+        version: 6.37.8(mysql2@3.21.0(@types/node@24.12.2))(sqlite3@6.0.1)
       sequelize-typescript:
         specifier: ^2.1.6
-        version: 2.1.6(@types/node@24.12.2)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.8(mysql2@3.20.0(@types/node@24.12.2))(sqlite3@6.0.1))
+        version: 2.1.6(@types/node@24.12.2)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.8(mysql2@3.21.0(@types/node@24.12.2))(sqlite3@6.0.1))
       socket.io:
         specifier: ^4.7.5
         version: 4.8.3
@@ -3261,9 +3261,6 @@ packages:
   lodash.startcase@4.4.0:
     resolution: {integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg==}
 
-  lodash@4.17.23:
-    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
-
   lodash@4.18.1:
     resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
@@ -3464,8 +3461,8 @@ packages:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  mysql2@3.20.0:
-    resolution: {integrity: sha512-eCLUs7BNbgA6nf/MZXsaBO1SfGs0LtLVrJD3WeWq+jPLDWkSufTD+aGMwykfUVPdZnblaUK1a8G/P63cl9FkKg==}
+  mysql2@3.21.0:
+    resolution: {integrity: sha512-CYNKIuhnalXHTa4gonZ+KhzLESKllvo1qQIDYUVuatpN4NgMk+lsA3WwHYno5AS4PACUiD2qEmiVD9pr3bXWOw==}
     engines: {node: '>= 8.0'}
     peerDependencies:
       '@types/node': '>= 8'
@@ -8006,8 +8003,6 @@ snapshots:
 
   lodash.startcase@4.4.0: {}
 
-  lodash@4.17.23: {}
-
   lodash@4.18.1: {}
 
   log-symbols@4.1.0:
@@ -8206,7 +8201,7 @@ snapshots:
 
   mute-stream@2.0.0: {}
 
-  mysql2@3.20.0(@types/node@24.12.2):
+  mysql2@3.21.0(@types/node@24.12.2):
     dependencies:
       '@types/node': 24.12.2
       aws-ssl-profiles: 1.1.2
@@ -8673,15 +8668,15 @@ snapshots:
 
   sequelize-pool@7.1.0: {}
 
-  sequelize-typescript@2.1.6(@types/node@24.12.2)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.8(mysql2@3.20.0(@types/node@24.12.2))(sqlite3@6.0.1)):
+  sequelize-typescript@2.1.6(@types/node@24.12.2)(@types/validator@13.15.10)(reflect-metadata@0.2.2)(sequelize@6.37.8(mysql2@3.21.0(@types/node@24.12.2))(sqlite3@6.0.1)):
     dependencies:
       '@types/node': 24.12.2
       '@types/validator': 13.15.10
       glob: 7.2.0
       reflect-metadata: 0.2.2
-      sequelize: 6.37.8(mysql2@3.20.0(@types/node@24.12.2))(sqlite3@6.0.1)
+      sequelize: 6.37.8(mysql2@3.21.0(@types/node@24.12.2))(sqlite3@6.0.1)
 
-  sequelize@6.37.8(mysql2@3.20.0(@types/node@24.12.2))(sqlite3@6.0.1):
+  sequelize@6.37.8(mysql2@3.21.0(@types/node@24.12.2))(sqlite3@6.0.1):
     dependencies:
       '@types/debug': 4.1.13
       '@types/validator': 13.15.10
@@ -8700,7 +8695,7 @@ snapshots:
       validator: 13.15.35
       wkx: 0.5.0
     optionalDependencies:
-      mysql2: 3.20.0(@types/node@24.12.2)
+      mysql2: 3.21.0(@types/node@24.12.2)
       sqlite3: 6.0.1
     transitivePeerDependencies:
       - supports-color
