@@ -46,7 +46,7 @@ importers:
         version: 11.1.21(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/websockets@11.1.21)(rxjs@7.8.2)
       '@nestjs/swagger':
         specifier: ^11.2.1
-        version: 11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)
+        version: 11.4.3(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)
       '@nestjs/websockets':
         specifier: ^11.1.8
         version: 11.1.21(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(@nestjs/platform-socket.io@11.1.21)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -67,7 +67,7 @@ importers:
         version: link:../../packages/socket-events
       '@wahyubucil/nestjs-zod-openapi':
         specifier: ^0.1.2
-        version: 0.1.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2))(zod@3.25.76)
+        version: 0.1.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.3(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2))(zod@3.25.76)
       generate-api-key:
         specifier: ^1.0.2
         version: 1.0.2
@@ -229,7 +229,7 @@ importers:
     dependencies:
       '@nestjs/swagger':
         specifier: ^11.2.1
-        version: 11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)
+        version: 11.4.3(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)
     devDependencies:
       '@overtheairbrew/tsconfig':
         specifier: workspace:*
@@ -1128,23 +1128,6 @@ packages:
       typescript: '>=4.8.2'
     peerDependenciesMeta:
       prettier:
-        optional: true
-
-  '@nestjs/swagger@11.4.2':
-    resolution: {integrity: sha512-aBihEogDMj/bLEcaqhkvyX/ZVWUw/bmnhKzR0zwUoyGJikvZyaq7rOPYl/H7Lxkkr3c90SJxyuv1AX2UT1WKlw==}
-    peerDependencies:
-      '@fastify/static': ^8.0.0 || ^9.0.0
-      '@nestjs/common': ^11.0.1
-      '@nestjs/core': ^11.0.1
-      class-transformer: '*'
-      class-validator: '*'
-      reflect-metadata: ^0.1.12 || ^0.2.0
-    peerDependenciesMeta:
-      '@fastify/static':
-        optional: true
-      class-transformer:
-        optional: true
-      class-validator:
         optional: true
 
   '@nestjs/swagger@11.4.3':
@@ -4093,9 +4076,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  swagger-ui-dist@5.32.4:
-    resolution: {integrity: sha512-0AADFFQNJzExEN49SrD/34Nn9cxNxVLiydYl2MBwSZFPVXNkVwC/EFAjoezGGqE8oDegiDC+p47t8lKObCinMQ==}
-
   swagger-ui-dist@5.32.6:
     resolution: {integrity: sha512-75ttZNaYCLoFPnozPZcTUU6mS3wKT8l7WLjU5zJSHFeJa23i5vtnze6IiCl4jDMPeQTXVXIgovq4M11NNfQvSA==}
 
@@ -4580,15 +4560,6 @@ packages:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
 snapshots:
-
-  '@anatine/zod-nestjs@2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@3.25.76))(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@3.25.76)':
-    dependencies:
-      '@anatine/zod-openapi': 2.2.8(openapi3-ts@4.5.0)(zod@3.25.76)
-      '@nestjs/common': 11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/swagger': 11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)
-      openapi3-ts: 4.5.0
-      ts-deepmerge: 6.2.1
-      zod: 3.25.76
 
   '@anatine/zod-nestjs@2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@3.25.76))(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.3(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@3.25.76)':
     dependencies:
@@ -5642,18 +5613,6 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@nestjs/swagger@11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)':
-    dependencies:
-      '@microsoft/tsdoc': 0.16.0
-      '@nestjs/common': 11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/core': 11.1.21(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.21)(@nestjs/websockets@11.1.21)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/mapped-types': 2.1.1(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)
-      js-yaml: 4.1.1
-      lodash: 4.18.1
-      path-to-regexp: 8.4.2
-      reflect-metadata: 0.2.2
-      swagger-ui-dist: 5.32.4
-
   '@nestjs/swagger@11.4.3(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
@@ -6165,16 +6124,6 @@ snapshots:
 
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
-
-  '@wahyubucil/nestjs-zod-openapi@0.1.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2))(zod@3.25.76)':
-    dependencies:
-      '@anatine/zod-nestjs': 2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@3.25.76))(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@3.25.76)
-      '@anatine/zod-openapi': 2.2.8(openapi3-ts@4.5.0)(zod@3.25.76)
-      '@asteasolutions/zod-to-openapi': 6.4.0(zod@3.25.76)
-      '@nestjs/common': 11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/swagger': 11.4.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2)
-      openapi3-ts: 4.5.0
-      zod: 3.25.76
 
   '@wahyubucil/nestjs-zod-openapi@0.1.2(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.3(@nestjs/common@11.1.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.21)(reflect-metadata@0.2.2))(zod@3.25.76)':
     dependencies:
@@ -8836,10 +8785,6 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
-
-  swagger-ui-dist@5.32.4:
-    dependencies:
-      '@scarf/scarf': 1.4.0
 
   swagger-ui-dist@5.32.6:
     dependencies:
