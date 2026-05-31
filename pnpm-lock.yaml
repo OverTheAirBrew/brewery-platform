@@ -161,7 +161,7 @@ importers:
         version: 29.4.11(@babel/core@7.29.0)(@jest/transform@30.4.1)(@jest/types@30.4.1)(babel-jest@30.4.1(@babel/core@7.29.0))(jest-util@30.4.1)(jest@30.4.2(@types/node@24.12.4)(ts-node@10.9.2(@types/node@24.12.4)(typescript@5.9.3)))(typescript@5.9.3)
       ts-loader:
         specifier: ^9.4.3
-        version: 9.5.7(typescript@5.9.3)(webpack@5.106.0)
+        version: 9.6.0(typescript@5.9.3)(webpack@5.106.0)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@24.12.4)(typescript@5.9.3)
@@ -2373,8 +2373,8 @@ packages:
     resolution: {integrity: sha512-2agL3ueZhqxoVrfmntO8yuVj+uNSlIOnhykYHk3Cq0ShYPdUjjUiSJrQvXjq01I9jAuI0Zl2YO8Evv5Mqytm5g==}
     engines: {node: '>=10.2.0'}
 
-  enhanced-resolve@5.22.0:
-    resolution: {integrity: sha512-xYcDWrpELkFzz9SpZ3PlI6Eu6eD93Yf0WLDRxikGhWJ3MAir2SNZTIVCVZqZ/NUyx8AdMc2gT9C0gPiw18kG+A==}
+  enhanced-resolve@5.22.1:
+    resolution: {integrity: sha512-6QEuw3zoX1SJQc7b87aBXke/no+mG2bTBgw29gWMQonLmpEkWoCAVkl+M49e48AZlWzxiDzDZzYdp6kobcyLww==}
     engines: {node: '>=10.13.0'}
 
   enquirer@2.4.1:
@@ -4267,12 +4267,16 @@ packages:
       jest-util:
         optional: true
 
-  ts-loader@9.5.7:
-    resolution: {integrity: sha512-/ZNrKgA3K3PtpMYOC71EeMWIloGw3IYEa5/t1cyz2r5/PyUwTXGzYJvcD3kfUvmhlfpz1rhV8B2O6IVTQ0avsg==}
+  ts-loader@9.6.0:
+    resolution: {integrity: sha512-dsJO0S+T7grTDWTc4a0nTygXGjKncVUpx8Y+af8EvI/D5WgTJby5UEk5eoMCB9EcLQmnvitqh99MqtjtHgAwFQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
+      loader-utils: '*'
       typescript: '*'
-      webpack: ^5.0.0
+      webpack: ^4.0.0 || ^5.0.0
+    peerDependenciesMeta:
+      loader-utils:
+        optional: true
 
   ts-node@10.9.2:
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
@@ -6772,7 +6776,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  enhanced-resolve@5.22.0:
+  enhanced-resolve@5.22.1:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.3
@@ -8916,10 +8920,10 @@ snapshots:
       babel-jest: 30.4.1(@babel/core@7.29.0)
       jest-util: 30.4.1
 
-  ts-loader@9.5.7(typescript@5.9.3)(webpack@5.106.0):
+  ts-loader@9.6.0(typescript@5.9.3)(webpack@5.106.0):
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.22.0
+      enhanced-resolve: 5.22.1
       micromatch: 4.0.8
       semver: 7.8.1
       source-map: 0.7.6
@@ -8947,7 +8951,7 @@ snapshots:
   tsconfig-paths-webpack-plugin@4.2.0:
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.22.0
+      enhanced-resolve: 5.22.1
       tapable: 2.3.3
       tsconfig-paths: 4.2.0
 
@@ -9140,7 +9144,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.22.0
+      enhanced-resolve: 5.22.1
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
