@@ -7,8 +7,12 @@
 		"vscode": {
 			"extensions": [
 				"esbenp.prettier-vscode",
-				"EditorConfig.EditorConfig"
+				"EditorConfig.EditorConfig",
+        "github.vscode-github-actions"
 			]
 		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	}
 }
