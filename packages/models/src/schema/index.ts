@@ -1,6 +1,6 @@
 export * from './api-key.schema.ts';
 export * from './beverage.schema.ts';
-export * from './device-types.schema.ts';
+export * from './device-type.schema.ts';
 export * from './display-tap-info.schema.ts';
 export * from './display.schema.ts';
 export * from './keg.schema.ts';
@@ -14,3 +14,5 @@ export * from './logic-types.schema.ts';
 export * from './actor-type.schema.ts';
 export * from './vessel.schema.ts';
 export * from './actor.schema.ts';
+export * from './sensor-type.schema.ts';
+export * from './actor-type.schema.ts';

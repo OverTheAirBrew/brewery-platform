@@ -14,3 +14,4 @@ export * from './logic-types.dto.ts';
 export * from './actor-type.dto.ts';
 export * from './vessel.dto.ts';
 export * from './actor.dto.ts';
+export * from './sensor-types.dto.ts';

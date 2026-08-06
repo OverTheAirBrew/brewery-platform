@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DeviceTypesSchema } from '@overtheairbrew/models';
+import { DeviceTypeSchema } from '@overtheairbrew/models';
 
 import { Device, DeviceIdentifier } from '@overtheairbrew/plugins';
 
@@ -26,7 +26,7 @@ export class DeviceTypesService {
   private async mapDeviceType(device: Device<any>) {
     const properties = await device.getConfigOptions(undefined);
 
-    return DeviceTypesSchema.parse({
+    return DeviceTypeSchema.parse({
       name: device.name,
       properties,
     });

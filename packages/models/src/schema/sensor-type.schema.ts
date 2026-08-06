@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { PropertiesSchema } from './properties.schema.ts';
 
-export const DeviceTypesSchema = z
+export const SensorTypeSchema = z
   .object({
     name: z.string(),
   })

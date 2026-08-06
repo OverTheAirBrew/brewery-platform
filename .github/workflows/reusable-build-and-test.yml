@@ -107,7 +107,7 @@ jobs:
         uses: codecov/codecov-action@v7.0.0
         with:
           token: ${{ secrets.CODECOV_SECRET }}
-          flags: e2etests-${{ matrix.type }}
+          flags: e2etests
           files: ./apps/backend/coverage/coverage-final.json
 
   build-docker-images:

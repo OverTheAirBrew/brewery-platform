@@ -1,9 +1,9 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { DeviceTypesService } from '../device-types/device-types.service';
-import { DeviceDto, DeviceSchema } from '@overtheairbrew/models';
+import { DeviceDto, SensorTypeSchema } from '@overtheairbrew/models';
 import { REPOSITORIES } from '../../data/data.abstractions';
 import { Device } from '../../data/entities/device.entity';
-import { RequiredCredentials } from '@overtheairbrew/plugins';
+import { Actor, RequiredCredentials, Sensor } from '@overtheairbrew/plugins';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { AddMqttUserMessage } from '../../mqtt-client/events/add-mqtt-user.message';
 import { randomFillSync } from 'crypto';
@@ -67,5 +67,71 @@ export class DeviceService {
     });
 
     return devices;
+  }
+
+  async getSensorTypesForDeviceId(id: string) {
+    const device = await this.deviceRepository.findByPk(id);
+
+    if (!device) {
+      throw new BadRequestException(`Device with id ${id} not found`);
+    }
+
+    const deviceType = await this.deviceTypeService.getByNameRaw(device.type);
+
+    if (!deviceType) {
+      throw new BadRequestException(
+        `Device type ${device.type} not found for device ${id}`,
+      );
+    }
+
+    return await Promise.all(
+      deviceType.sensors.map((sensor) =>
+        this.mapSensorType(sensor, device.config),
+      ),
+    );
+  }
+
+  async getActorTypesForDeviceId(id: string) {
+    const device = await this.deviceRepository.findByPk(id);
+
+    if (!device) {
+      throw new BadRequestException(`Device with id ${id} not found`);
+    }
+
+    const deviceType = await this.deviceTypeService.getByNameRaw(device.type);
+
+    if (!deviceType) {
+      throw new BadRequestException(
+        `Device type ${device.type} not found for device ${id}`,
+      );
+    }
+
+    return await Promise.all(
+      deviceType.actors.map((actor) => this.mapActorType(actor, device.config)),
+    );
+  }
+
+  private async mapActorType(
+    actor: Actor<unknown, unknown>,
+    deviceConfig: unknown,
+  ) {
+    const properties = await actor.getConfigOptions(deviceConfig);
+
+    return SensorTypeSchema.parse({
+      name: actor.name,
+      properties,
+    });
+  }
+
+  private async mapSensorType(
+    sensor: Sensor<unknown, unknown>,
+    deviceConfig: unknown,
+  ) {
+    const properties = await sensor.getConfigOptions(deviceConfig);
+
+    return SensorTypeSchema.parse({
+      name: sensor.name,
+      properties,
+    });
   }
 }

@@ -16,36 +16,35 @@ declare module 'vitest' {
   }
 }
 
-let mysqlContainer: StartedMySqlContainer;
-let mosquittoContainer: StartedMosquittoContainer;
+let startedMysqlContainer: StartedMySqlContainer;
+let startedMosquittoContainer: StartedMosquittoContainer;
 
 export async function setup(project: TestProject) {
   const PASSWORD = randomUUID();
-  const DATABASE = randomUUID();
 
-  mysqlContainer = await new MySqlContainer('mysql:9.7.0')
+  const mysqlContainer = new MySqlContainer('mysql:9.7.0')
     .withRootPassword(PASSWORD)
-    .withDatabase(DATABASE)
-    .start();
+    .withDatabase('DUMMY_DATABASE');
 
-  mosquittoContainer = await new MosquittoContainer(
-    'eclipse-mosquitto:2.0.15',
-  ).start();
+  const mosquittoContainer = new MosquittoContainer('eclipse-mosquitto:2.0.15');
+
+  [startedMysqlContainer, startedMosquittoContainer] = await Promise.all([
+    mysqlContainer.start(),
+    mosquittoContainer.start(),
+  ]);
 
   project.provide(
     'MYSQL_URL',
-    `mysql://root:${PASSWORD}@${mysqlContainer.getHost()}:${mysqlContainer.getPort()}/${DATABASE}`,
+    `mysql://root:${PASSWORD}@${startedMysqlContainer.getHost()}:${startedMysqlContainer.getPort()}`,
   );
-  project.provide('MIGRATE', 'true');
-  project.provide('DATABASE_TYPE', 'mysql');
 
   project.provide(
     'MQTT_URL',
-    `mqtt://${mosquittoContainer.getHost()}:${mosquittoContainer.getMappedPort(1883)}`,
+    `mqtt://${startedMosquittoContainer.getHost()}:${startedMosquittoContainer.getMappedPort(1883)}`,
   );
 }
 
 export async function teardown() {
-  await mysqlContainer?.stop();
-  await mosquittoContainer?.stop();
+  await startedMysqlContainer?.stop();
+  await startedMosquittoContainer?.stop();
 }

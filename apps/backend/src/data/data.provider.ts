@@ -56,7 +56,7 @@ export const databaseProvider: Provider = {
       config!.global.DATA_DIRECTORY,
     );
 
-    if (config!.database.MIGRATE) {
+    if (config!.database.MIGRATE === 'true') {
       await migrateDatabase(sequelizeInstance);
     }
 

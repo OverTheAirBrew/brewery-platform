@@ -1,4 +1,4 @@
 import { createZodDto } from 'nestjs-zod';
-import { DeviceTypesSchema } from '../schema/device-types.schema.ts';
+import { DeviceTypeSchema } from '../schema/device-type.schema.ts';
 
-export class DeviceTypesDto extends createZodDto(DeviceTypesSchema) {}
+export class DeviceTypeDto extends createZodDto(DeviceTypeSchema) {}
