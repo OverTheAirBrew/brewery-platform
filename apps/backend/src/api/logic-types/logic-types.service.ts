@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DeviceTypesSchema, LogicTypesSchema } from '@overtheairbrew/models';
+import { LogicTypesSchema } from '@overtheairbrew/models';
 
 import { Logic, LogicIdentifier } from '@overtheairbrew/plugins';
 import { LogicTypeNotFoundError } from './errors/logic-type-not-found-error';

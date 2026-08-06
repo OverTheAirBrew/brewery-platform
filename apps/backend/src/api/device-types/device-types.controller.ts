@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { DeviceTypesDto } from '@overtheairbrew/models';
+import { DeviceTypeDto } from '@overtheairbrew/models';
 import { DeviceTypesService } from './device-types.service';
 
 @ApiTags('device-types')
@@ -11,7 +11,7 @@ export class DeviceTypesController {
 
   @Get('/')
   @ApiOkResponse({
-    type: DeviceTypesDto,
+    type: DeviceTypeDto,
   })
   async get() {
     return await this.deviceTypesService.getAll();
