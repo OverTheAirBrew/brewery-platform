@@ -1,0 +1,50 @@
+name: Build Image
+
+on: 
+  pull_request:
+    types: 
+      - opened
+      - synchronize
+    paths: 
+      - pi-image/**
+      - .github/workflows/build-rpi-images.yml
+  push: 
+    branches: 
+      - main
+    paths: 
+      - pi-image/**
+      - .github/workflows/build-rpi-images.yml
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant:
+          - hyperpixel2r
+    steps:
+      - name: Checkout Project Repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            pi-image
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: pi-image
+      - name: Generate Image Name
+        id: image
+        run: echo "NAME=OverTheAirBrew-TapScreen-${{ matrix.variant }}-${{ steps.package-version.outputs.current-version }}" >> $GITHUB_OUTPUT
+      - uses: hoverkraft-tech/compose-action@v2.0.2
+        env:
+          BASE_RELEASE_IMG_NAME: OverTheAirBrew-TapScreen-${{ matrix.variant }}-${{ steps.package-version.outputs.current-version }}
+        with:
+          cwd: ${{ github.workspace }}/pi-image
+      - name: Build image
+        run: | 
+          docker exec piimage-build build ${{ matrix.variant }} --download
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.image.outputs.NAME }}
+          path: ./pi-image/src/workspace-${{ matrix.variant }}/${{ steps.image.outputs.NAME }}.zip
