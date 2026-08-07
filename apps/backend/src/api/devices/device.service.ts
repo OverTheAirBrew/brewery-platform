@@ -22,10 +22,6 @@ export class DeviceService {
       deviceDto.type,
     );
 
-    if (!deviceType) {
-      throw new BadRequestException(`Device type ${deviceDto.type} not found`);
-    }
-
     await deviceType.validateConfiguration(deviceDto.config);
 
     const device = await this.deviceRepository.create({
@@ -33,8 +29,10 @@ export class DeviceService {
       type: deviceType.name,
     });
 
-    const mqttPassword = this.generatePassword();
+    let mqttPassword: string | undefined = undefined;
+
     if (deviceType.requiredCredentials === RequiredCredentials.MQTT) {
+      mqttPassword = this.generatePassword();
       this.mqttClient.sendMessage(
         new AddMqttUserMessage({
           username: device.id,

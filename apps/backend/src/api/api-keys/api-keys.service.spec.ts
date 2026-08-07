@@ -3,28 +3,21 @@ import { REPOSITORIES } from '../../data/data.abstractions';
 import { ApiKeysService } from './api-keys.service';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Mocked, TestBed } from '@suites/unit';
+import { ApiKey } from '../../data/entities/api-key.entity';
 
-const mockApiKeyRepository = {
-  create: vi.fn(),
-  count: vi.fn(),
-  findByPk: vi.fn(),
-};
-
-describe('KeysService', () => {
+describe('ApiKeysService', () => {
   let apiKeyService: ApiKeysService;
+  let mockApiKeyRepository: Mocked<typeof ApiKey>;
 
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      providers: [
-        ApiKeysService,
-        {
-          provide: REPOSITORIES.ApiKeyRepository,
-          useValue: mockApiKeyRepository,
-        },
-      ],
-    }).compile();
+    const { unit, unitRef } = await TestBed.solitary(ApiKeysService).compile();
 
-    apiKeyService = module.get<ApiKeysService>(ApiKeysService);
+    apiKeyService = unit;
+
+    mockApiKeyRepository = unitRef.get<typeof ApiKey>(
+      REPOSITORIES.ApiKeyRepository,
+    );
   });
 
   afterEach(() => {
@@ -33,7 +26,7 @@ describe('KeysService', () => {
 
   describe('createApiKey', () => {
     beforeEach(() => {
-      mockApiKeyRepository.create.mockImplementation(async (data) => data);
+      mockApiKeyRepository.create.mockImplementation(async (data: any) => data);
     });
 
     it('should create a new api key', async () => {
@@ -49,13 +42,13 @@ describe('KeysService', () => {
 
   describe('validateApiKey', () => {
     it('should return true if there is a matching key', async () => {
-      mockApiKeyRepository.count.mockResolvedValue(1);
+      void mockApiKeyRepository.count.mockResolvedValue(1);
       const result = await apiKeyService.validateApiKey('key');
       expect(result).toBeTruthy();
     });
 
     it('should return false if there is no matching key', async () => {
-      mockApiKeyRepository.count.mockResolvedValue(0);
+      void mockApiKeyRepository.count.mockResolvedValue(0);
       const result = await apiKeyService.validateApiKey('key');
       expect(result).toBeFalsy();
     });
@@ -66,13 +59,13 @@ describe('KeysService', () => {
       const mockUpdate = vi.fn().mockImplementation(async (data) => data);
       const mockSave = vi.fn().mockResolvedValue({});
 
-      mockApiKeyRepository.findByPk.mockResolvedValue({
+      void mockApiKeyRepository.findByPk.mockResolvedValue({
         key: 'testing-key',
         name: 'testing',
         id: 'id',
         update: mockUpdate,
         save: mockSave,
-      });
+      } as any);
 
       await apiKeyService.regenerateApiKey('id');
 
@@ -86,7 +79,7 @@ describe('KeysService', () => {
     });
 
     it('should error if the api key does not exist to regenerate', async () => {
-      mockApiKeyRepository.findByPk.mockResolvedValue(null);
+      void mockApiKeyRepository.findByPk.mockResolvedValue(null);
 
       await expect(apiKeyService.regenerateApiKey('id')).rejects.toThrow(
         'Key with id id does not exist',

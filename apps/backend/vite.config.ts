@@ -1,6 +1,13 @@
+import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  plugins: [
+    swc.vite({
+      module: { type: 'es6' },
+      jsc: { transform: { decoratorMetadata: true } },
+    }),
+  ],
   test: {
     watch: false,
     coverage: {
@@ -16,6 +23,7 @@ export default defineConfig({
       {
         test: {
           name: 'unit',
+          globals: true,
           include: ['src/**/*.spec.ts'],
         },
       },

@@ -1,8 +1,8 @@
 import { Device, DeviceIdentifier } from '@overtheairbrew/plugins';
 import { DeviceTypesService } from './device-types.service';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Test } from '@nestjs/testing';
 import { DeviceTypeNotFoundError } from './errors/device-type-not-found-error';
+import { TestBed } from '@suites/unit';
 
 describe('DeviceTypesService', () => {
   let deviceTypesService: DeviceTypesService;
@@ -15,16 +15,12 @@ describe('DeviceTypesService', () => {
   ];
 
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      providers: [
-        DeviceTypesService,
-        {
-          provide: DeviceIdentifier,
-          useValue: mockDevices,
-        },
-      ],
-    }).compile();
-    deviceTypesService = module.get<DeviceTypesService>(DeviceTypesService);
+    const { unit } = await TestBed.solitary(DeviceTypesService)
+      .mock<Device<any>[]>(DeviceIdentifier)
+      .final([...(mockDevices as Device<any>[])])
+      .compile();
+
+    deviceTypesService = unit;
   });
 
   afterEach(() => {
