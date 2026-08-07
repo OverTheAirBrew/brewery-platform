@@ -145,12 +145,18 @@ importers:
       '@overtheairbrew/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
+      '@testcontainers/mockserver':
+        specifier: ^12.1.0
+        version: 12.1.0(supports-color@8.1.1)
       '@testcontainers/mosquitto':
         specifier: ^12.1.0
         version: 12.1.0(supports-color@8.1.1)
       '@testcontainers/mysql':
         specifier: ^12.0.3
         version: 12.0.3(supports-color@8.1.1)
+      '@testcontainers/redis':
+        specifier: ^12.1.0
+        version: 12.1.0(supports-color@8.1.1)
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
@@ -1437,11 +1443,17 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
+  '@testcontainers/mockserver@12.1.0':
+    resolution: {integrity: sha512-rBLdEHymhp9EQhV5J7Bb+wWD5WXM7403IPHSJHLSBkpGbFprsQJ/sEK20FTcv5Dj0oWXA5ODOraVPEOEb73Yqw==}
+
   '@testcontainers/mosquitto@12.1.0':
     resolution: {integrity: sha512-T6rXsTo1hraL0j3GN+IrAEK/rVCINCZT36Gj+HGo+Esf0fOUhaEdHeoBJkMMSET/pRFDviRaZY468Q+dqTh8WQ==}
 
   '@testcontainers/mysql@12.0.3':
     resolution: {integrity: sha512-xaub3gaAQKR4Q2/9d8B+81XM8LLTQHPOncCL3Ved04JUUIeTobMt3J36JXv/rvEpnrMpphlKYlmQU0aq48HeZA==}
+
+  '@testcontainers/redis@12.1.0':
+    resolution: {integrity: sha512-WRiS1Lhc+e/DHXDnCmMZtm8Wv64zYlRGNV04rvtn8kxIS2aVz5lgsP+Su/cfBzHJ0/vwdVKW+YJ3nUrXYbQxqw==}
 
   '@tokenizer/inflate@0.4.1':
     resolution: {integrity: sha512-2mAv+8pkG6GIZiF1kNg1jAjh27IDxEPKwdGul3snfztFerfPGI1LjDezZp3i7BElXompqEtPmoPx6c2wgtWsOA==}
@@ -6028,6 +6040,15 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
+  '@testcontainers/mockserver@12.1.0(supports-color@8.1.1)':
+    dependencies:
+      testcontainers: 12.1.0(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - bare-buffer
+      - react-native-b4a
+      - supports-color
+
   '@testcontainers/mosquitto@12.1.0(supports-color@8.1.1)':
     dependencies:
       testcontainers: 12.1.0(supports-color@8.1.1)
@@ -6040,6 +6061,15 @@ snapshots:
   '@testcontainers/mysql@12.0.3(supports-color@8.1.1)':
     dependencies:
       testcontainers: 12.0.3(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - bare-buffer
+      - react-native-b4a
+      - supports-color
+
+  '@testcontainers/redis@12.1.0(supports-color@8.1.1)':
+    dependencies:
+      testcontainers: 12.1.0(supports-color@8.1.1)
     transitivePeerDependencies:
       - bare-abort-controller
       - bare-buffer

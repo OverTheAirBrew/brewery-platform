@@ -25,6 +25,11 @@ beforeAll(async () => {
   vitest.stubEnv('DATABASE_TYPE', 'mysql');
   vitest.stubEnv('PRIVATE_KEY', randomUUID());
   vitest.stubEnv('MQTT_URL', inject('MQTT_URL'));
+  vitest.stubEnv('MYSQL_URL', inject('MYSQL_URL'));
+  vitest.stubEnv('REDIS_URL', inject('REDIS_URL'));
+
+  vitest.spyOn(console, 'log').mockImplementation(() => {});
+  vitest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 beforeEach(async () => {
@@ -34,6 +39,7 @@ beforeEach(async () => {
   await pool.execute(`CREATE DATABASE IF NOT EXISTS \`${databaseId}\`;`);
 
   vitest.stubEnv('MYSQL_URL', `${inject('MYSQL_URL')}/${databaseId}`);
+  vitest.stubEnv('REDIS_PREFIX', databaseId);
 
   ({ app, repositories } = await createTestApplication());
 });

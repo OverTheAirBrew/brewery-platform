@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { WsException } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-import { KeysService } from '../api/keys/keys.service';
+import { ApiKeysService } from '../api/api-keys/api-keys.service';
 
 export type SocketMiddleware = (
   socket: Socket,
@@ -10,7 +10,7 @@ export type SocketMiddleware = (
 
 export const AuthMiddleware = (
   jwtService: JwtService,
-  keysService: KeysService,
+  apiKeysService: ApiKeysService,
 ): SocketMiddleware => {
   return async (socket: Socket, next: (err?: Error) => void) => {
     const [type, token] = socket.handshake?.auth?.token?.split(' ') ?? [];
@@ -26,7 +26,7 @@ export const AuthMiddleware = (
         throw new WsException('Api Key or Token not provided');
 
       if (apiKey) {
-        await keysService.validateApiKey(apiKey as string);
+        await apiKeysService.validateApiKey(apiKey as string);
       } else {
         await jwtService.verifyAsync(accessToken as string);
       }

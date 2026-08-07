@@ -3,8 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenResponseDto, UserDto } from '@overtheairbrew/models';
 import { createHash } from 'crypto';
 
-import { describe } from 'vitest';
-
 @Injectable()
 export class UsersService {
   private readonly users = [

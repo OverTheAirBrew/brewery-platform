@@ -8,5 +8,6 @@ import { DeviceTypesService } from '../device-types/device-types.service';
   providers: [DeviceService, DeviceTypesService],
   controllers: [DevicesController],
   imports: [DataModule],
+  exports: [],
 })
 export class DevicesModule {}

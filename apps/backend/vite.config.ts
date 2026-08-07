@@ -3,6 +3,15 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     watch: false,
+    coverage: {
+      exclude: [
+        'src/data',
+        'src/api/**/*.module.ts',
+        'src/api/**/errors/*.ts',
+        'src/api/**/*.controller.ts',
+      ],
+      include: ['src/**/*.ts'],
+    },
     projects: [
       {
         test: {

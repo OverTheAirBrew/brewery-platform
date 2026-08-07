@@ -1,13 +1,13 @@
 import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ApiKeyDto } from '@overtheairbrew/models';
-import { KeysService } from './keys.service';
+import { ApiKeysService } from './api-keys.service';
 
 @Controller('api-keys')
 @ApiTags('api-key')
 @ApiBearerAuth()
-export class KeysController {
-  constructor(private keysService: KeysService) {}
+export class ApiKeysController {
+  constructor(private keysService: ApiKeysService) {}
 
   @Post('/')
   @ApiCreatedResponse({

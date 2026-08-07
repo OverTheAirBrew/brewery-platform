@@ -4,6 +4,8 @@ packages:
 allowBuilds:
   '@nestjs/core': true
   '@scarf/scarf': false
+  '@suites/di.nestjs': true
+  '@suites/doubles.vitest': true
   cpu-features: true
   esbuild: false
   msgpackr-extract: true

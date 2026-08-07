@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { DeviceTypeSchema } from '@overtheairbrew/models';
 
 import { Device, DeviceIdentifier } from '@overtheairbrew/plugins';
+import { DeviceTypeNotFoundError } from './errors/device-type-not-found-error';
 
 @Injectable()
 export class DeviceTypesService {
@@ -18,7 +19,7 @@ export class DeviceTypesService {
   async getByNameRaw(name: string) {
     const device = this.devices.find((device) => device.name === name);
     if (!device) {
-      return null;
+      throw new DeviceTypeNotFoundError(name);
     }
     return device;
   }

@@ -1,15 +1,16 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { ActorTypesService } from '../actor-types/actor-types.service';
 import { REPOSITORIES } from '../../data/data.abstractions';
 import { Actor } from '../../data/entities/actor.entity';
 import { Device } from '../../data/entities/device.entity';
 import { ActorDto } from '@overtheairbrew/models';
 import { DeviceTypesService } from '../device-types/device-types.service';
+import { ActorSensorTypesService } from '../actor-sensor-types/actor-sensor-types.service';
+import { DeviceNotFoundError } from '../devices/errors/device-not-found-error';
 
 @Injectable()
 export class ActorsService {
   constructor(
-    private readonly actorTypesService: ActorTypesService,
+    private readonly actorSensorTypesService: ActorSensorTypesService,
     @Inject(REPOSITORIES.ActorRepository)
     private readonly actorRepository: typeof Actor,
     @Inject(REPOSITORIES.DeviceRepository)
@@ -30,25 +31,15 @@ export class ActorsService {
     });
 
     if (!device) {
-      throw new Error(`Device with ID ${actor.device_id} not found`);
+      throw new DeviceNotFoundError(actor.device_id);
     }
 
     const deviceType = await this.deviceTypesService.getByNameRaw(device.type);
 
-    if (!deviceType) {
-      throw new BadRequestException(`Device type ${device.type} not found`);
-    }
-
-    const actorType = await this.actorTypesService.getByNameRaw(
+    const actorType = await this.actorSensorTypesService.getRawActorType(
       device.type,
       actor.type,
     );
-
-    if (!actorType) {
-      throw new Error(
-        `Actor type ${actor.type} not found for device type ${device.type}`,
-      );
-    }
 
     await actorType.validateConfiguration(device.config, actor.config);
 

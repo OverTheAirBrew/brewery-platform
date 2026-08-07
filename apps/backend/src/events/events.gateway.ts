@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Server } from 'socket.io';
 import { AuthMiddleware } from './events.auth.middleware';
-import { KeysService } from '../api/keys/keys.service';
+import { ApiKeysService } from '../api/api-keys/api-keys.service';
 
 interface IWebsocketMessage<Data> {
   Topic: string;
@@ -25,7 +25,7 @@ export class EventsGateway implements OnGatewayInit {
 
   constructor(
     private readonly jwtService: JwtService,
-    private readonly keysService: KeysService,
+    private readonly apiKeysService: ApiKeysService,
   ) {}
 
   public sendMessage<Data>(contract: IWebsocketMessage<Data>) {
@@ -35,6 +35,6 @@ export class EventsGateway implements OnGatewayInit {
   }
 
   afterInit(server: Server): void {
-    server.use(AuthMiddleware(this.jwtService, this.keysService));
+    server.use(AuthMiddleware(this.jwtService, this.apiKeysService));
   }
 }

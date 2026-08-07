@@ -27,7 +27,6 @@ import config, { ConfigType } from './config';
 import { DataModule } from './data/data.module';
 import { EventsModule } from './events/events.module';
 import { DeviceTypesModule } from './api/device-types/device-types.module';
-import { KeysModule } from './api/keys/keys.module';
 import { UsersModule } from './api/users/users.module';
 
 import { HealthController } from './api/health/health.controller';
@@ -38,11 +37,12 @@ import { ProcessorsModule } from './processors/processors.module';
 import { PluginsModule } from './plugins/plugins.module';
 import { MqttClientModule } from './mqtt-client/mqtt-client.module';
 import { LogicTypesModule } from './api/logic-types/logic-types.module';
-import { ActorTypesModule } from './api/actor-types/actor-types.module';
 import { VesselsModule } from './api/vessels/vessels.module';
 import { ActorsModule } from './api/actors/actors.module';
 
 import { BullModule } from '@nestjs/bullmq';
+import { ActorSensorTypesModule } from './api/actor-sensor-types/actor-sensor-types.module';
+import { ApiKeysModule } from './api/api-keys/api-keys.module';
 
 @Catch(HttpException)
 class HttpExceptionFilter extends BaseExceptionFilter {
@@ -77,26 +77,32 @@ class HttpExceptionFilter extends BaseExceptionFilter {
       }),
       inject: [ConfigService],
     }),
-    BullModule.forRoot({
-      connection: {
-        host: 'localhost',
-        port: 6379,
+    BullModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => {
+        const config = configService.get<ConfigType>('CONFIG');
+        return {
+          connection: {
+            url: config!.redis.REDIS_URL,
+            keyPrefix: config?.redis.REDIS_PREFIX || undefined,
+          },
+        };
       },
+      inject: [ConfigService],
     }),
     EventEmitterModule.forRoot(),
     ScheduleModule.forRoot(),
     EventsModule,
     DeviceTypesModule,
-    KeysModule,
+    ApiKeysModule,
     UsersModule,
     TelemetryModule,
     DevicesModule,
     SensorsModule,
     ProcessorsModule,
     LogicTypesModule,
-    ActorTypesModule,
     VesselsModule,
     ActorsModule,
+    ActorSensorTypesModule,
   ],
   providers: [
     {

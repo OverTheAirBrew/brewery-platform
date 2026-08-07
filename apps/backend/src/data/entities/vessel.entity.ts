@@ -18,6 +18,8 @@ export type RepositoryVessel = {
   id?: string;
   type: 'kettle' | 'fermenter';
 
+  name: string;
+
   sensor_id?: string;
   heater_id?: string;
   cooler_id?: string;
@@ -40,6 +42,9 @@ export class Vessel extends Model<RepositoryVessel> {
   @PrimaryKey
   @Column(DataType.UUID)
   id: string;
+
+  @Column(DataType.STRING)
+  name: string;
 
   @Column(DataType.ENUM('kettle', 'fermenter'))
   type: 'kettle' | 'fermenter';

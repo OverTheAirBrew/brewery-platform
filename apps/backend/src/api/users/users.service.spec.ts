@@ -17,7 +17,6 @@ describe('UsersService', () => {
     const module = await Test.createTestingModule({
       providers: [
         UsersService,
-
         {
           provide: JwtService,
           useValue: mockJwtService,
@@ -26,7 +25,6 @@ describe('UsersService', () => {
     }).compile();
 
     mockJwtService.signAsync.mockResolvedValue('token');
-
     usersService = module.get<UsersService>(UsersService);
   });
 

@@ -9,15 +9,12 @@ import {
   VesselNotFoundError,
 } from './vessels.errors';
 import { Actor } from '../../data/entities/actor.entity';
-import { ActorTypesService } from '../actor-types/actor-types.service';
 import { Device } from '../../data/entities/device.entity';
 import { ThermalAction } from '@overtheairbrew/plugins';
 import { Sensor } from '../../data/entities/sensor.entity';
 import { Telemetry } from '../../data/entities/telemetry.entity';
-import { Queue } from 'bullmq';
-import { QUEUE_NAME } from './vessels.abstractions';
-import { InjectQueue } from '@nestjs/bullmq';
 import { CustomQueue } from '../../internal-events/internal-events.service';
+import { ActorSensorTypesService } from '../actor-sensor-types/actor-sensor-types.service';
 
 @Injectable()
 export class VesselsService {
@@ -27,7 +24,7 @@ export class VesselsService {
     @Inject(REPOSITORIES.VesselRepository)
     private readonly vesselRepository: typeof Vessel,
     private readonly logicTypesService: LogicTypesService,
-    private readonly actorTypesService: ActorTypesService,
+    private readonly actorSensorTypesService: ActorSensorTypesService,
     @Inject('logic-processing-queue') private readonly queue: CustomQueue,
   ) {
     this.logger = new Logger(VesselsService.name);
@@ -163,8 +160,14 @@ export class VesselsService {
     const { heater, cooler } = vessel;
 
     const [heaterType, coolerType] = await Promise.all([
-      this.actorTypesService.getByNameRaw(heater!.device!.type, heater!.type),
-      this.actorTypesService.getByNameRaw(cooler!.device!.type, cooler!.type),
+      this.actorSensorTypesService.getRawActorType(
+        heater!.device!.type,
+        heater!.type,
+      ),
+      this.actorSensorTypesService.getRawActorType(
+        cooler!.device!.type,
+        cooler!.type,
+      ),
     ]);
 
     const currentTemp = vessel.sensor?.telemetry?.[0]?.value;

@@ -17,15 +17,6 @@ export class DeviceService {
     private readonly mqttClient: MqttService,
   ) {}
 
-  private generatePassword(
-    length = 20,
-    characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$',
-  ): string {
-    return Array.from(randomFillSync(new Uint32Array(length)))
-      .map((x) => characters[x % characters.length])
-      .join('');
-  }
-
   async createDevice(deviceDto: DeviceDto) {
     const deviceType = await this.deviceTypeService.getByNameRaw(
       deviceDto.type,
@@ -133,5 +124,14 @@ export class DeviceService {
       name: sensor.name,
       properties,
     });
+  }
+
+  private generatePassword(
+    length = 20,
+    characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$',
+  ): string {
+    return Array.from(randomFillSync(new Uint32Array(length)))
+      .map((x) => characters[x % characters.length])
+      .join('');
   }
 }

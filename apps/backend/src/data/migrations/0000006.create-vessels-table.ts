@@ -12,6 +12,10 @@ export async function up({
       type: DataTypes.UUID,
       primaryKey: true,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     type: {
       type: DataTypes.ENUM('kettle', 'fermenter'),
       allowNull: false,

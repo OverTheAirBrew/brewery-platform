@@ -9,14 +9,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { ALLOW_API_KEY } from './api-key.decorator';
 import { IS_PUBLIC_KEY } from './public.decorator';
-import { KeysService } from '../api/keys/keys.service';
+import { ApiKeysService } from '../api/api-keys/api-keys.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
     private readonly reflector: Reflector,
-    private keysService: KeysService,
+    private apiKeysService: ApiKeysService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
     if (useApiKey) {
       const apiKey = this.extractApiKeyFromHeaderOrQuery(request);
       if (apiKey) {
-        const apiKeyValid = await this.keysService.validateApiKey(apiKey);
+        const apiKeyValid = await this.apiKeysService.validateApiKey(apiKey);
         if (apiKeyValid) return true;
       }
 
