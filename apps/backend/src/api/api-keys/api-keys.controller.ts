@@ -3,10 +3,12 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ApiKeyDto } from '@overtheairbrew/models';
 import { ApiKeysService } from './api-keys.service';
 
+/* istanbul ignore start */
 @Controller('api-keys')
 @ApiTags('api-key')
 @ApiBearerAuth()
 export class ApiKeysController {
+  /* istanbul ignore stop */
   constructor(private keysService: ApiKeysService) {}
 
   @Post('/')

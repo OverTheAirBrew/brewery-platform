@@ -12,9 +12,11 @@ import { ActorDto, ActorSchema } from '@overtheairbrew/models';
 import { IdResponseDto } from '../../id.response.dto';
 import { ActorsService } from './actors.service';
 
+/* istanbul ignore start */
 @ApiTags('actors')
 @Controller('/actors')
 export class ActorsController {
+  /* istanbul ignore stop */
   constructor(private readonly actorService: ActorsService) {}
 
   @Post('/')

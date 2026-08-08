@@ -4,8 +4,10 @@ import { Telemetry } from '../../data/entities/telemetry.entity';
 import { SensorReadingPayload } from '../../internal-events/events/sensor-reading';
 import { Sensor } from '../../data/entities/sensor.entity';
 
+/* istanbul ignore start */
 @Injectable()
 export class TelemetryService {
+  /* istanbul ignore stop */
   private readonly logger = new Logger(TelemetryService.name);
 
   constructor(

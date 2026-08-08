@@ -5,8 +5,10 @@ import { REPOSITORIES } from '../../data/data.abstractions';
 import { ApiKey } from '../../data/entities/api-key.entity';
 import { ApiKeyDoesNotExistError } from './errors/api-key-does-not-exist-error';
 
+/* istanbul ignore start */
 @Injectable()
 export class ApiKeysService {
+  /* istanbul ignore stop */
   constructor(
     @Inject(REPOSITORIES.ApiKeyRepository)
     private apiKeyRepository: typeof ApiKey,

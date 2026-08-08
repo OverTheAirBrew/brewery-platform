@@ -14,9 +14,13 @@ export class TestingDevice extends Device<any> {
 
   constructor(
     requiredCredentials: RequiredCredentials = RequiredCredentials.None,
+    maxActors: number = Infinity,
+    maxSensors: number = Infinity,
   ) {
     super({
       requiredCredentials,
+      maxActors,
+      maxSensors,
       form: new Form()
         .addInteger('int', { required: true, defaultValue: 0 })
         .addSelectBox('select', {

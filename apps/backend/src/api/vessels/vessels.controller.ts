@@ -17,9 +17,11 @@ import { VesselProcess } from '../../internal-events/events/vessel-process';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { Processor } from '@nestjs/bullmq';
 
+/* istanbul ignore start */
 @ApiTags('vessels')
 @Controller('/vessels')
 export class VesselsController {
+  /* istanbul ignore stop */
   constructor(
     private readonly vesselsService: VesselsService,
     private readonly mqttService: MqttService,

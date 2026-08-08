@@ -7,9 +7,13 @@ import { Actor, RequiredCredentials, Sensor } from '@overtheairbrew/plugins';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { AddMqttUserMessage } from '../../mqtt-client/events/add-mqtt-user.message';
 import { randomFillSync } from 'crypto';
+import { DeviceNotFoundError } from './errors/device-not-found-error';
+import { DeviceTypeNotFoundError } from '../device-types/errors/device-type-not-found-error';
 
+/* istanbul ignore start */
 @Injectable()
 export class DeviceService {
+  /* istanbul ignore stop */
   constructor(
     private deviceTypeService: DeviceTypesService,
     @Inject(REPOSITORIES.DeviceRepository)
@@ -62,16 +66,10 @@ export class DeviceService {
     const device = await this.deviceRepository.findByPk(id);
 
     if (!device) {
-      throw new BadRequestException(`Device with id ${id} not found`);
+      throw new DeviceNotFoundError(id);
     }
 
     const deviceType = await this.deviceTypeService.getByNameRaw(device.type);
-
-    if (!deviceType) {
-      throw new BadRequestException(
-        `Device type ${device.type} not found for device ${id}`,
-      );
-    }
 
     return await Promise.all(
       deviceType.sensors.map((sensor) =>
@@ -84,16 +82,10 @@ export class DeviceService {
     const device = await this.deviceRepository.findByPk(id);
 
     if (!device) {
-      throw new BadRequestException(`Device with id ${id} not found`);
+      throw new DeviceNotFoundError(id);
     }
 
     const deviceType = await this.deviceTypeService.getByNameRaw(device.type);
-
-    if (!deviceType) {
-      throw new BadRequestException(
-        `Device type ${device.type} not found for device ${id}`,
-      );
-    }
 
     return await Promise.all(
       deviceType.actors.map((actor) => this.mapActorType(actor, device.config)),

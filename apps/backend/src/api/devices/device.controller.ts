@@ -21,9 +21,11 @@ import {
 import { DeviceService } from './device.service';
 import { IdResponseDto } from '../../id.response.dto';
 
+/* istanbul ignore start */
 @ApiTags('devices')
 @Controller('/devices')
 export class DevicesController {
+  /* istanbul ignore stop */
   constructor(private readonly deviceService: DeviceService) {}
 
   @Post('/')

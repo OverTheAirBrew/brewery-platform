@@ -6,9 +6,12 @@ import { ActorDto } from '@overtheairbrew/models';
 import { DeviceTypesService } from '../device-types/device-types.service';
 import { ActorSensorTypesService } from '../actor-sensor-types/actor-sensor-types.service';
 import { DeviceNotFoundError } from '../devices/errors/device-not-found-error';
+import { MaximumActorsForDeviceError } from './errors/maximum-actors-for-device-error';
 
+/* istanbul ignore start */
 @Injectable()
 export class ActorsService {
+  /* istanbul ignore stop */
   constructor(
     private readonly actorSensorTypesService: ActorSensorTypesService,
     @Inject(REPOSITORIES.ActorRepository)
@@ -44,9 +47,7 @@ export class ActorsService {
     await actorType.validateConfiguration(device.config, actor.config);
 
     if (deviceType.validateActorCount(device.actors?.length || 0)) {
-      throw new BadRequestException(
-        `Maximum number of actors exceeded for device type ${device.type}`,
-      );
+      throw new MaximumActorsForDeviceError(device.type);
     }
 
     const { id } = await this.actorRepository.create({

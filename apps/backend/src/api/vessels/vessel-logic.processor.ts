@@ -3,8 +3,10 @@ import { Job } from 'bullmq';
 import { VesselsService } from './vessels.service';
 import { QUEUE_NAME } from './vessels.abstractions';
 
+/* istanbul ignore start */
 @Processor('logic-processing-queue')
 export class LogicProcessingConsumer extends WorkerHost {
+  /* istanbul ignore stop */
   constructor(private readonly vesselsService: VesselsService) {
     super();
   }

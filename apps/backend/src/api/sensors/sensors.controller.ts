@@ -12,9 +12,11 @@ import { SensorDto, SensorSchema } from '@overtheairbrew/models';
 import { IdResponseDto } from '../../id.response.dto';
 import { SensorsService } from './sensors.service';
 
+/* istanbul ignore start */
 @ApiTags('sensors')
 @Controller('/sensors')
 export class SensorsController {
+  /* istanbul ignore stop */
   constructor(private readonly sensorService: SensorsService) {}
 
   @Post('/')

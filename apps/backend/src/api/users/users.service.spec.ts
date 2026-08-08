@@ -1,31 +1,21 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Test } from '@nestjs/testing';
 import { UsersService } from './users.service';
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { vi } from 'vitest';
+import { Mocked, TestBed } from '@suites/unit';
 
 describe('UsersService', () => {
   let usersService: UsersService;
-
-  const mockJwtService = {
-    signAsync: vi.fn(),
-  };
+  let mockJwtService: Mocked<JwtService>;
 
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      providers: [
-        UsersService,
-        {
-          provide: JwtService,
-          useValue: mockJwtService,
-        },
-      ],
-    }).compile();
+    const { unit, unitRef } = await TestBed.solitary(UsersService).compile();
 
-    mockJwtService.signAsync.mockResolvedValue('token');
-    usersService = module.get<UsersService>(UsersService);
+    usersService = unit;
+    mockJwtService = unitRef.get<JwtService>(JwtService);
+    void mockJwtService.signAsync.mockResolvedValue('token');
   });
 
   afterEach(() => {

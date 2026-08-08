@@ -3,8 +3,10 @@ import { DeviceTypesService } from '../device-types/device-types.service';
 import { SensorTypeNotFoundError } from './errors/sensor-type-not-found-error';
 import { ActorTypeNotFoundError } from './errors/actor-type-not-found-error';
 
+/* istanbul ignore start */
 @Injectable()
 export class ActorSensorTypesService {
+  /* istanbul ignore stop */
   constructor(private readonly deviceTypesService: DeviceTypesService) {}
 
   async getRawSensorType(deviceTypeId: string, sensorTypeId: string) {

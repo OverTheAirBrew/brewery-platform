@@ -4,8 +4,10 @@ import { LogicTypesSchema } from '@overtheairbrew/models';
 import { Logic, LogicIdentifier } from '@overtheairbrew/plugins';
 import { LogicTypeNotFoundError } from './errors/logic-type-not-found-error';
 
+/* istanbul ignore start */
 @Injectable()
 export class LogicTypesService {
+  /* istanbul ignore stop */
   constructor(@Inject(LogicIdentifier) private readonly logics: Logic<any>[]) {}
 
   async getAll() {

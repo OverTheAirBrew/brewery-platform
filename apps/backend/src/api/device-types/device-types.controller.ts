@@ -3,10 +3,12 @@ import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeviceTypeDto } from '@overtheairbrew/models';
 import { DeviceTypesService } from './device-types.service';
 
+/* istanbul ignore start */
 @ApiTags('device-types')
 @Controller('/device-types')
 @ApiBearerAuth()
 export class DeviceTypesController {
+  /* istanbul ignore stop */
   constructor(private deviceTypesService: DeviceTypesService) {}
 
   @Get('/')

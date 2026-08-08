@@ -8,6 +8,10 @@ import { Device } from '../../data/entities/device.entity';
 import { Actor } from '../../data/entities/actor.entity';
 import { TestingDevice } from '../../../test/helpers/test-providers/device';
 import { TestingActor } from '../../../test/helpers/test-providers/actor';
+import { DeviceNotFoundError } from '../devices/errors/device-not-found-error';
+import { max } from 'rxjs';
+import { RequiredCredentials } from '@overtheairbrew/plugins';
+import { MaximumActorsForDeviceError } from './errors/maximum-actors-for-device-error';
 
 describe('ActorsService', () => {
   let actorsService: ActorsService;
@@ -36,7 +40,7 @@ describe('ActorsService', () => {
   });
 
   describe('createActor', () => {
-    it('test', async () => {
+    it('should create an actor', async () => {
       void mockDeviceRepository.findByPk.mockResolvedValue({} as any);
 
       void mockActorRepository.create.mockResolvedValue({ id: 1 });
@@ -52,6 +56,32 @@ describe('ActorsService', () => {
       const { id } = await actorsService.createActor({} as any);
 
       expect(id).toBe(1);
+    });
+
+    it('should throw an error if the device does not exist', async () => {
+      void mockDeviceRepository.findByPk.mockResolvedValue(null);
+
+      await expect(actorsService.createActor({} as any)).rejects.toBeInstanceOf(
+        DeviceNotFoundError,
+      );
+    });
+
+    it('should throw an error if the max number of actors has been reached for the device', async () => {
+      void mockDeviceRepository.findByPk.mockResolvedValue({
+        actors: [{}, {}, {}],
+      } as any);
+
+      void mockDeviceTypesService.getByNameRaw.mockResolvedValue(
+        new TestingDevice(RequiredCredentials.None, 3),
+      );
+
+      void mockActorSensorTypesService.getRawActorType.mockResolvedValue(
+        new TestingActor(),
+      );
+
+      await expect(actorsService.createActor({} as any)).rejects.toBeInstanceOf(
+        MaximumActorsForDeviceError,
+      );
     });
   });
 });

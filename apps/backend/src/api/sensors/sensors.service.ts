@@ -8,8 +8,10 @@ import { RequiredCredentials } from '@overtheairbrew/plugins';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { UpdateAuthorizePublishSubscribe } from '../../mqtt-client/events/update-mqtt-user-authorize-publish-subscribe';
 
+/* istanbul ignore start */
 @Injectable()
 export class SensorsService {
+  /* istanbul ignore stop */
   constructor(
     @Inject(REPOSITORIES.DeviceRepository)
     private readonly deviceRepository: typeof Device,

@@ -3,8 +3,12 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenResponseDto, UserDto } from '@overtheairbrew/models';
 import { createHash } from 'crypto';
 
+/* istanbul ignore start */
 @Injectable()
 export class UsersService {
+  /* istanbul ignore stop */
+  constructor(private readonly jwtService: JwtService) {}
+
   private readonly users = [
     {
       userId: 1,
@@ -12,8 +16,6 @@ export class UsersService {
       password: 'password',
     },
   ];
-
-  constructor(private readonly jwtService: JwtService) {}
 
   async login(user: UserDto) {
     const fetchedUser = this.users.find(

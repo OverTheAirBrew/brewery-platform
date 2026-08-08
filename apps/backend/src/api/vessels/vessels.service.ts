@@ -16,8 +16,10 @@ import { Telemetry } from '../../data/entities/telemetry.entity';
 import { CustomQueue } from '../../internal-events/internal-events.service';
 import { ActorSensorTypesService } from '../actor-sensor-types/actor-sensor-types.service';
 
+/* istanbul ignore start */
 @Injectable()
 export class VesselsService {
+  /* istanbul ignore stop */
   private readonly logger: Logger;
 
   constructor(

@@ -4,8 +4,10 @@ import { DeviceTypeSchema } from '@overtheairbrew/models';
 import { Device, DeviceIdentifier } from '@overtheairbrew/plugins';
 import { DeviceTypeNotFoundError } from './errors/device-type-not-found-error';
 
+/* istanbul ignore start */
 @Injectable()
 export class DeviceTypesService {
+  /* istanbul ignore stop */
   constructor(
     @Inject(DeviceIdentifier) private readonly devices: Device<any>[],
   ) {}

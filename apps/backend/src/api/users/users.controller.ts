@@ -13,9 +13,11 @@ import { UsersService } from './users.service';
 import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
 import { MessagePattern, Payload, Transport } from '@nestjs/microservices';
 
+/* istanbul ignore start */
 @ApiTags('users')
 @Controller('/users')
 export class UsersController {
+  /* istanbul ignore stop */
   constructor(private readonly userService: UsersService) {}
 
   @Public()
