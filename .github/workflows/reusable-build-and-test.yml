@@ -98,7 +98,7 @@ jobs:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
         run: |
-          pnpm run build --filter backend
+          pnpm run build --filter ^backend
       - name: E2E Tests
         env:
           PRIVATE_KEY: supersecretkey

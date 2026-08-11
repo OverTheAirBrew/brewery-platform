@@ -60,6 +60,7 @@
     "@nestjs/cli": "^11.0.21",
     "@nestjs/schematics": "^11.1.0",
     "@nestjs/testing": "^11.1.24",
+    "@overtheairbrew/codegen": "workspace:*",
     "@overtheairbrew/tsconfig": "workspace:*",
     "@suites/di.nestjs": "^3.1.0",
     "@suites/doubles.vitest": "^3.1.0",

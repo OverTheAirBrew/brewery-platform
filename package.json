@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "codegen": "turbo codegen",
     "start:dev": "turbo start:dev",
     "prune": "turbo prune",
     "test": "turbo test",
