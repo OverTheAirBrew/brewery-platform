@@ -6,7 +6,7 @@
     },
     "build": {
       "dependsOn": [
-        "codegen",
+        "^codegen",
         "^build"
       ],
       "outputs": [
