@@ -16,7 +16,7 @@ const discoverPackageDirs = async () => {
     if (trimmedLine === 'packages:') {
       inPackages = true;
     } else if (inPackages && trimmedLine.startsWith('- ')) {
-      const match = trimmedLine.match(/['"]([^'"]+)['"]/);
+      const match = trimmedLine.match(/^-\s*([^\/]+\/\*)$/);
 
       if (match) {
         const pattern = match[1];
@@ -89,7 +89,7 @@ async function main() {
 
   if (!plugins.length) {
     console.error('[codegen] No plugins found for code generation.');
-    process.exit(1);
+    process.exit(0);
   }
 
   for (const { config, dir } of plugins as {

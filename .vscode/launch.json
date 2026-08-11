@@ -47,7 +47,7 @@
         "runtimeExecutable": "npm",
         "runtimeArgs": [
           "run",
-          "app",
+          "codegen",
           "--",
           "--inspect-brk"
         ],

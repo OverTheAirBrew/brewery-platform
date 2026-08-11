@@ -1,6 +1,6 @@
 packages:
-  - 'apps/*'
-  - 'packages/*'
+  - apps/*
+  - packages/*
 allowBuilds:
   '@nestjs/core': true
   '@scarf/scarf': false

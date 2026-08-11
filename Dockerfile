@@ -11,7 +11,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN apk add --no-cache bash openssl \
   && corepack enable \
-  && corepack prepare pnpm@11.17.0 --activate \
+  && corepack prepare pnpm@11.21.0 --activate \
   && pnpm add turbo --global
 
 FROM base AS prune
