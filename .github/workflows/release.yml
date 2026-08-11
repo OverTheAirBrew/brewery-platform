@@ -44,7 +44,7 @@ jobs:
           app-id: ${{ vars.OTA_RELEASE_APP_ID }}
           private-key: ${{ secrets.OTA_RELEASE_APP_PRIVATE_KEY }}
       - name: Create release pull-request of publish
-        uses: changesets/action@v1
+        uses: changesets/action@v2.0.0
         id: changesets
         with:
           publish: pnpm run release
