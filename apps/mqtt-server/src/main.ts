@@ -99,6 +99,13 @@ async function createUser(user: {
 
   const aedesBroker: Aedes = broker;
 
+  aedesBroker.on('clientReady', (client) => {
+    const cl: { user: string | undefined } = client as unknown as {
+      user: string | undefined;
+    };
+    console.log(`Client connected: ${client.id}, user: ${cl?.user}`);
+  });
+
   aedesBroker.on('publish', async (packet, client) => {
     const cl: { user: string | undefined } = client as unknown as {
       user: string | undefined;
