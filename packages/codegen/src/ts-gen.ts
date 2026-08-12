@@ -1,48 +1,58 @@
-import { SchemaConfig } from './abstractions';
+import { PropertySchema, SchemaConfig } from './abstractions';
 
-const zodMappings = (enums?: string[]): Record<string, string> => ({
+const ZOD_TYPES: Record<string, string> = {
   string: 'z.string()',
   number: 'z.number()',
-  enum: enums
-    ? `z.enum([${enums.map((e) => `'${e}'`).join(', ')}])`
-    : 'z.any()',
-});
+  boolean: 'z.boolean()',
+  object: 'z.object(z.unknown())',
+  array: 'z.array(z.unknown())',
+};
 
-const HEADING = `// This file is auto-generated. Do not edit manually.
+const zodType = (prop: PropertySchema) => {
+  if (prop.enum)
+    return `z.enum([${prop.enum.map((e) => `'${e}'`).join(', ')}])`;
+  return ZOD_TYPES[prop.type || ''] || 'z.unknown()';
+};
 
-import z from 'zod';
-import { MqttMessage } from '@overtheairbrew/mqtt';
-`;
-
-const SCHEMA = (
-  schema: SchemaConfig,
-) => `export const ${schema.title}Schema = z.object({
-  ${Object.entries(schema.properties)
-    .map(([key, value]) => {
-      const isRequired = schema.required.includes(key);
-      const type =
-        zodMappings(value.enum)[value.enum ? 'enum' : value.type] || 'z.any()';
-      return `${key}: ${type}${isRequired ? '' : '.optional()'},`;
+const generateZodObject = (schema: SchemaConfig) => {
+  const required = new Set(schema.required);
+  const fields = Object.entries(schema.properties || {})
+    .map(([key, prop]) => {
+      const type = zodType(prop);
+      return `  ${key}: ${required.has(key) ? type : `${type}.optional()`}`;
     })
-    .join('\n')}
-});
+    .join(',\n');
 
-export type ${schema.title}Type = z.infer<typeof ${schema.title}Schema>
-`;
+  return `z.object({\n${fields},\n}).strict()`;
+};
 
-const CLASS = (
-  schema: SchemaConfig,
-) => `export class ${schema.title} extends MqttMessage<${schema.title}Type> {
-  protected topic = (payload: ${schema.title}Type) => \`${schema.topic.replace(/\{([^}]+)\}/g, '${payload.$1}')}\`;
+const generateMessageBlock = (schema: SchemaConfig) => {
+  const schemaName = `${schema.title}PayloadSchema`;
+  const typeName = `${schema.title}Payload`;
+  const topicExpr = schema.topic.replace(/\{([^}]+)\}/g, '${payload.$1}');
 
-  constructor(data: ${schema.title}Type) {
-    super(data);
-  }
-}
-`;
+  return [
+    ``,
+    ``,
+    `export const ${schemaName} = ${generateZodObject(schema)};`,
+    ``,
+    `export type ${typeName} = z.infer<typeof ${schemaName}>;`,
+    ``,
+    `export class ${schema.title} extends MqttMessage<${typeName}> {`,
+    `  protected topic = (payload: ${typeName}) => \`${topicExpr}\`;`,
+    `}`,
+  ].join('\n');
+};
+
+const toKebabCase = (str: string) =>
+  str
+    .replace(/([A-Z])/g, '-$1')
+    .toLowerCase()
+    .replace(/^-/, '');
 
 export const generateTypescriptFiles = (
   schemas: SchemaConfig[],
+  generatedDate: string,
 ): Record<string, string> => {
   const output: Record<string, string> = {};
 
@@ -54,8 +64,33 @@ export const generateTypescriptFiles = (
       continue;
     }
 
-    const parts: string[] = [HEADING, SCHEMA(schema), CLASS(schema)];
-    output[schema.title] = parts.join('\n');
+    const fileHeader = [
+      `// AUTO_GENERATED - do not edit by hand.`,
+      `// Generated ${generatedDate}`,
+      ``,
+      `import z from 'zod';`,
+      `import { MqttMessage } from '@overtheairbrew/mqtt';`,
+    ].join('\n');
+
+    for (const schema of schemas) {
+      if (output[toKebabCase(schema.title)]) {
+        console.log(
+          `[codegen] Warning: Duplicate schema title ${schema.title}. Skipping.`,
+        );
+        continue;
+      }
+
+      output[toKebabCase(schema.title)] =
+        fileHeader + generateMessageBlock(schema) + '\n';
+    }
+
+    output['index'] = [
+      `// AUTO_GENERATED - do not edit by hand.`,
+      `// Generated ${generatedDate}`,
+      ``,
+      ...schemas.map((s) => `export * from './${toKebabCase(s.title)}';`),
+      ``,
+    ].join('\n');
   }
 
   return output;

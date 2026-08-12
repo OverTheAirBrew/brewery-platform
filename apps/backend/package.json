@@ -6,7 +6,16 @@
   "private": true,
   "license": "UNLICENSED",
   "codegen": {
-    "schemas": "src/plugins"
+    "source": {
+      "schemas": [
+        "src/plugins/ftss-device/message-schemas/ftss-switch-actor.json",
+        "src/plugins/ftss-device/message-schemas/ftss-temperature-reading.json"
+      ]
+    },
+    "output": {
+      "dir": "src/__generated__",
+      "type": "typescript"
+    }
   },
   "scripts": {
     "build": "nest build",

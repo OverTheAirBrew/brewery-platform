@@ -134,7 +134,6 @@ dist
 
 
 apps/backend/openapi.yaml
-apps/backend/src/plugins/**/messages/*.ts
 out
 
 packages/api-client/src/.openapi-generator
@@ -146,3 +145,5 @@ database-data
 apps/front-end/build
 
 **/credentials.json
+
+__generated__

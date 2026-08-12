@@ -12,6 +12,7 @@
       "outputs": [
         "dist"
       ],
+      "inputs": ["!**/__generated__/**"],
       "cache": true
     },
     "start:dev": {
