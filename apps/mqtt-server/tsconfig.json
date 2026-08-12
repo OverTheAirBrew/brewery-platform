@@ -1,0 +1,16 @@
+{
+  "extends": "@overtheairbrew/tsconfig/nestjs.json", 
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "typeRoots": ["./node_modules/@types", "./src"],
+    "types": ["node"]
+  },
+  "include": ["./src/"]
+}

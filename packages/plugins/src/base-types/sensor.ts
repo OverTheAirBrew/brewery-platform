@@ -13,13 +13,21 @@ export interface ISensor<TDevice, TProps> {
 
 export const ISensor = class Dummy {} as ClassType<ISensor<any, any>>;
 
-export abstract class Sensor<TDevice, TProps>
-  implements ISensor<TDevice, TProps>
-{
+type SensorType = 'mqtt' | 'http';
+
+export abstract class Sensor<TDevice, TProps> implements ISensor<
+  TDevice,
+  TProps
+> {
   public name: string;
 
-  constructor(private configOptions: Form = new Form()) {
+  public configOptions: Form = new Form();
+  public type: SensorType;
+
+  constructor(options: { form?: Form; type: SensorType }) {
     this.name = this.constructor.name;
+    this.configOptions = options?.form ?? new Form();
+    this.type = options.type;
   }
 
   public async run(params: ISensorProps<TDevice, TProps>) {
@@ -32,10 +40,10 @@ export abstract class Sensor<TDevice, TProps>
 
   abstract validateConfiguration(
     deviceConfig: TDevice,
-    sensorConfig: TProps
+    sensorConfig: TProps,
   ): Promise<boolean>;
 
   protected abstract process(
-    params: ISensorProps<TDevice, TProps>
+    params: ISensorProps<TDevice, TProps>,
   ): Promise<number | null>;
 }

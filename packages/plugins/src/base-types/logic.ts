@@ -1,12 +1,25 @@
 import { ClassType } from '../class-type';
 import { Form } from '../input-types/form';
 
+export enum ThermalAction {
+  HEAT = 'heat',
+  COOL = 'cool',
+  IDLE = 'idle',
+}
+
+export type LogicReturnType<T> = Promise<{
+  type: ThermalAction;
+  actionDurationSeconds: number;
+  waitSeconds: number;
+  nextState: T;
+}>;
+
 export interface ILogic<T> {
   run: (
-    params: T,
+    state: T,
     currentTemp: number,
     targetTemp: number,
-  ) => Promise<{ heatTime: number; waitTime: number; nextParams: T }>;
+  ) => LogicReturnType<T>;
   getConfigOptions(config: T): Promise<any>;
 }
 
@@ -28,8 +41,10 @@ export abstract class Logic<T> implements ILogic<T> {
   }
 
   protected abstract process(
-    params: T,
+    state: T,
     currentTemp: number,
     targetTemp: number,
-  ): Promise<{ heatTime: number; waitTime: number; nextParams: T }>;
+  ): Promise<LogicReturnType<T>>;
+
+  abstract validateConfiguration(logicConfig: T): Promise<boolean>;
 }

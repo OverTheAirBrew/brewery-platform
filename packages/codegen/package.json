@@ -1,0 +1,16 @@
+{
+  "name": "@overtheairbrew/codegen",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "codegen": "ts-node src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@overtheairbrew/tsconfig": "workspace:*",
+    "@types/node": "^26.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}

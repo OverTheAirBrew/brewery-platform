@@ -1,3 +1,7 @@
 node_modules
 out
 dist
+.turbo
+.pnpm-store
+brewery-platform-api-requests
+tests

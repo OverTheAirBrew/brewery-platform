@@ -1,0 +1,39 @@
+info:
+  name: vessels
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{vessels_base_url}}"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "testing vessel",
+        "type": "fermenter",
+        "logicType_id": "FermentationPid", 
+        "sensor_id": "{{sensor_id}}",
+        "heater_id": "{{actor_id}}",
+        "cooler_id": "{{actor_id}}",
+        "logicConfig": {
+          "kp": 1,
+          "ki": 2,
+          "kd": 3
+        },
+        "targetTemp": 100
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        let data = res.body;
+        bru.setVar("vessel_id", data.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

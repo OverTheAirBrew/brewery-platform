@@ -1,4 +1,21 @@
 packages:
   - apps/*
   - packages/*
-  - plugins/*
+allowBuilds:
+  '@nestjs/core': true
+  '@scarf/scarf': false
+  '@suites/di.nestjs': true
+  '@suites/doubles.vitest': true
+  '@swc/core': true
+  cpu-features: true
+  esbuild: false
+  msgpackr-extract: true
+  protobufjs: true
+  sqlite3: false
+  ssh2: true
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - ts-loader@9.6.0
+  - '@overtheairbrew/mqtt-nest@1.0.18 || 1.0.19 || 1.0.20'
+  - '@testcontainers/mosquitto@12.1.0'
+  - testcontainers@12.1.0
