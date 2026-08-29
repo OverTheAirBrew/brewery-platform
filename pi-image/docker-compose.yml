@@ -1,0 +1,17 @@
+services:
+  custompios:
+    image: guysoft/custompios:devel
+    pull_policy: always
+    container_name: piimage-build
+    # platform: linux/arm64
+    tty: true
+    restart: always
+    privileged: true
+    environment:
+      - USER=root
+      - BASE_BOARD=raspberrypiarm64
+      - BASE_RELEASE_IMG_NAME=${BASE_RELEASE_IMG_NAME-default}
+    volumes:
+      - ./src:/distro
+    devices:
+      - /dev/loop-control

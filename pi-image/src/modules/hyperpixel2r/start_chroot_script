@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# <Script Name>
+# <Description what this module does>
+# Written by <Author>
+# GPL V3
+########
+
+
+# Source error handling, leave this in place
+# set -x
+# set -e
+
+
+CONFIG_LINES=(
+  "dtoverlay=vc4-kms-dpi-hyperpixel2r",
+  "dtparam=i2c_arm=off",
+  "dtparam=i2s=off",
+  "dtparam=spi=off"
+)
+CONFIG="/${BASE_BOOT_MOUNT_PATH}/config.txt"
+
+if [ "$BREW_PLATFORM_HYPERPIXEL_2_ENABLED" == "yes" ]
+then
+  for ((i = 0; i < ${#CONFIG_LINES[@]}; i++)); do
+	  CONFIG_LINE="${CONFIG_LINES[$i]}"
+		grep -e "^#$CONFIG_LINE" $CONFIG > /dev/null
+		STATUS=$?
+		if [ $STATUS -eq 1 ]; then
+			grep -e "^$CONFIG_LINE" $CONFIG > /dev/null
+			STATUS=$?
+			if [ $STATUS -eq 1 ]; then
+				# Line is missing from config file
+				if [ ! $NEWLINE -eq 1 ]; then
+					# Add newline if this is the first new entry
+					echo "" >> $CONFIG
+					NEWLINE=1
+				fi
+				# Add the config line
+				echo "$CONFIG_LINE" >> $CONFIG
+				printf "Config: Added $CONFIG_LINE to $CONFIG\n"
+			else
+				printf "Skipped: $CONFIG_LINE already exists in $CONFIG\n"
+			fi
+		else
+			sed $CONFIG -i -e "s/^#$CONFIG_LINE/$CONFIG_LINE/"
+			printf "Config: Uncommented $CONFIG_LINE in $CONFIG\n"
+		fi
+	done
+fi
