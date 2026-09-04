@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nestjs/common": "^11.1.8",
+    "@nestjs/common": "^12.0.0",
     "@overtheairbrew/plugins": "workspace:*"
   },
   "devDependencies": {
