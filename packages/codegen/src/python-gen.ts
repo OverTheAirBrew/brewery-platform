@@ -40,7 +40,7 @@ const generateClass = (schema: SchemaConfig) => {
     .join('\n');
 
   return [
-    `class ${title}:`,
+    `class ${title}(MqttEvent):`,
     `    __slots__ = [${slots}]`,
     ``,
     `    def __init__(self, ${initParams}):`,
@@ -93,6 +93,8 @@ export const generatePythonFiles = (schemas: SchemaConfig[], today: string) => {
   const fileHeader = [
     `# AUTO_GENERATED - do not edit by hand.`,
     `# Generated ${today}`,
+    ``,
+    `from mqtt.base import MqttEvent`,
     ``,
     ``,
   ].join('\n');

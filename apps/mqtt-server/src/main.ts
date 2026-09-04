@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import { Aedes } from 'aedes';
 import { randomUUID } from 'crypto';
-import { join } from 'path';
 
 import { start, adduser, updateAutorizePublishSubscribe } from './lib';
 import { existsSync, writeFileSync } from 'fs';

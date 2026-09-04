@@ -6,4 +6,22 @@
   "js/ts.preferences.autoImportSpecifierExcludeRegexes": [
     "^node:",
   ],
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/apps/ftss-firmware/typings",
+    "${workspaceFolder}/apps/ftss-firmware/typings/**",
+  ],
+  "python.autoComplete.typeshedPaths": [
+     "${workspaceFolder}/apps/ftss-firmware/typings",
+     "${workspaceFolder}/apps/ftss-firmware/typings/**",
+  ],
+  "python.analysis.typeshedPaths": [
+     "${workspaceFolder}/apps/ftss-firmware/typings",
+     "${workspaceFolder}/apps/ftss-firmware/typings/**",
+  ],
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingModuleSource": "none"
+  },
+  "python.languageServer": "Pylance",
+  "python.analysis.typeCheckingMode": "basic",
+  "python-envs.defaultEnvManager": "ms-python.python:system",
 }

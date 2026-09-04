@@ -1,0 +1,11 @@
+{
+  "name": "ftss-firmware",
+  "version": "0.0.0",
+  "description": "Ftss Firmware",
+  "codegen": {
+    "output": {
+      "dir": "src/__generated__",
+      "type": "python"
+    }
+  }
+}
