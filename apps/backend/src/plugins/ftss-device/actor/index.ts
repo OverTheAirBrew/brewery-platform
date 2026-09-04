@@ -3,7 +3,7 @@ import { FtssActorConfig, FtssDeviceConfig } from '../interfaces';
 
 import { MqttService } from '../../../mqtt-client/mqtt-client.service';
 import { Injectable } from '@nestjs/common';
-import { FtssDeviceSwitchActor } from '../messages/FtssDeviceSwitchActor';
+import { FtssDeviceSwitchActor } from '../../../__generated__';
 
 type FtssDeviceActorMessagePayload = {
   device_id: string;

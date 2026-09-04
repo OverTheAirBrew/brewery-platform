@@ -6,24 +6,17 @@ import { MqttProcessor } from './controller';
 import { FtssDeviceActor } from './actor';
 import { MqttClientModule } from '../../mqtt-client/mqtt-client.module';
 import { TelemetryModule } from '../../api/telemetry/telemetry.module';
+import { createCollectionProvider } from '../provider-helpers';
 
-const Actors: any = [FtssDeviceActor];
-const Sensors: any = [FtssDeviceSensor];
+const Actors = [FtssDeviceActor];
+const Sensors = [FtssDeviceSensor];
 
 @Module({
   providers: [
     ...Actors,
     ...Sensors,
-    {
-      provide: ActorIdentifier,
-      useFactory: (...actors) => actors || [],
-      inject: Actors,
-    },
-    {
-      provide: SensorIdentifier,
-      useFactory: (...sensors) => sensors || [],
-      inject: Sensors,
-    },
+    createCollectionProvider(ActorIdentifier, Actors),
+    createCollectionProvider(SensorIdentifier, Sensors),
     FtssDevice,
   ],
   imports: [MqttClientModule, TelemetryModule],

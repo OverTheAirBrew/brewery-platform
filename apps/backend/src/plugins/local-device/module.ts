@@ -7,6 +7,7 @@ import { LocalDeviceController } from './controller';
 import { DataModule } from '../../data/data.module';
 import { SensorsService } from '../../api/sensors/sensors.service';
 import { DeviceTypesService } from '../../api/device-types/device-types.service';
+import { createCollectionProvider } from '../provider-helpers';
 
 const Actors = [LocalDeviceDummyActor];
 const Sensors = [LocalDeviceDummySensor];
@@ -15,16 +16,8 @@ const Sensors = [LocalDeviceDummySensor];
   providers: [
     ...Actors,
     ...Sensors,
-    {
-      provide: ActorIdentifier,
-      useFactory: (...actors) => actors,
-      inject: Actors,
-    },
-    {
-      provide: SensorIdentifier,
-      useFactory: (...sensors) => sensors,
-      inject: Sensors,
-    },
+    createCollectionProvider(ActorIdentifier, Actors),
+    createCollectionProvider(SensorIdentifier, Sensors),
     LocalDevice,
     SensorsService,
     DeviceTypesService,

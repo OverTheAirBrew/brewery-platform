@@ -9,7 +9,7 @@ import {
 import { CustomQueue } from '../../internal-events/internal-events.service';
 import { SensorReading } from '../../internal-events/events/sensor-reading';
 import { QUEUE_NAME } from '../../api/telemetry/telemetry.abstractions';
-import { FtssDeviceTemperatureReading } from './messages/FtssDeviceTemperatureReading';
+import { FtssDeviceTemperatureReading } from '../../__generated__';
 
 const TestMessagePattern = (pattern: string) => {
   const messageDecorator = process.env.MQTT_PREFIX
