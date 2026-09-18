@@ -1,12 +1,8 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "codegen": {
-      "cache": false
-    },
     "build": {
       "dependsOn": [
-        "codegen",
         "^build"
       ],
       "outputs": [
