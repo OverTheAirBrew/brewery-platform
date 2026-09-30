@@ -8,7 +8,7 @@ export class ZodFilter<T extends ZodError> implements ExceptionFilter {
     const response = ctx.getResponse();
     const status = 400;
     response.status(status).json({
-      errors: exception.errors,
+      errors: exception.issues,
       message: exception.message,
       statusCode: status,
     });

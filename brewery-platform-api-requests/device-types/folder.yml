@@ -1,0 +1,12 @@
+info:
+  name: device-types
+  type: folder
+  seq: 2
+
+request:
+  auth:
+    type: bearer
+    token: "{{token}}"
+  variables:
+    - name: device_types_url
+      value: "{{base_url}}/device-types"

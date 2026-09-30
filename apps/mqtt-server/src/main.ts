@@ -1,0 +1,169 @@
+import 'dotenv/config';
+import { Aedes } from 'aedes';
+import { randomUUID } from 'crypto';
+
+import { start, adduser, updateAutorizePublishSubscribe } from './lib';
+import { existsSync, writeFileSync } from 'fs';
+import { readFile } from 'fs/promises';
+import { credentialsFile } from './lib/file-location';
+
+import { createTable } from '@visulima/tabular';
+
+const USERNAME = 'bpmqttuseradmin';
+
+async function createUser(user: {
+  username: string;
+  password?: string;
+  authorizeSubscribe: string[];
+  authorizePublish: string[];
+}) {
+  const password = user.password || randomUUID();
+  await adduser(
+    user.username,
+    password,
+    user.authorizePublish,
+    user.authorizeSubscribe,
+  );
+
+  if (!user.password && user.username === USERNAME) {
+    const table = createTable({
+      showHeader: false,
+    });
+
+    table.addRows(
+      [`Created user: '${user.username}'`],
+      [`Password: ${password}`],
+    );
+
+    console.log(table.toString());
+  } else {
+    console.log(`Creating user '${user.username}'.`);
+  }
+
+  process.emit('SIGHUP');
+}
+
+(async () => {
+  if (!existsSync(credentialsFile)) {
+    writeFileSync(credentialsFile, JSON.stringify({}));
+  }
+
+  const loadedCredentials = JSON.parse(
+    await readFile(credentialsFile, 'utf-8'),
+  );
+
+  const { broker } = await start({
+    protos: ['tcp'],
+    host: '0.0.0.0',
+    port: 1883,
+    wsPort: 3000,
+    wssPort: 4000,
+    tlsPort: 8883,
+    brokerId: 'aedes-cli',
+    // credentials: credentialsFile,
+    // persistence: {
+    //   name: 'mongodb',
+    //   options: {
+    //     url: 'mongodb://127.0.0.1/aedes',
+    //     // mongoOptions: {
+    //     //   auth: {
+    //     //     user: 'root',
+    //     //     password: 'example'
+    //     //   }
+    //     // },
+    //   },
+    // },
+    // mq: {
+    //   name: 'mongodb',
+    //   options: {
+    //     url: 'mongodb://127.0.0.1/aedes',
+    //     // mongoOptions: {
+    //     //   auth: {
+    //     //     user: 'root',
+    //     //     password: 'example'
+    //     //   }
+    //     // },
+    //   },
+    // },
+    // key: null,
+    // cert: null,
+    // rejectUnauthorized: true,
+    verbose: false,
+    veryVerbose: false,
+    noPretty: false,
+  });
+
+  if (!loadedCredentials[USERNAME]) {
+    await createUser({
+      username: USERNAME,
+      password: process.env.ADMIN_PASSWORD || undefined,
+      authorizeSubscribe: ['**'],
+      authorizePublish: ['**'],
+      // authorizePublish: ['platform/mqtt-server/add-user'],
+    });
+  }
+
+  const aedesBroker: Aedes = broker;
+
+  aedesBroker.on('clientError', (client, err) => {
+    console.error(`Client error for client ${client?.id}:`, err);
+  });
+
+  aedesBroker.on('connectionError', (client, err) => {
+    console.error(`Connection error for client ${client?.id}:`, err);
+  });
+
+  aedesBroker.on('publish', async (packet, client) => {
+    console.log(
+      `CLIENT ID: ${client?.id}, TOPIC: ${packet.topic}, PAYLOAD: ${Buffer.from(packet.payload).toString('utf-8')}  `,
+    );
+
+    if (packet.topic === 'platform/test-connection') {
+      return;
+    }
+
+    const cl: { user: string | undefined } = client as unknown as {
+      user: string | undefined;
+    };
+    if (cl?.user === USERNAME) {
+      if (packet.topic === 'platform/mqtt-server/add-user') {
+        try {
+          const parsedBuffer = Buffer.from(packet.payload).toString('utf-8');
+          const { data } = JSON.parse(parsedBuffer);
+
+          await createUser({
+            username: data.username,
+            password: data.password,
+            authorizeSubscribe: data.authorizeSubscribe || [],
+            authorizePublish: data.authorizePublish || [],
+          });
+        } catch (err) {
+          console.error('Error processing add-user message', err);
+        }
+
+        return;
+      }
+
+      if (
+        packet.topic ===
+        'platform/mqtt-server/update-authorize-publish-subscribe'
+      ) {
+        try {
+          const parsedBuffer = Buffer.from(packet.payload).toString('utf-8');
+          const { data } = JSON.parse(parsedBuffer);
+
+          await updateAutorizePublishSubscribe(
+            data.username,
+            data.authorizePublish,
+            data.authorizeSubscribe,
+          );
+        } catch (err) {
+          console.error(
+            'Error processing update-authorize-publish-subscribe message',
+            err,
+          );
+        }
+      }
+    }
+  });
+})();

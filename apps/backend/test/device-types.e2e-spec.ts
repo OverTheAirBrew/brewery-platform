@@ -1,18 +1,8 @@
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { createTestApplication } from './helpers/create-test-application';
+import request from 'supertest';
+import { describe, it, expect } from 'vitest';
+import { app } from './helpers/setup';
 
 describe('DeviceTypesController (e2e)', () => {
-  let app: INestApplication;
-
-  beforeEach(async () => {
-    ({ app } = await createTestApplication());
-  });
-
-  afterEach(async () => {
-    if (app) await app.close();
-  });
-
   it('/device-types (GET)', async () => {
     const response = await request(app.getHttpServer()).get('/device-types');
 
@@ -20,18 +10,19 @@ describe('DeviceTypesController (e2e)', () => {
 
     expect(response.body).toMatchObject([
       {
-        name: 'TestingDevice',
+        name: 'FtssDevice',
         properties: [
-          { name: 'int', type: 'number', required: true, defaultValue: 0 },
           {
-            name: 'select',
-            type: 'select-box',
+            name: 'deviceId',
+            placeholder: '',
             required: true,
-            values: ['a', 'b', 'c'],
-            defaultValue: 'a',
+            type: 'string',
           },
-          { name: 'text', type: 'string', required: true, placeholder: '' },
         ],
+      },
+      {
+        name: 'LocalDevice',
+        properties: [],
       },
     ]);
   });
