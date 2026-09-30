@@ -25,7 +25,7 @@ export class FtssDeviceActor extends MqttActor<
     this.mqttService.sendMessage(
       new FtssDeviceSwitchActor({
         actor_id: params.actor.id,
-        device_id: params.device.id,
+        device_id: params.device.device_id,
         state: 'on',
       }),
     );
@@ -37,7 +37,7 @@ export class FtssDeviceActor extends MqttActor<
     this.mqttService.sendMessage(
       new FtssDeviceSwitchActor({
         actor_id: params.actor.id,
-        device_id: params.device.id,
+        device_id: params.device.device_id,
         state: 'off',
       }),
     );
@@ -59,7 +59,7 @@ export class FtssDeviceActor extends MqttActor<
   getTopics(params: IActorProps<FtssDeviceConfig, FtssActorConfig>) {
     return {
       publishTopics: [],
-      subscribeTopics: [`ftss/${params.device.id}/actor/switch`],
+      subscribeTopics: [`ftss/${params.device.device_id}/actor/switch`],
     };
   }
 }

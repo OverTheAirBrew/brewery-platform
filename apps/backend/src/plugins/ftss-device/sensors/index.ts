@@ -29,7 +29,7 @@ export class FtssDeviceSensor extends MqttSensor<
   getTopics(params: ISensorProps<FtssDeviceConfig, FtssSensorConfig>) {
     return {
       publishTopics: [
-        `ftss/${params.device.id}/sensor/${params.sensor.id}/reading`,
+        `ftss/${params.device.device_id}/sensor/${params.sensor.id}/reading`,
       ],
       subscribeTopics: [],
     };
