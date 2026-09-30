@@ -7,8 +7,10 @@ import { Device } from '../../data/entities/device.entity';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { REPOSITORIES } from '../../data/data.abstractions';
 import { DeviceTypesService } from '../device-types/device-types.service';
-import { TestingDevice } from '../../../test/helpers/test-providers/device';
-import { RequiredCredentials } from '@overtheairbrew/plugins';
+import {
+  MqttTestingDevice,
+  TestingDevice,
+} from '../../../test/helpers/test-providers/device';
 import { DeviceNotFoundError } from './errors/device-not-found-error';
 
 describe('DeviceService', () => {
@@ -54,12 +56,12 @@ describe('DeviceService', () => {
     it('should create a password when the device type requires MQTT credentials', async () => {
       void mockDeviceRepository.create.mockResolvedValue({ id: 1 } as any);
       void mockDeviceTypeService.getByNameRaw.mockResolvedValue(
-        new TestingDevice(RequiredCredentials.MQTT),
+        new MqttTestingDevice(),
       );
 
       const { id, password } = await deviceService.createDevice({
         name: 'device1',
-        type: 'TestingDevice',
+        type: 'MqttTestingDevice',
         config: {},
       });
 

@@ -12,13 +12,14 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@visulima/tabular": "^4.1.0",
     "aedes": "^1.0.2",
     "aedes-packet": "^3.0.0",
-		"aedes-persistence": "^10.2.2",
-		"mqemitter": "^7.1.0",
-		"mqtt-packet": "^9.0.2",
+    "aedes-persistence": "^10.2.2",
     "dotenv": "^17.4.2",
     "minimatch": "^10.2.5",
+    "mqemitter": "^7.1.0",
+    "mqtt-packet": "^9.0.2",
     "pino": "^10.3.1",
     "pino-pretty": "^13.1.3"
   },

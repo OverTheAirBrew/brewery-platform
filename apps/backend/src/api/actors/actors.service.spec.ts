@@ -10,8 +10,10 @@ import { TestingDevice } from '../../../test/helpers/test-providers/device';
 import { TestingActor } from '../../../test/helpers/test-providers/actor';
 import { DeviceNotFoundError } from '../devices/errors/device-not-found-error';
 import { max } from 'rxjs';
-import { RequiredCredentials } from '@overtheairbrew/plugins';
 import { MaximumActorsForDeviceError } from './errors/maximum-actors-for-device-error';
+import { CommunicationType, MqttActor } from '@overtheairbrew/plugins';
+import { MqttService } from '../../mqtt-client/mqtt-client.service';
+import { UpdateAuthorizePublishSubscribe } from '../../mqtt-client/events/update-mqtt-user-authorize-publish-subscribe';
 
 describe('ActorsService', () => {
   let actorsService: ActorsService;
@@ -20,6 +22,7 @@ describe('ActorsService', () => {
   let mockActorRepository: Mocked<typeof Actor>;
   let mockActorSensorTypesService: Mocked<ActorSensorTypesService>;
   let mockDeviceTypesService: Mocked<DeviceTypesService>;
+  let mockMqttService: Mocked<MqttService>;
 
   beforeEach(async () => {
     const { unit, unitRef } = await TestBed.solitary(ActorsService).compile();
@@ -37,6 +40,8 @@ describe('ActorsService', () => {
     );
     mockDeviceTypesService =
       unitRef.get<DeviceTypesService>(DeviceTypesService);
+
+    mockMqttService = unitRef.get<MqttService>(MqttService);
   });
 
   describe('createActor', () => {
@@ -72,7 +77,7 @@ describe('ActorsService', () => {
       } as any);
 
       void mockDeviceTypesService.getByNameRaw.mockResolvedValue(
-        new TestingDevice(RequiredCredentials.None, 3),
+        new TestingDevice(3, 3),
       );
 
       void mockActorSensorTypesService.getRawActorType.mockResolvedValue(
@@ -82,6 +87,56 @@ describe('ActorsService', () => {
       await expect(actorsService.createActor({} as any)).rejects.toBeInstanceOf(
         MaximumActorsForDeviceError,
       );
+    });
+
+    it('sends MQTT authorization update when required credentials are MQTT', async () => {
+      const validateActorCount = vi.fn().mockReturnValue(false);
+      const validateConfiguration = vi.fn().mockResolvedValue(undefined);
+
+      void mockDeviceRepository.findByPk.mockResolvedValue({
+        id: 'device-42',
+        type: 'TestDeviceType',
+        config: {},
+      } as any);
+
+      void mockDeviceTypesService.getByNameRaw.mockResolvedValue({
+        actors: [],
+        validateActorCount,
+        connectionType: CommunicationType.MQTT,
+      } as any);
+
+      void mockActorSensorTypesService.getRawActorType.mockResolvedValue({
+        name: 'Actor',
+        validateConfiguration,
+        communicationType: CommunicationType.MQTT,
+        getTopics: vi.fn().mockReturnValue({
+          publishTopics: ['ftss/device-42/sensor/sensor-5/reading'],
+          subscribeTopics: [],
+        }),
+      } as unknown as MqttActor<any, any>);
+
+      void mockActorRepository.create.mockResolvedValue({
+        id: 'actor-5',
+      } as any);
+
+      const result = await actorsService.createActor({
+        type: 'Actor',
+        device_id: 'device-42',
+        name: 'Actor',
+        config: {},
+      });
+
+      expect(validateActorCount).toHaveBeenCalledWith(0);
+      expect(mockMqttService.sendMessage).toHaveBeenCalledTimes(1);
+
+      const message = mockMqttService.sendMessage.mock.calls[0][0];
+      expect(message).toBeInstanceOf(UpdateAuthorizePublishSubscribe);
+      expect(message.payload).toStrictEqual({
+        username: 'device-42',
+        authorizePublish: ['ftss/device-42/sensor/sensor-5/reading'],
+        authorizeSubscribe: [],
+      });
+      expect(result).toStrictEqual({ id: 'actor-5' });
     });
   });
 });

@@ -91,7 +91,18 @@ export class Authorizer {
       .map((pattern) => minimatch(sub.topic, pattern))
       .some((result) => result === true);
 
-    console.log('Client %s SUBSCRIBE %s on %s', client.id, sub.topic, sub.qos);
+    if (!authorized) {
+      console.error(
+        `Client ${client.id} not authorized to subscribe to topic ${sub.topic}`,
+      );
+    } else {
+      console.log(
+        'Client %s SUBSCRIBE %s on %s',
+        client.id,
+        sub.topic,
+        sub.qos,
+      );
+    }
 
     done(null, authorized ? sub : null);
   }

@@ -10,6 +10,7 @@ const config = z.object({
   database: DatabaseSchema,
   mqtt: MqttSchema,
   redis: RedisSchema,
+  privateKey: z.string(),
 });
 
 const fullConfig = () =>
@@ -18,8 +19,10 @@ const fullConfig = () =>
     database: DatabaseSchema.parse(process.env),
     mqtt: MqttSchema.parse(process.env),
     redis: RedisSchema.parse(process.env),
+    privateKey: z.string().parse(process.env.PRIVATE_KEY),
   });
 
 export type ConfigType = z.infer<typeof config>;
+export type DatabaseType = z.infer<typeof DatabaseSchema>;
 
 export default registerAs<ConfigType>('CONFIG', () => fullConfig());

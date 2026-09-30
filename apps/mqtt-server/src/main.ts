@@ -1,12 +1,13 @@
 import 'dotenv/config';
 import { Aedes } from 'aedes';
 import { randomUUID } from 'crypto';
-import { join } from 'path';
 
 import { start, adduser, updateAutorizePublishSubscribe } from './lib';
 import { existsSync, writeFileSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { credentialsFile } from './lib/file-location';
+
+import { createTable } from '@visulima/tabular';
 
 const USERNAME = 'bpmqttuseradmin';
 
@@ -24,8 +25,17 @@ async function createUser(user: {
     user.authorizeSubscribe,
   );
 
-  if (!user.password) {
-    console.log(`Creating user '${user.username}': ${password}.`);
+  if (!user.password && user.username === USERNAME) {
+    const table = createTable({
+      showHeader: false,
+    });
+
+    table.addRows(
+      [`Created user: '${user.username}'`],
+      [`Password: ${password}`],
+    );
+
+    console.log(table.toString());
   } else {
     console.log(`Creating user '${user.username}'.`);
   }
@@ -35,17 +45,12 @@ async function createUser(user: {
 
 (async () => {
   if (!existsSync(credentialsFile)) {
-    console.log(
-      `Credentials file ${credentialsFile} does not exist. Creating an empty one.`,
-    );
     writeFileSync(credentialsFile, JSON.stringify({}));
   }
 
   const loadedCredentials = JSON.parse(
     await readFile(credentialsFile, 'utf-8'),
   );
-
-  console.log(`Loaded credentials from ${credentialsFile}:`, loadedCredentials);
 
   const { broker } = await start({
     protos: ['tcp'],
@@ -93,13 +98,30 @@ async function createUser(user: {
       username: USERNAME,
       password: process.env.ADMIN_PASSWORD || undefined,
       authorizeSubscribe: ['**'],
-      authorizePublish: ['platform/mqtt-server/add-user'],
+      authorizePublish: ['**'],
+      // authorizePublish: ['platform/mqtt-server/add-user'],
     });
   }
 
   const aedesBroker: Aedes = broker;
 
+  aedesBroker.on('clientError', (client, err) => {
+    console.error(`Client error for client ${client?.id}:`, err);
+  });
+
+  aedesBroker.on('connectionError', (client, err) => {
+    console.error(`Connection error for client ${client?.id}:`, err);
+  });
+
   aedesBroker.on('publish', async (packet, client) => {
+    console.log(
+      `CLIENT ID: ${client?.id}, TOPIC: ${packet.topic}, PAYLOAD: ${Buffer.from(packet.payload).toString('utf-8')}  `,
+    );
+
+    if (packet.topic === 'platform/test-connection') {
+      return;
+    }
+
     const cl: { user: string | undefined } = client as unknown as {
       user: string | undefined;
     };

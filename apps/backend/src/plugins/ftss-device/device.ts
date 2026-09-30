@@ -2,9 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   Actor,
   ActorIdentifier,
-  Device,
   Form,
-  RequiredCredentials,
+  MqttDevice,
   Sensor,
   SensorIdentifier,
 } from '@overtheairbrew/plugins';
@@ -18,14 +17,13 @@ const configSchema = z.object({
 });
 
 @Injectable()
-export class FtssDevice extends Device<FtssDeviceConfig> {
+export class FtssDevice extends MqttDevice<FtssDeviceConfig> {
   constructor(
     @Inject(ActorIdentifier) public actors: Actor<any, any>[],
     @Inject(SensorIdentifier) public sensors: Sensor<any, any>[],
   ) {
     super({
       form: new Form().addString('deviceId', { required: true }),
-      requiredCredentials: RequiredCredentials.MQTT,
       maxSensors: 1,
       maxActors: 2,
     });
@@ -37,4 +35,11 @@ export class FtssDevice extends Device<FtssDeviceConfig> {
   }
 
   async getMqttSendRecieveTopics() {}
+
+  getTopics() {
+    return {
+      publishTopics: [],
+      subscribeTopics: [],
+    };
+  }
 }

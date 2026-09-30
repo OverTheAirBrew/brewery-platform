@@ -5,6 +5,7 @@ services:
     restart: always
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=breweryplatform
     ports:
       - "3306:3306"
   redis:

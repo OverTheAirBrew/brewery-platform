@@ -1,19 +1,22 @@
-import { Actor, ActorState, IActorProps } from '@overtheairbrew/plugins';
+import {
+  Actor,
+  ActorState,
+  IActorProps,
+  MqttActor,
+} from '@overtheairbrew/plugins';
 import { FtssActorConfig, FtssDeviceConfig } from '../interfaces';
 
 import { MqttService } from '../../../mqtt-client/mqtt-client.service';
 import { Injectable } from '@nestjs/common';
 import { FtssDeviceSwitchActor } from '../messages/FtssDeviceSwitchActor';
 
-type FtssDeviceActorMessagePayload = {
-  device_id: string;
-  state: ActorState;
-};
-
 @Injectable()
-export class FtssDeviceActor extends Actor<FtssDeviceConfig, FtssActorConfig> {
+export class FtssDeviceActor extends MqttActor<
+  FtssDeviceConfig,
+  FtssActorConfig
+> {
   constructor(private readonly mqttService: MqttService) {
-    super();
+    super({});
   }
 
   protected async processOn(
@@ -22,7 +25,7 @@ export class FtssDeviceActor extends Actor<FtssDeviceConfig, FtssActorConfig> {
     this.mqttService.sendMessage(
       new FtssDeviceSwitchActor({
         actor_id: params.actor.id,
-        device_id: params.device.device_id,
+        device_id: params.device.id,
         state: 'on',
       }),
     );
@@ -34,7 +37,7 @@ export class FtssDeviceActor extends Actor<FtssDeviceConfig, FtssActorConfig> {
     this.mqttService.sendMessage(
       new FtssDeviceSwitchActor({
         actor_id: params.actor.id,
-        device_id: params.device.device_id,
+        device_id: params.device.id,
         state: 'off',
       }),
     );
@@ -51,5 +54,12 @@ export class FtssDeviceActor extends Actor<FtssDeviceConfig, FtssActorConfig> {
     sensorConfig: FtssActorConfig,
   ): Promise<boolean> {
     return true;
+  }
+
+  getTopics(params: IActorProps<FtssDeviceConfig, FtssActorConfig>) {
+    return {
+      publishTopics: [],
+      subscribeTopics: [`ftss/${params.device.id}/actor/switch`],
+    };
   }
 }

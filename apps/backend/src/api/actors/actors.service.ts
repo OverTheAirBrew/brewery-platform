@@ -7,6 +7,9 @@ import { DeviceTypesService } from '../device-types/device-types.service';
 import { ActorSensorTypesService } from '../actor-sensor-types/actor-sensor-types.service';
 import { DeviceNotFoundError } from '../devices/errors/device-not-found-error';
 import { MaximumActorsForDeviceError } from './errors/maximum-actors-for-device-error';
+import { CommunicationType } from '@overtheairbrew/plugins';
+import { MqttService } from '../../mqtt-client/mqtt-client.service';
+import { UpdateAuthorizePublishSubscribe } from '../../mqtt-client/events/update-mqtt-user-authorize-publish-subscribe';
 
 /* istanbul ignore start */
 @Injectable()
@@ -19,11 +22,12 @@ export class ActorsService {
     @Inject(REPOSITORIES.DeviceRepository)
     private readonly deviceRepository: typeof Device,
     private readonly deviceTypesService: DeviceTypesService,
+    private readonly mqttClient: MqttService,
   ) {}
 
   async createActor(actor: ActorDto) {
     const device = await this.deviceRepository.findByPk(actor.device_id, {
-      attributes: ['type', 'config'],
+      attributes: ['id', 'type', 'config'],
       include: [
         {
           model: Actor,
@@ -53,6 +57,21 @@ export class ActorsService {
     const { id } = await this.actorRepository.create({
       ...actor,
     });
+
+    if (actorType.communicationType === CommunicationType.MQTT) {
+      const { publishTopics, subscribeTopics } = (actorType as any).getTopics({
+        device,
+        actor,
+      });
+
+      this.mqttClient.sendMessage(
+        new UpdateAuthorizePublishSubscribe({
+          username: device.id,
+          authorizePublish: publishTopics,
+          authorizeSubscribe: subscribeTopics,
+        }),
+      );
+    }
 
     return {
       id,

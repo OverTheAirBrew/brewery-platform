@@ -1,5 +1,6 @@
 import { ClassType } from '../class-type';
 import { Form } from '../input-types/form';
+import { CommunicationType, TopicResponse } from './abstractions';
 
 export interface ISensorProps<TDevice, TProps> {
   device: TDevice;
@@ -13,7 +14,10 @@ export interface ISensor<TDevice, TProps> {
 
 export const ISensor = class Dummy {} as ClassType<ISensor<any, any>>;
 
-type SensorType = 'mqtt' | 'http';
+type SensorConfigOptions = {
+  form?: Form;
+  connectionType?: CommunicationType;
+};
 
 export abstract class Sensor<TDevice, TProps> implements ISensor<
   TDevice,
@@ -21,13 +25,13 @@ export abstract class Sensor<TDevice, TProps> implements ISensor<
 > {
   public name: string;
 
-  public configOptions: Form = new Form();
-  public type: SensorType;
+  public readonly form: Form = new Form();
+  public readonly connectionType: CommunicationType;
 
-  constructor(options: { form?: Form; type: SensorType }) {
+  constructor(options: SensorConfigOptions) {
     this.name = this.constructor.name;
-    this.configOptions = options?.form ?? new Form();
-    this.type = options.type;
+    this.form = options?.form ?? new Form();
+    this.connectionType = options.connectionType ?? CommunicationType.None;
   }
 
   public async run(params: ISensorProps<TDevice, TProps>) {
@@ -35,7 +39,7 @@ export abstract class Sensor<TDevice, TProps> implements ISensor<
   }
 
   public async getConfigOptions(config: TDevice) {
-    return await this.configOptions.build(config);
+    return await this.form.build(config);
   }
 
   abstract validateConfiguration(
@@ -46,4 +50,18 @@ export abstract class Sensor<TDevice, TProps> implements ISensor<
   protected abstract process(
     params: ISensorProps<TDevice, TProps>,
   ): Promise<number | null>;
+}
+
+export abstract class MqttSensor<TDevice, TProps> extends Sensor<
+  TDevice,
+  TProps
+> {
+  constructor(options: Omit<SensorConfigOptions, 'connectionType'>) {
+    super({
+      ...options,
+      connectionType: CommunicationType.MQTT,
+    });
+  }
+
+  abstract getTopics(params: ISensorProps<TDevice, TProps>): TopicResponse;
 }

@@ -3,7 +3,12 @@ import { DeviceTypesService } from '../device-types/device-types.service';
 import { DeviceDto, SensorTypeSchema } from '@overtheairbrew/models';
 import { REPOSITORIES } from '../../data/data.abstractions';
 import { Device } from '../../data/entities/device.entity';
-import { Actor, RequiredCredentials, Sensor } from '@overtheairbrew/plugins';
+import {
+  Actor,
+  CommunicationType,
+  MqttDevice,
+  Sensor,
+} from '@overtheairbrew/plugins';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { AddMqttUserMessage } from '../../mqtt-client/events/add-mqtt-user.message';
 import { randomFillSync } from 'crypto';
@@ -35,13 +40,19 @@ export class DeviceService {
 
     let mqttPassword: string | undefined = undefined;
 
-    if (deviceType.requiredCredentials === RequiredCredentials.MQTT) {
+    if (deviceType.connectionType === CommunicationType.MQTT) {
       mqttPassword = this.generatePassword();
+
+      const { publishTopics, subscribeTopics } = (
+        deviceType as MqttDevice<any>
+      ).getTopics(device);
+
       this.mqttClient.sendMessage(
         new AddMqttUserMessage({
           username: device.id,
           password: mqttPassword,
-          authorizeSubscribe: [`ftss/${device.id}/actor/command`],
+          authorizeSubscribe: subscribeTopics,
+          authorizePublish: [...publishTopics, 'platform/test-connection'],
         }),
       );
     }

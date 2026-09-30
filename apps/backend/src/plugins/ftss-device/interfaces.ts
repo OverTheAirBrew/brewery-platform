@@ -1,5 +1,5 @@
 export type FtssDeviceConfig = {
-  device_id: string;
+  id: string;
 };
 
 export type FtssSensorConfig = {

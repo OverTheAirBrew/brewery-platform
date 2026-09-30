@@ -88,6 +88,14 @@ describe('VesselsService', () => {
         service.createVessel({ logicType_id: 'missing' } as any),
       ).rejects.toThrow('Logic type missing not found');
     });
+
+    it('should throw if the logic type is invalid', async () => {
+      void logicTypesService.getByNameRaw.mockResolvedValue(null);
+
+      await expect(
+        service.createVessel({ logicType_id: 'invalid' } as any),
+      ).rejects.toThrow('Logic type invalid not found');
+    });
   });
 
   describe('setAutoControl', () => {

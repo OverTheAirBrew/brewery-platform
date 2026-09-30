@@ -4,7 +4,7 @@ import { Device } from '../../data/entities/device.entity';
 import { SensorDto } from '@overtheairbrew/models';
 import { DeviceTypesService } from '../device-types/device-types.service';
 import { Sensor } from '../../data/entities/sensor.entity';
-import { RequiredCredentials } from '@overtheairbrew/plugins';
+import { CommunicationType, MqttSensor } from '@overtheairbrew/plugins';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { UpdateAuthorizePublishSubscribe } from '../../mqtt-client/events/update-mqtt-user-authorize-publish-subscribe';
 
@@ -63,18 +63,26 @@ export class SensorsService {
 
     await sensorType.validateConfiguration(device.config, sensorDto.config);
 
-    const { id } = await this.sensorRepository.create(sensorDto);
+    const sensor = await this.sensorRepository.create(sensorDto);
 
-    if (deviceType.requiredCredentials === RequiredCredentials.MQTT) {
+    if (deviceType.connectionType === CommunicationType.MQTT) {
+      const { publishTopics, subscribeTopics } = (
+        sensorType as MqttSensor<any, any>
+      ).getTopics({
+        device,
+        sensor,
+      });
+
       this.mqttClient.sendMessage(
         new UpdateAuthorizePublishSubscribe({
           username: device.id,
-          authorizePublish: [`ftss/${device.id}/sensor/${id}/reading`],
+          authorizePublish: publishTopics,
+          authorizeSubscribe: subscribeTopics,
         }),
       );
     }
 
-    return { id };
+    return { id: sensor.id };
   }
 
   async getAll() {

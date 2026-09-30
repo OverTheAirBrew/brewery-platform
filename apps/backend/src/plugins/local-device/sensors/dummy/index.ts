@@ -16,7 +16,6 @@ export class LocalDeviceDummySensor extends Sensor<
       form: new Form().addString('values', {
         required: true,
       }),
-      type: 'http',
     });
   }
 

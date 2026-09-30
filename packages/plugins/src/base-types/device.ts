@@ -1,6 +1,7 @@
 import { ClassType } from '../class-type';
 import { Form, InputType } from '../input-types/form';
 import { Actor } from './actor';
+import { CommunicationType, TopicResponse } from './abstractions';
 import { Sensor } from './sensor';
 
 export interface IDevice<T> {
@@ -13,32 +14,29 @@ export interface IDevice<T> {
 
 export const IDevice = class Dummy {} as ClassType<IDevice<any>>;
 
-export enum RequiredCredentials {
-  None = 'none',
-  MQTT = 'mqtt',
-}
+type DeviceConfigOptions = {
+  form?: Form;
+  maxActors?: number;
+  maxSensors?: number;
+  connectionType?: CommunicationType;
+};
 
 export abstract class Device<T> implements IDevice<T> {
   public name: string;
 
   private readonly form: Form;
-  public readonly requiredCredentials: RequiredCredentials;
-
   private readonly maxActors: number;
   private readonly maxSensors: number;
 
-  constructor(configOptions: {
-    form?: Form;
-    requiredCredentials?: RequiredCredentials;
-    maxActors?: number;
-    maxSensors?: number;
-  }) {
+  public readonly connectionType: CommunicationType;
+
+  constructor(configOptions: DeviceConfigOptions) {
     this.name = this.constructor.name;
     this.form = configOptions.form ?? new Form();
-    this.requiredCredentials =
-      configOptions.requiredCredentials ?? RequiredCredentials.None;
     this.maxActors = configOptions.maxActors || Infinity;
     this.maxSensors = configOptions.maxSensors || Infinity;
+    this.connectionType =
+      configOptions.connectionType ?? CommunicationType.None;
   }
 
   abstract actors: Actor<any, any>[];
@@ -57,4 +55,15 @@ export abstract class Device<T> implements IDevice<T> {
   }
 
   abstract validateConfiguration(config: T): Promise<boolean>;
+}
+
+export abstract class MqttDevice<T> extends Device<T> {
+  constructor(configOptions: Omit<DeviceConfigOptions, 'connectionType'>) {
+    super({
+      ...configOptions,
+      connectionType: CommunicationType.MQTT,
+    });
+  }
+
+  abstract getTopics(config: T): TopicResponse;
 }

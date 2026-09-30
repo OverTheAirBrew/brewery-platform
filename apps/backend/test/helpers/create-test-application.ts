@@ -10,9 +10,6 @@ import { Telemetry } from '../../src/data/entities/telemetry.entity';
 import { Device } from '../../src/data/entities/device.entity';
 import { Actor } from '../../src/data/entities/actor.entity';
 import { TestingLogic } from './test-providers/logic';
-import { BullModule } from '@nestjs/bullmq';
-import { ConfigService } from '@nestjs/config';
-import { ConfigType } from '../../src/config';
 import { Vessel } from '../../src/data/entities/vessel.entity';
 
 class MockAuthGuard extends AuthGuard {

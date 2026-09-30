@@ -18,7 +18,7 @@ export class LocalDeviceDummyActor
   private currentState: 'on' | 'off' = 'off';
 
   constructor() {
-    super();
+    super({});
   }
 
   async validateConfiguration(): Promise<boolean> {

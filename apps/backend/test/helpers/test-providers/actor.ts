@@ -2,7 +2,9 @@ import { Actor, ActorState, Form, IActorProps } from '@overtheairbrew/plugins';
 
 export class TestingActor extends Actor<unknown, unknown> {
   constructor() {
-    super(new Form().addString('test', { required: true }));
+    super({
+      form: new Form().addString('test', { required: true }),
+    });
   }
 
   async validateConfiguration(

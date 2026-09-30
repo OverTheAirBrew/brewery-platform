@@ -7,8 +7,8 @@ import { Sensor } from '../../data/entities/sensor.entity';
 import { DeviceTypesService } from '../device-types/device-types.service';
 import { MqttService } from '../../mqtt-client/mqtt-client.service';
 import { SensorsService } from './sensors.service';
-import { RequiredCredentials } from '@overtheairbrew/plugins';
 import { UpdateAuthorizePublishSubscribe } from '../../mqtt-client/events/update-mqtt-user-authorize-publish-subscribe';
+import { CommunicationType } from '@overtheairbrew/plugins';
 
 describe('SensorsService', () => {
   let sensorsService: SensorsService;
@@ -51,6 +51,7 @@ describe('SensorsService', () => {
         config: { bus: 2 },
         sensors: [{ id: 's1' }],
       } as any);
+
       void mockDeviceTypesService.getByNameRaw.mockResolvedValue({
         sensors: [
           {
@@ -59,7 +60,6 @@ describe('SensorsService', () => {
           },
         ],
         validateSensorCount,
-        requiredCredentials: RequiredCredentials.None,
       } as any);
       void mockSensorRepository.create.mockResolvedValue({
         id: 'sensor-99',
@@ -99,16 +99,22 @@ describe('SensorsService', () => {
         type: 'TestDeviceType',
         config: {},
       } as any);
+
       void mockDeviceTypesService.getByNameRaw.mockResolvedValue({
         sensors: [
           {
             name: 'TemperatureSensor',
             validateConfiguration,
+            getTopics: vi.fn().mockReturnValue({
+              publishTopics: ['ftss/device-42/sensor/sensor-5/reading'],
+              subscribeTopics: [],
+            }),
           },
         ],
         validateSensorCount,
-        requiredCredentials: RequiredCredentials.MQTT,
+        connectionType: CommunicationType.MQTT,
       } as any);
+
       void mockSensorRepository.create.mockResolvedValue({
         id: 'sensor-5',
       } as any);
@@ -123,6 +129,7 @@ describe('SensorsService', () => {
       expect(message.payload).toStrictEqual({
         username: 'device-42',
         authorizePublish: ['ftss/device-42/sensor/sensor-5/reading'],
+        authorizeSubscribe: [],
       });
       expect(result).toStrictEqual({ id: 'sensor-5' });
     });
