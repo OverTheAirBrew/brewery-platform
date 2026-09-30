@@ -55,6 +55,11 @@ jobs:
     needs:
       - build
       - lint
+    strategy:
+      matrix:
+        suite:
+          - unit
+          - e2e
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -69,51 +74,18 @@ jobs:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ vars.TURBO_TEAM }}
         run: pnpm run build
-      - name: Unit Tests
-        run: pnpm run test:unit
+      - name: Run Tests
+        run: pnpm run test:${{ matrix.suite }}
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v7.1.1
         with:
           token: ${{ secrets.CODECOV_SECRET }}
-          flags: unittests
-          files: ./apps/backend/coverage/coverage-final.json
-
-  run-backend-e2e-tests:
-    needs:
-      - build
-      - lint
-    runs-on: ubuntu-latest
-    name: E2E Tests
-    steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v7
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Build
-        env:
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-        run: |
-          pnpm run build --filter backend
-      - name: E2E Tests
-        env:
-          PRIVATE_KEY: supersecretkey
-        run: pnpm run test:e2e --filter backend
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_SECRET }}
-          flags: e2etests
+          flags: ${{ matrix.suite }}tests
           files: ./apps/backend/coverage/coverage-final.json
 
   build-docker-images:
     needs:
       - test
-      - run-backend-e2e-tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
