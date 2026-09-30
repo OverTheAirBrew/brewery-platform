@@ -9,6 +9,8 @@ import { ConfigService } from '@nestjs/config';
 import { LOG_LEVELS } from '@nestjs/common';
 import { ConfigType } from './config';
 import { VesselsService } from './api/vessels/vessels.service';
+import { globalConfig } from 'zod/v4/core';
+import { globalConfigure } from './global-configure';
 
 const PORT = parseInt(process.env.PORT || '3001');
 
@@ -28,29 +30,8 @@ async function bootstrap() {
     logger: logLevel,
   });
 
-  const configService = app.get<ConfigService>(ConfigService);
-  const config = configService.get<ConfigType>('CONFIG');
+  await globalConfigure(app);
 
-  const mqttUrl = new URL(config!.mqtt.MQTT_URL);
-
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.MQTT,
-    options: {
-      url: `${mqttUrl.protocol}//${mqttUrl.hostname}`,
-      port: parseInt(mqttUrl.port) || 1883,
-      username: mqttUrl.username,
-      password: mqttUrl.password,
-    },
-  });
-
-  app.enableCors();
-  app.useGlobalFilters(new ZodFilter());
-
-  const document = SwaggerModule.createDocument(app, swaggerConfig.build());
-
-  SwaggerModule.setup('docs', app, cleanupOpenApiDoc(document));
-
-  await app.startAllMicroservices();
   await app.listen(PORT);
 
   const vesselService = app.get(VesselsService);

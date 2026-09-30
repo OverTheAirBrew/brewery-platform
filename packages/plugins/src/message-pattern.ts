@@ -3,13 +3,13 @@ import { MessagePattern as NestMessagePattern } from '@nestjs/microservices';
 
 export const MessagePattern = (pattern: string) => {
   console.log(
-    `Creating message pattern for: ${pattern}, prefix: ${process.env.MQTT_PREFIX}`,
+    `Creating message pattern for: ${pattern}, postfix: ${process.env.MQTT_POSTFIX}`,
   );
 
-  const prefix = process.env.MQTT_PREFIX;
+  const postfix = process.env.MQTT_POSTFIX;
 
-  const messageDecorator = prefix
-    ? NestMessagePattern(`${pattern}/${prefix}`)
+  const messageDecorator = postfix
+    ? NestMessagePattern(`${pattern}/${postfix}`)
     : NestMessagePattern(pattern);
 
   return applyDecorators(messageDecorator);

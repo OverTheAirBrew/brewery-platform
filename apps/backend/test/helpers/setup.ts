@@ -33,7 +33,7 @@ beforeEach(async () => {
 
   vitest.stubEnv('MYSQL_URL', `${inject('MYSQL_URL')}/${databaseId}`);
   vitest.stubEnv('REDIS_PREFIX', databaseId);
-  vitest.stubEnv('MQTT_PREFIX', databaseId);
+  vitest.stubEnv('MQTT_POSTFIX', databaseId);
 
   ({ app, repositories } = await createTestApplication());
 });

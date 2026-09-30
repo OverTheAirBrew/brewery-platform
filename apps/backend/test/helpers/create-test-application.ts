@@ -9,6 +9,7 @@ import { Actor } from '../../src/data/entities/actor.entity';
 import { Vessel } from '../../src/data/entities/vessel.entity';
 import { inject } from 'vitest';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { globalConfigure } from '../../src/global-configure';
 
 class MockAuthGuard extends AuthGuard {
   async canActivate(): Promise<boolean> {
@@ -42,20 +43,8 @@ export const createTestApplication = async () => {
     .compile();
 
   const app = moduleFixture.createNestApplication();
+  await globalConfigure(app);
 
-  const mqttUrl = new URL(inject('MQTT_URL'));
-
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.MQTT,
-    options: {
-      url: `${mqttUrl.protocol}//${mqttUrl.hostname}`,
-      port: parseInt(mqttUrl.port) || 1883,
-      username: mqttUrl.username,
-      password: mqttUrl.password,
-    },
-  });
-
-  await app.startAllMicroservices();
   await app.init();
 
   const repositories = await getDatabases(moduleFixture);

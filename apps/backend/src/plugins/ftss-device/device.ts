@@ -11,9 +11,11 @@ import { FtssDeviceConfig } from './interfaces';
 import z from 'zod';
 
 const configSchema = z.object({
-  device_id: z.string({
-    error: 'Device ID is required',
-  }),
+  device_id: z
+    .string({
+      error: 'Device ID is required',
+    })
+    .min(1),
 });
 
 @Injectable()
@@ -30,11 +32,13 @@ export class FtssDevice extends MqttDevice<FtssDeviceConfig> {
   }
 
   async validateConfiguration(config: FtssDeviceConfig) {
-    configSchema.parse(config);
-    return true;
+    try {
+      await configSchema.parseAsync(config);
+      return true;
+    } catch {
+      return false;
+    }
   }
-
-  async getMqttSendRecieveTopics() {}
 
   getTopics() {
     return {

@@ -1,15 +1,10 @@
 import { Controller, Inject, Logger } from '@nestjs/common';
-import {
-  Ctx,
-  EventPattern,
-  MessagePattern,
-  MqttContext,
-  Payload,
-} from '@nestjs/microservices';
+import { Ctx, MqttContext, Payload } from '@nestjs/microservices';
 import { CustomQueue } from '../../internal-events/internal-events.service';
 import { SensorReading } from '../../internal-events/events/sensor-reading';
 import { QUEUE_NAME } from '../../api/telemetry/telemetry.abstractions';
 import { FtssDeviceTemperatureReading } from './messages/FtssDeviceTemperatureReading';
+import { MessagePattern } from '@overtheairbrew/plugins';
 
 @Controller()
 export class MqttProcessor {

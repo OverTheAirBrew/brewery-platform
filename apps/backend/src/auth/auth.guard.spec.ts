@@ -10,8 +10,6 @@ import {
 import { AuthGuard } from './auth.guard';
 import { TestBed } from '@suites/unit';
 import { Reflector } from '@nestjs/core';
-import { getHashes } from 'crypto';
-import { ApiKey } from '../data/entities/api-key.entity';
 import { ApiKeysService } from '../api/api-keys/api-keys.service';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -29,6 +27,8 @@ describe('AuthGuard', () => {
     reflector = unitRef.get(Reflector);
     apiKeyService = unitRef.get(ApiKeysService);
     jwtService = unitRef.get(JwtService);
+
+    vi.spyOn(console, 'log').mockImplementation(() => undefined);
   });
 
   afterEach(() => {

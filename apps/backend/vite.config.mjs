@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  globals: true,
   test: {
     watch: false,
     coverage: {
@@ -28,6 +29,9 @@ export default defineConfig({
         'src/mqtt-client/**/*.ts',
         'module.ts',
         'src/events/**/*.ts',
+        'controller.ts',
+        'src/global-configure.ts',
+        'src/plugins/**/messages/*.ts',
       ],
       include: ['src/**/*.ts'],
     },
@@ -36,7 +40,7 @@ export default defineConfig({
         test: {
           name: 'unit',
           globals: true,
-          include: ['src/**/*.spec.ts'],
+          include: ['src/**/**/*.spec.ts'],
         },
       },
       {

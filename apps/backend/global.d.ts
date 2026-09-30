@@ -14,6 +14,8 @@ declare global {
       REDIS_URL: string;
 
       PRIVATE_KEY: string;
+
+      MQTT_POSTFIX: string;
     }
   }
 }
