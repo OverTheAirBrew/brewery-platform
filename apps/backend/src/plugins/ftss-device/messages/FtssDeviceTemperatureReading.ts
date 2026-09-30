@@ -1,5 +1,3 @@
-// This file is auto-generated. Do not edit manually.
-
 import z from 'zod';
 import { MqttMessage } from '@overtheairbrew/mqtt';
 
@@ -15,7 +13,7 @@ export type FtssDeviceTemperatureReadingType = z.infer<
 
 export class FtssDeviceTemperatureReading extends MqttMessage<FtssDeviceTemperatureReadingType> {
   protected topic = (payload: FtssDeviceTemperatureReadingType) =>
-    `ftss/${payload.device_id}/sensor/${payload.sensor_id}/temperature`;
+    `ftss/${payload.device_id}/sensor/${payload.sensor_id}/reading`;
 
   constructor(data: FtssDeviceTemperatureReadingType) {
     super(data);

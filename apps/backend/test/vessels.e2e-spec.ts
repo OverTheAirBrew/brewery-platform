@@ -11,16 +11,22 @@ describe('Vessels (e2e)', () => {
     const sensorId = await createTestSensorEntity(deviceId);
     const actorId = await createTestActorEntity(deviceId);
 
-    const response = await request(app.getHttpServer()).post('/vessels').send({
-      name: 'Test Kettle',
-      type: 'kettle',
-      device_id: deviceId,
-      sensor_id: sensorId,
-      heater_id: actorId,
-      logicType_id: 'TestingLogic',
-      logicConfig: {},
-      targetTemp: 100,
-    });
+    const response = await request(app.getHttpServer())
+      .post('/vessels')
+      .send({
+        name: 'Test Kettle',
+        type: 'kettle',
+        device_id: deviceId,
+        sensor_id: sensorId,
+        heater_id: actorId,
+        logicType_id: 'FermentationPid',
+        logicConfig: {
+          kp: 1,
+          ki: 1,
+          kd: 1,
+        },
+        targetTemp: 100,
+      });
 
     expect(response.status).toBe(201);
 
@@ -32,6 +38,6 @@ describe('Vessels (e2e)', () => {
     expect(createdVessel!.sensor_id).toBe(sensorId);
     expect(createdVessel!.heater_id).toBe(actorId);
     expect(createdVessel!.cooler_id).toBeNull();
-    expect(createdVessel!.logicType_id).toBe('TestingLogic');
+    expect(createdVessel!.logicType_id).toBe('FermentationPid');
   });
 });

@@ -10,7 +10,7 @@ describe('Logic Types E2E Tests', () => {
 
     expect(response.body).toMatchObject([
       {
-        name: 'TestingLogic',
+        name: 'FermentationPid',
         properties: [],
       },
     ]);

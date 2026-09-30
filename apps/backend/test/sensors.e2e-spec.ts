@@ -11,10 +11,10 @@ describe('SensorsController (e2e)', () => {
       .post('/sensors')
       .send({
         name: 'testing',
-        type: 'TestingSensor',
+        type: 'LocalDeviceDummySensor',
         device_id: deviceId,
         config: {
-          int: 1,
+          values: '1,2,3,4,5',
         },
       });
 

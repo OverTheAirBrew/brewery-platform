@@ -27,6 +27,7 @@ export default defineConfig({
         'src/internal-events/**/*.ts',
         'src/mqtt-client/**/*.ts',
         'module.ts',
+        'src/events/**/*.ts',
       ],
       include: ['src/**/*.ts'],
     },
@@ -41,7 +42,7 @@ export default defineConfig({
       {
         test: {
           name: 'e2e',
-          include: ['test/*.e2e-spec.ts'],
+          include: ['test/**/*.e2e-spec.ts'],
           setupFiles: ['test/helpers/setup.ts'],
           globalSetup: ['test/helpers/global-setup.ts'],
           retry: 2,

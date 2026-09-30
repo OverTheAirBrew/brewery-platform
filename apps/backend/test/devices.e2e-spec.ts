@@ -5,17 +5,11 @@ import { createTestDeviceEntity } from './helpers/entity-helpers/device';
 
 describe('DevicesController (e2e)', () => {
   it('/devices (POST)', async () => {
-    const response = await request(app.getHttpServer())
-      .post('/devices')
-      .send({
-        name: 'testing',
-        type: 'TestingDevice',
-        config: {
-          int: 1,
-          select: 'a',
-          text: 'test',
-        },
-      });
+    const response = await request(app.getHttpServer()).post('/devices').send({
+      name: 'testing',
+      type: 'LocalDevice',
+      config: {},
+    });
 
     expect(response.status).toBe(201);
 
@@ -37,13 +31,13 @@ describe('DevicesController (e2e)', () => {
 
     expect(response.body).toEqual([
       {
-        name: 'TestingSensor',
+        name: 'LocalDeviceDummySensor',
         properties: [
           {
-            defaultValue: 0,
-            name: 'int',
+            name: 'values',
+            placeholder: '',
             required: true,
-            type: 'number',
+            type: 'string',
           },
         ],
       },
@@ -61,15 +55,8 @@ describe('DevicesController (e2e)', () => {
 
     expect(response.body).toEqual([
       {
-        name: 'TestingActor',
-        properties: [
-          {
-            name: 'test',
-            placeholder: '',
-            required: true,
-            type: 'string',
-          },
-        ],
+        name: 'LocalDeviceDummyActor',
+        properties: [],
       },
     ]);
   });

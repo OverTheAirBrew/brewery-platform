@@ -1,5 +1,3 @@
-// This file is auto-generated. Do not edit manually.
-
 import z from 'zod';
 import { MqttMessage } from '@overtheairbrew/mqtt';
 

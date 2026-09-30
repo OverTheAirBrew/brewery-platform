@@ -9,6 +9,7 @@ import { ILocalDeviceConfig } from './interfaces';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SensorsService } from '../../api/sensors/sensors.service';
 import { SensorReading } from '../../internal-events/events/sensor-reading';
+import { randomUUID } from 'crypto';
 
 @Controller()
 export class LocalDeviceController {
@@ -19,31 +20,32 @@ export class LocalDeviceController {
     // private readonly eventService: InternalEventsService,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS, {
-    waitForCompletion: true,
-  })
-  async handleCron() {
-    const sensors = await this.sensorsService.getSensorsWithDeviceInfo();
+  // @Cron(CronExpression.EVERY_10_SECONDS, {
+  //   waitForCompletion: true,
+  //   name: randomUUID(),
+  // })
+  // async handleCron() {
+  //   const sensors = await this.sensorsService.getSensorsWithDeviceInfo();
 
-    for (const sensor of sensors) {
-      const sensorInstance = this.pluginSensors.find(
-        (s) => s.constructor.name === sensor.type,
-      );
+  //   for (const sensor of sensors) {
+  //     const sensorInstance = this.pluginSensors.find(
+  //       (s) => s.constructor.name === sensor.type,
+  //     );
 
-      const value = await sensorInstance!.run({
-        device: sensor.device.config,
-        sensor: sensor.config,
-      });
+  //     const value = await sensorInstance!.run({
+  //       device: sensor.device.config,
+  //       sensor: sensor.config,
+  //     });
 
-      if (!value) continue;
+  //     if (!value) continue;
 
-      // await this.eventService.sendMessage(
-      //   new SensorReading({
-      //     device_id: sensor.device!.id,
-      //     sensor_id: sensor.id,
-      //     value,
-      //   }),
-      // );
-    }
-  }
+  //     // await this.eventService.sendMessage(
+  //     //   new SensorReading({
+  //     //     device_id: sensor.device!.id,
+  //     //     sensor_id: sensor.id,
+  //     //     value,
+  //     //   }),
+  //     // );
+  //   }
+  // }
 }

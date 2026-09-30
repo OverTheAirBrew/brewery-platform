@@ -1,11 +1,4 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  inject,
-  vitest,
-} from 'vitest';
+import { afterEach, beforeAll, beforeEach, inject, vitest } from 'vitest';
 import { randomUUID } from 'crypto';
 import {
   createTestApplication,
@@ -40,6 +33,7 @@ beforeEach(async () => {
 
   vitest.stubEnv('MYSQL_URL', `${inject('MYSQL_URL')}/${databaseId}`);
   vitest.stubEnv('REDIS_PREFIX', databaseId);
+  vitest.stubEnv('MQTT_PREFIX', databaseId);
 
   ({ app, repositories } = await createTestApplication());
 });

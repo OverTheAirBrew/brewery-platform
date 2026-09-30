@@ -7,16 +7,12 @@ describe('ActorsController (e2e)', () => {
   it('/actors (POST)', async () => {
     const deviceId = await createTestDeviceEntity();
 
-    const response = await request(app.getHttpServer())
-      .post('/actors')
-      .send({
-        name: 'testing',
-        type: 'TestingActor',
-        device_id: deviceId,
-        config: {
-          int: 1,
-        },
-      });
+    const response = await request(app.getHttpServer()).post('/actors').send({
+      name: 'testing',
+      type: 'LocalDeviceDummyActor',
+      device_id: deviceId,
+      config: {},
+    });
 
     expect(response.status).toBe(201);
 

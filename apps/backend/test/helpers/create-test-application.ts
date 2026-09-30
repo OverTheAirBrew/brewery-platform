@@ -1,16 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DeviceIdentifier, LogicIdentifier } from '@overtheairbrew/plugins';
-import { AppModule } from '../../src/app.module';
 import { AuthGuard } from '../../src/auth/auth.guard';
 import { REPOSITORIES } from '../../src/data/data.abstractions';
 import { ApiKey } from '../../src/data/entities/api-key.entity';
-import { TestingDevice } from './test-providers/device';
 import { Sensor } from '../../src/data/entities/sensor.entity';
 import { Telemetry } from '../../src/data/entities/telemetry.entity';
 import { Device } from '../../src/data/entities/device.entity';
 import { Actor } from '../../src/data/entities/actor.entity';
-import { TestingLogic } from './test-providers/logic';
 import { Vessel } from '../../src/data/entities/vessel.entity';
+import { inject } from 'vitest';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 class MockAuthGuard extends AuthGuard {
   async canActivate(): Promise<boolean> {
@@ -28,20 +26,36 @@ export interface IRepositories {
 }
 
 export const createTestApplication = async () => {
+  const { AppModule } = await import('../../src/app.module');
+
   const moduleFixture = await Test.createTestingModule({
     imports: [AppModule],
   })
     .overrideProvider(AuthGuard)
     .useClass(MockAuthGuard)
-    .overrideProvider(DeviceIdentifier)
-    .useValue([new TestingDevice()])
-    .overrideProvider(LogicIdentifier)
-    .useValue([new TestingLogic()])
+    // .overrideProvider(DeviceIdentifier)
+    // .useValue([new TestingDevice()])
+    // .overrideProvider(LogicIdentifier)
+    // .useValue([new TestingLogic()])
 
     // .setLogger(new Logger())
     .compile();
 
   const app = moduleFixture.createNestApplication();
+
+  const mqttUrl = new URL(inject('MQTT_URL'));
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.MQTT,
+    options: {
+      url: `${mqttUrl.protocol}//${mqttUrl.hostname}`,
+      port: parseInt(mqttUrl.port) || 1883,
+      username: mqttUrl.username,
+      password: mqttUrl.password,
+    },
+  });
+
+  await app.startAllMicroservices();
   await app.init();
 
   const repositories = await getDatabases(moduleFixture);

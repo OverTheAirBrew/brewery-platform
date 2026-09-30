@@ -10,18 +10,19 @@ describe('DeviceTypesController (e2e)', () => {
 
     expect(response.body).toMatchObject([
       {
-        name: 'TestingDevice',
+        name: 'FtssDevice',
         properties: [
-          { name: 'int', type: 'number', required: true, defaultValue: 0 },
           {
-            name: 'select',
-            type: 'select-box',
+            name: 'deviceId',
+            placeholder: '',
             required: true,
-            values: ['a', 'b', 'c'],
-            defaultValue: 'a',
+            type: 'string',
           },
-          { name: 'text', type: 'string', required: true, placeholder: '' },
         ],
+      },
+      {
+        name: 'LocalDevice',
+        properties: [],
       },
     ]);
   });

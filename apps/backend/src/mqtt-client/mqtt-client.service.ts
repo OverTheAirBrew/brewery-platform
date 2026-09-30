@@ -13,31 +13,18 @@ import { MqttMessage } from '@overtheairbrew/mqtt';
 @Injectable()
 export class MqttService implements OnApplicationBootstrap {
   private readonly logger = new Logger(MqttService.name);
-  private prefix: string | undefined;
 
-  constructor(
-    @Inject(MQTT_SERVICE) private readonly mqttClient: ClientProxy,
-    configService: ConfigService,
-  ) {
-    const config = configService.get<ConfigType>('CONFIG');
-    this.prefix = config!.mqtt.MQTT_PREFIX || undefined;
-  }
+  constructor(@Inject(MQTT_SERVICE) private readonly mqttClient: ClientProxy) {}
 
   sendMessage<TPayload>(message: MqttMessage<TPayload>) {
     const topic = message.getTopic(message.payload);
 
     this.logger.debug(`Sending MQTT message to topic: ${topic}`);
-    this.mqttClient.emit(this.getTopic(topic), message.payload);
+    this.mqttClient.emit(topic, message);
+    // this.mqttClient.send(topic, message.payload);
   }
 
   async onApplicationBootstrap() {
     await this.mqttClient.connect();
-  }
-
-  private getTopic(topic: string) {
-    if (this.prefix) {
-      return `${this.prefix}/${topic}`;
-    }
-    return topic;
   }
 }
