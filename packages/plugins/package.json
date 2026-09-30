@@ -23,8 +23,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@nestjs/common": "^12.1.1",
-    "@nestjs/microservices": "^12.1.1",
+    "@nestjs/common": "^11.1.24",
+    "@nestjs/microservices": "^11.1.24",
     "@nestjs/swagger": "^11.4.4"
   }
 }
