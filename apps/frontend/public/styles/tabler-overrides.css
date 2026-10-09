@@ -1,0 +1,54 @@
+/* Use the full logo in normal mode and the compact logo when folded. */
+.navbar-brand .navbar-brand-logo-primary {
+	display: block;
+	height: 2.15rem;
+	max-width: 9.5rem;
+	width: auto;
+}
+
+.navbar-brand .navbar-brand-logo-small {
+	display: none;
+	height: 1.85rem;
+	max-width: 1.85rem;
+	width: auto;
+	filter: none !important;
+}
+
+.navbar-vertical.navbar-folded .navbar-brand .navbar-brand-logo-primary,
+[data-bs-sidebar='folded'] .navbar-vertical .navbar-brand .navbar-brand-logo-primary,
+[data-bs-sidebar='folded-hover'] .navbar-vertical:not(:hover) .navbar-brand .navbar-brand-logo-primary {
+	display: none;
+}
+
+.navbar-vertical.navbar-folded .navbar-brand .navbar-brand-logo-small,
+[data-bs-sidebar='folded'] .navbar-vertical .navbar-brand .navbar-brand-logo-small,
+[data-bs-sidebar='folded-hover'] .navbar-vertical:not(:hover) .navbar-brand .navbar-brand-logo-small {
+	display: block;
+}
+
+/* The provided SVGs use fixed colors, so adjust for dark mode at runtime. */
+[data-bs-theme='dark'] .navbar-brand .navbar-brand-logo-primary {
+	filter: invert(1);
+}
+
+/* Keep the compact mark readable when collapsed in both themes. */
+:root:not([data-bs-theme='dark']) .navbar-brand .navbar-brand-logo-small {
+	filter: none !important;
+}
+
+[data-bs-theme='dark'] .navbar-brand .navbar-brand-logo-small {
+	/* Use true inversion so black/white artwork remains two-tone. */
+	filter: invert(1) contrast(1.1) !important;
+}
+
+/* Make the current sidebar route visibly active regardless of theme defaults. */
+.navbar-vertical .navbar-nav .nav-link.active {
+	background-color: var(--tblr-primary-lt);
+	color: var(--tblr-primary);
+	font-weight: 600;
+}
+
+[data-bs-theme='dark'] .navbar-vertical .navbar-nav .nav-link.active {
+	background-color: color-mix(in oklab, var(--tblr-primary) 26%, transparent);
+	color: #ffffff;
+}
