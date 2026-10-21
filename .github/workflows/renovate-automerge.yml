@@ -1,4 +1,3 @@
-
 name: Renovate auto-merge
 on: pull_request_target
 
@@ -7,12 +6,31 @@ permissions:
   pull-requests: write
 
 jobs:
-  dependabot:
+  renovate:
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'renovate[bot]' }}
     steps:
       - name: Approve PR
         run: |
+          # Fetch all label names associated with the PR
+          labels=$(gh pr view "$PR_URL" --json labels -q '.labels[].name')
+
+          # Check if either 'bump:minor' or 'bump:patch' is present in the labels
+          has_target_label=false
+          for label in $labels; do
+            if [ "$label" = "bump:minor" ] || [ "$label" = "bump:patch" ]; then
+              has_target_label=true
+              break
+            fi
+          done
+
+          if [ "$has_target_label" = "false" ]; then
+            echo "::notice::Skipping auto-merge: PR does not contain a 'bump:minor' or 'bump:patch' label (found labels: ${labels//$'\n'/, })."
+            exit 0
+          fi
+
+          echo "Target label found. Proceeding with approval and auto-merge..."
+
           review_decision=$(gh pr view "$PR_URL" --json reviewDecision -q .reviewDecision)
           if [ "$review_decision" != "APPROVED" ]; then
             gh pr review --approve "$PR_URL"
