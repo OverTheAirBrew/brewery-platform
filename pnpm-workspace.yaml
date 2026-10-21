@@ -2,3 +2,10 @@ packages:
   - apps/*
   - packages/*
   - plugins/*
+allowBuilds:
+  '@nestjs/core': true
+  '@parcel/watcher': true
+  '@scarf/scarf': true
+  esbuild: true
+  sqlite3: true
+  unrs-resolver: true

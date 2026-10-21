@@ -1,0 +1,101 @@
+# Copy this file to .github/workflows/build.yml in your GitHub repository.
+# The CI checks include hardware-free safety and local-broker protocol tests.
+name: Build and Test Heater Controller Firmware
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: ./apps/ftss
+
+jobs:
+  test:
+    name: Hardware-free safety and MQTT tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Run relay safety unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-tests
+          g++ -std=c++17 -Wall -Wextra -Werror -Iinclude \
+            data/ci/unit_safety_interlock.cpp -o .ci-tests/safety-interlock
+          .ci-tests/safety-interlock
+
+      # - name: Run Testcontainers MQTT integration contract test
+      #   shell: bash
+      #   run: |
+      #     set -euo pipefail
+      #     python -m pip install --disable-pip-version-check \
+      #       paho-mqtt==2.1.0 \
+      #       testcontainers==4.13.3
+      #     # The test starts and removes its own Mosquitto container. Docker
+      #     # assigns the host port, so parallel CI jobs do not collide.
+      #     python data/ci/mqtt_contract_test.py
+
+  build:
+    name: Build Pico 2 W Firmware
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+
+      - name: Install PlatformIO
+        run: python -m pip install --upgrade platformio
+
+      - name: Build firmware
+        run: pio run --environment rpipico2w
+
+      - name: Collect field-update files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BUILD_DIR=".pio/build/rpipico2w"
+          OUT_DIR="dist"
+          VERSION="${GITHUB_REF_NAME//\//-}"
+
+          mkdir -p "$OUT_DIR"
+
+          test -s "$BUILD_DIR/firmware.uf2"
+          test -s "$BUILD_DIR/firmware.bin"
+
+          cp "$BUILD_DIR/firmware.uf2" \
+            "$OUT_DIR/heater-controller-${VERSION}-usb-recovery.uf2"
+          cp "$BUILD_DIR/firmware.bin" \
+            "$OUT_DIR/heater-controller-${VERSION}-ota.bin"
+
+          sha256sum "$OUT_DIR"/* | tee "$OUT_DIR/SHA256SUMS.txt"
+
+          cat > "$OUT_DIR/README.md" <<EOF
+          # Heater Controller firmware artifacts
+
+          - \`heater-controller-${VERSION}-ota.bin\`: select this in the
+            controller's authenticated Update tab.
+          - \`heater-controller-${VERSION}-usb-recovery.uf2\`: emergency USB
+            BOOTSEL recovery only; do not select it in the web Update tab.
+          - \`SHA256SUMS.txt\`: SHA-256 checksums for both firmware files.
+          EOF
+
+      - name: Upload firmware artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: heater-controller-${{ github.event.pull_request.number || github.ref_name }}
+          path: apps/ftss/dist/
+          if-no-files-found: error
+          retention-days: 90
