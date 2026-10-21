@@ -175,6 +175,9 @@ importers:
       lint-staged:
         specifier: ^17.0.0
         version: 17.6.0
+      prettier:
+        specifier: ^3.9.10
+        version: 3.9.10
       turbo:
         specifier: ^2.0.12
         version: 2.11.9

@@ -32,7 +32,7 @@ export const AuthMiddleware = (
       }
 
       next();
-    } catch (err) {
+    } catch {
       next(new Error('UNAUTHORIZED'));
     }
   };
