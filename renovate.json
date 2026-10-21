@@ -9,14 +9,16 @@
   },
   "packageRules": [
     {
-      "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["lint", "prettier"],
-      "automerge": true
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["bump:major"]
     },
     {
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["bump:minor"]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "addLabels": ["bump:patch"]
     }
-  ]
+  ]  
 }
