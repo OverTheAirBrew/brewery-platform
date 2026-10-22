@@ -1,0 +1,10 @@
+info:
+  name: users
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit
+  variables:
+    - name: users_url
+      value: "{{base_url}}/users"

@@ -8,6 +8,7 @@ export class ZodBodyValidationPipe implements PipeTransform {
     if (metadata.type !== 'body') return value;
 
     if (this.schema instanceof ZodObject) {
+      // we always omit the id from the input schema to prevent users from updating it
       if (Object.prototype.hasOwnProperty.call(this.schema.shape, 'id')) {
         return this.schema.omit({ id: true }).parse(value);
       }

@@ -26,7 +26,7 @@ interface SelectBoxOptions {
 }
 
 interface IInput {
-  getData(config: any): Promise<any>;
+  getData(config: any): Promise<IData>;
 }
 
 class StringInput implements IInput {
@@ -35,13 +35,23 @@ class StringInput implements IInput {
     private options: StringOptions,
   ) {}
 
-  async getData() {
-    return new StringPropertyOutput(
-      this.name,
-      this.options.required || false,
-      this.options.placeholder || '',
-    );
+  async getData(): Promise<IData> {
+    return {
+      name: this.name,
+      required: this.options.required || false,
+      placeholder: this.options.placeholder || '',
+      type: 'string',
+    };
   }
+}
+
+interface IData {
+  name: string;
+  required: boolean;
+  type: 'string' | 'number' | 'select-box';
+  placeholder?: string;
+  defaultValue?: number | string;
+  values?: string[];
 }
 
 class NumberInput implements IInput {
@@ -50,12 +60,13 @@ class NumberInput implements IInput {
     private options: NumberOptions,
   ) {}
 
-  async getData() {
-    return new NumberPropertyOutput(
-      this.name,
-      this.options.required || false,
-      this.options.defaultValue || 0,
-    );
+  async getData(): Promise<IData> {
+    return {
+      name: this.name,
+      required: this.options.required || false,
+      defaultValue: this.options.defaultValue || 0,
+      type: 'number',
+    };
   }
 }
 
@@ -65,7 +76,7 @@ class SelectBoxInput implements IInput {
     private options: SelectBoxOptions,
   ) {}
 
-  async getData(config: any) {
+  async getData(config: any): Promise<IData> {
     let values: string[];
 
     if (typeof this.options.values === 'function') {
@@ -74,16 +85,19 @@ class SelectBoxInput implements IInput {
       values = this.options.values;
     }
 
-    return new SelectBoxPropertyOutput(
-      this.name,
-      this.options.required || false,
+    return {
+      name: this.name,
+      required: this.options.required || false,
       values,
-      this.options.defaultValue || '',
-    );
+      defaultValue: this.options.defaultValue || '',
+      type: 'select-box',
+    };
   }
 }
 
 export type InputType = StringInput | NumberInput | SelectBoxInput;
+export type OutputType =
+  StringPropertyOutput | NumberPropertyOutput | SelectBoxPropertyOutput;
 
 export class Form {
   constructor() {}
@@ -105,7 +119,39 @@ export class Form {
     return this;
   }
 
-  async build(config: any): Promise<InputType[]> {
-    return await Promise.all(this.inputs.map((input) => input.getData(config)));
+  async build(
+    config: any,
+  ): Promise<{ properties: Record<string, any>; required: string[] }> {
+    const inputs = await Promise.all(
+      this.inputs.map((input) => input.getData(config)),
+    );
+
+    const props = inputs.reduce(
+      (acc, prop) => {
+        let values: string[] | undefined = undefined;
+
+        if (prop.type === 'select-box') {
+          values = prop.values;
+        }
+
+        acc[prop.name] = {
+          title: prop.name,
+          type: prop.type,
+          default: prop.defaultValue ?? undefined,
+          enum: values,
+        };
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
+
+    const requiredProperties = inputs
+      .filter((input) => input.required)
+      .map((input) => input.name);
+
+    return {
+      properties: props,
+      required: requiredProperties,
+    };
   }
 }

@@ -1,0 +1,31 @@
+info:
+  name: sensors
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{sensors_url}}"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "testing",
+        "type": "FtssDeviceSensor",
+        "device_id": "{{device_id}}",
+        "config": {}
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        let data = res.body;
+        bru.setVar("sensor_id", data.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

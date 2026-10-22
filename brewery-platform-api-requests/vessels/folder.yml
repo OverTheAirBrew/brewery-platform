@@ -1,0 +1,10 @@
+info:
+  name: vessels
+  type: folder
+  seq: 6
+
+request:
+  auth: inherit
+  variables:
+    - name: vessels_base_url
+      value: "{{base_url}}/vessels"
