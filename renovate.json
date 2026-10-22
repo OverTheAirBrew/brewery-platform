@@ -19,6 +19,13 @@
     {
       "matchUpdateTypes": ["patch"],
       "addLabels": ["bump:patch"]
+    },
+    {
+      "matchPackageNames": [
+        "@wahyubucil/nestjs-zod-openapi",
+        "zod"        
+      ],
+      "groupName": "Zod Packages"
     }
   ]  
 }
