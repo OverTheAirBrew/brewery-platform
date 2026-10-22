@@ -1,4 +1,4 @@
-import { createZodDto } from '@wahyubucil/nestjs-zod-openapi';
+import { createZodDto } from 'nestjs-zod';
 import { KegSchema } from '../schema/keg.schema';
 
 export class KegDto extends createZodDto(KegSchema) {}

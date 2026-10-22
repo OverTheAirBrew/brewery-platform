@@ -1,4 +1,4 @@
-import { createZodDto } from '@wahyubucil/nestjs-zod-openapi';
+import { createZodDto } from 'nestjs-zod';
 import { DisplaySchema } from '../schema/display.schema';
 
 export class DisplayDto extends createZodDto(DisplaySchema) {}
