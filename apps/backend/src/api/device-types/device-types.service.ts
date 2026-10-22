@@ -16,9 +16,10 @@ export class DeviceTypesService {
   ) {}
 
   async getAll() {
-    return await Promise.all(
-      this.devices.map((device) => this.mapDeviceType(device)),
-    );
+    return this.testing();
+    // return await Promise.all(
+    //   this.devices.map((device) => this.mapDeviceType(device)),
+    // );
   }
 
   async getByNameRaw(name: string) {

@@ -113,7 +113,6 @@ export class DeviceService {
 
     return {
       if: {
-        required: properties.required ?? [],
         properties: {
           type: {
             const: actor.name,
@@ -132,7 +131,6 @@ export class DeviceService {
 
     return {
       if: {
-        required: properties.required ?? [],
         properties: {
           type: {
             const: sensor.name,

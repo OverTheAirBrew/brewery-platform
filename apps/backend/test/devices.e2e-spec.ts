@@ -31,15 +31,22 @@ describe('DevicesController (e2e)', () => {
 
     expect(response.body).toEqual([
       {
-        name: 'LocalDeviceDummySensor',
-        properties: [
-          {
-            name: 'values',
-            placeholder: '',
-            required: true,
-            type: 'string',
+        if: {
+          properties: {
+            type: {
+              const: 'LocalDeviceDummySensor',
+            },
           },
-        ],
+        },
+        then: {
+          properties: {
+            values: {
+              title: 'values',
+              type: 'string',
+            },
+          },
+          required: ['values'],
+        },
       },
     ]);
   });
@@ -55,8 +62,17 @@ describe('DevicesController (e2e)', () => {
 
     expect(response.body).toEqual([
       {
-        name: 'LocalDeviceDummyActor',
-        properties: [],
+        if: {
+          properties: {
+            type: {
+              const: 'LocalDeviceDummyActor',
+            },
+          },
+        },
+        then: {
+          properties: {},
+          required: [],
+        },
       },
     ]);
   });
