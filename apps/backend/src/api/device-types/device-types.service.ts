@@ -1,15 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DeviceTypeSchema } from '@overtheairbrew/models';
 
-import {
-  Device,
-  DeviceIdentifier,
-  SelectBoxPropertyOutput,
-} from '@overtheairbrew/plugins';
+import { Device, DeviceIdentifier } from '@overtheairbrew/plugins';
 import { DeviceTypeNotFoundError } from './errors/device-type-not-found-error';
 
 import { RJSFSchema } from '@rjsf/utils';
 import type { JSONSchema7Definition, JSONSchema7TypeName } from 'json-schema';
+import { DeviceTypeSchema } from '@overtheairbrew/models';
 
 /* istanbul ignore start */
 @Injectable()

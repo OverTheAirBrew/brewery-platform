@@ -1,6 +1,10 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { DeviceTypesService } from '../device-types/device-types.service';
-import { DeviceDto, SensorTypeSchema } from '@overtheairbrew/models';
+import {
+  ActorTypeSchema,
+  DeviceDto,
+  SensorTypeSchema,
+} from '@overtheairbrew/models';
 import { REPOSITORIES } from '../../data/data.abstractions';
 import { Device } from '../../data/entities/device.entity';
 import {
@@ -14,6 +18,7 @@ import { AddMqttUserMessage } from '../../mqtt-client/events/add-mqtt-user.messa
 import { randomFillSync } from 'crypto';
 import { DeviceNotFoundError } from './errors/device-not-found-error';
 import { DeviceTypeNotFoundError } from '../device-types/errors/device-type-not-found-error';
+import { JSONSchema7Definition } from 'json-schema';
 
 /* istanbul ignore start */
 @Injectable()
@@ -103,16 +108,20 @@ export class DeviceService {
     );
   }
 
-  private async mapActorType(
-    actor: Actor<unknown, unknown>,
-    deviceConfig: unknown,
-  ) {
+  private async mapActorType(actor: Actor<any, any>, deviceConfig: any) {
     const properties = await actor.getConfigOptions(deviceConfig);
 
-    return SensorTypeSchema.parse({
-      name: actor.name,
-      properties,
-    });
+    return {
+      if: {
+        required: properties.required ?? [],
+        properties: {
+          type: {
+            const: actor.name,
+          },
+        },
+      },
+      then: properties,
+    } satisfies JSONSchema7Definition;
   }
 
   private async mapSensorType(
@@ -121,10 +130,17 @@ export class DeviceService {
   ) {
     const properties = await sensor.getConfigOptions(deviceConfig);
 
-    return SensorTypeSchema.parse({
-      name: sensor.name,
-      properties,
-    });
+    return {
+      if: {
+        required: properties.required ?? [],
+        properties: {
+          type: {
+            const: sensor.name,
+          },
+        },
+      },
+      then: properties,
+    } satisfies JSONSchema7Definition;
   }
 
   private generatePassword(
