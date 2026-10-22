@@ -9,7 +9,10 @@ describe('ValidationPipe', () => {
 
     const validationPipe = new ZodBodyValidationPipe(schema);
 
-    const result = validationPipe.transform({ test: 'test' }, { type: 'body' });
+    const result = validationPipe.transform(
+      { test: 'test', id: 'testing' },
+      { type: 'body' },
+    );
     expect(result).toBeDefined();
   });
 
@@ -18,7 +21,10 @@ describe('ValidationPipe', () => {
 
     const validationPipe = new ZodBodyValidationPipe(schema);
 
-    const result = validationPipe.transform('test', { type: 'body' });
+    const result = validationPipe.transform('test', {
+      type: 'body',
+    });
+
     expect(result).toBeDefined();
   });
 });

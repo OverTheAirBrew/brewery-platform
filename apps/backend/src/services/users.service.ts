@@ -1,10 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import {
-  TokenResponse,
-  TokenResponseDto,
-  UserDto,
-} from '@overtheairbrew/models';
+import { TokenResponse, UserDto } from '@overtheairbrew/models';
 import { createHash } from 'crypto';
 
 @Injectable()
