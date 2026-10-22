@@ -22,7 +22,7 @@
     },
     {
       "matchPackageNames": [
-        "@wahyubucil/nestjs-zod-openapi",
+        "nestjs-zod",
         "zod"        
       ],
       "groupName": "Zod Packages"

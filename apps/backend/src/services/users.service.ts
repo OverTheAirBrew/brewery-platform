@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { TokenResponseDto, UserDto } from '@overtheairbrew/models';
+import { TokenResponse, UserDto } from '@overtheairbrew/models';
 import { createHash } from 'crypto';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class UsersService {
       emailHash: createHash('md5').update(fetchedUser.userName).digest('hex'),
     };
 
-    return TokenResponseDto.zodSchema.parse({
+    return TokenResponse.parse({
       ...userInformation,
       token: await this.jwtService.signAsync(userInformation),
     });
