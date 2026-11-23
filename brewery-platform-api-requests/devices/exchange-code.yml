@@ -1,0 +1,22 @@
+info:
+  name: exchange-code
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{devices_url}}/exchange-code"
+  body:
+    type: json
+    data: |-
+      {
+        "code": "{{device_code}}"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

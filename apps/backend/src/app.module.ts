@@ -43,6 +43,7 @@ import { ActorsModule } from './api/actors/actors.module';
 import { BullModule } from '@nestjs/bullmq';
 import { ActorSensorTypesModule } from './api/actor-sensor-types/actor-sensor-types.module';
 import { ApiKeysModule } from './api/api-keys/api-keys.module';
+import { JsonSchemaGeneratorModule } from './json-schema-generator/json-schema-generator.module';
 
 @Catch(HttpException)
 class HttpExceptionFilter extends BaseExceptionFilter {
@@ -103,6 +104,7 @@ class HttpExceptionFilter extends BaseExceptionFilter {
     VesselsModule,
     ActorsModule,
     ActorSensorTypesModule,
+    JsonSchemaGeneratorModule,
   ],
   providers: [
     {

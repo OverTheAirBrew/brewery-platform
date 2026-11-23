@@ -493,6 +493,9 @@ importers:
       '@nestjs/swagger':
         specifier: ^11.4.4
         version: 11.4.7(@nestjs/common@11.2.7(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.7)(reflect-metadata@0.2.2)
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@overtheairbrew/tsconfig':
         specifier: workspace:*

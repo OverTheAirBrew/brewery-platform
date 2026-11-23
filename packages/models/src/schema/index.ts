@@ -16,3 +16,4 @@ export * from './vessel.schema.ts';
 export * from './actor.schema.ts';
 export * from './sensor-type.schema.ts';
 export * from './actor-type.schema.ts';
+export * from './single-use-code-exchange.schema.ts';

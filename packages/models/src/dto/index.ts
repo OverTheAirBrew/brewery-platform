@@ -15,3 +15,4 @@ export * from './actor-type.dto.ts';
 export * from './vessel.dto.ts';
 export * from './actor.dto.ts';
 export * from './sensor-types.dto.ts';
+export * from './single-use-code-exchange.dto.ts';

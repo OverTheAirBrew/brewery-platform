@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { JsonSchemaGeneratorService } from '../../json-schema-generator/json-schema-generator.service';
 
 import { Device, DeviceIdentifier } from '@overtheairbrew/plugins';
 import { DeviceTypeNotFoundError } from './errors/device-type-not-found-error';
@@ -13,13 +14,47 @@ export class DeviceTypesService {
   /* istanbul ignore stop */
   constructor(
     @Inject(DeviceIdentifier) private readonly devices: Device<any>[],
+    private readonly jsonSchemaGenerator: JsonSchemaGeneratorService,
   ) {}
 
   async getAll() {
-    return this.testing();
-    // return await Promise.all(
-    //   this.devices.map((device) => this.mapDeviceType(device)),
-    // );
+    const deviceNames = this.devices.map((device) => device.name);
+
+    const anyOfOutput = await Promise.all(
+      this.devices.map(async (device) => {
+        const propertyConfig = await device.getConfigOptions({});
+
+        return await this.jsonSchemaGenerator.generateIfSchema(
+          {
+            properties: {
+              type: {
+                const: device.name,
+              },
+            },
+          },
+          propertyConfig,
+        );
+      }),
+    );
+
+    return await this.jsonSchemaGenerator.generateSchema(
+      'Device Configuration',
+      'Configuration for the selected device type',
+      {
+        name: {
+          type: 'string',
+          title: 'Device Name',
+        },
+        type: {
+          type: 'string',
+          title: 'Device Type',
+          enum: deviceNames,
+        },
+      },
+      {
+        anyOf: anyOfOutput,
+      },
+    );
   }
 
   async getByNameRaw(name: string) {
@@ -37,44 +72,5 @@ export class DeviceTypesService {
       name: device.name,
       properties,
     });
-  }
-
-  public async testing(): Promise<RJSFSchema> {
-    const deviceNames = this.devices.map((device) => device.name);
-
-    const test = await Promise.all(
-      this.devices.map(async (device) => {
-        const propertyConfig = await device.getConfigOptions({});
-
-        return {
-          if: {
-            properties: {
-              type: {
-                const: device.name,
-              },
-            },
-          },
-          then: propertyConfig,
-        } satisfies JSONSchema7Definition;
-      }),
-    );
-
-    return {
-      title: 'Device Configuration',
-      description: 'Configuration for the selected device type',
-      type: 'object',
-      properties: {
-        name: {
-          type: 'string',
-          title: 'Device Name',
-        },
-        type: {
-          type: 'string',
-          title: 'Device Type',
-          enum: deviceNames,
-        },
-      },
-      anyOf: [...test],
-    };
   }
 }

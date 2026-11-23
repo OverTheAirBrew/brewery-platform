@@ -14,15 +14,12 @@ export class DeviceTypesController {
 
   @Get('/')
   @ApiOkResponse({
-    type: DeviceTypeDto,
+    schema: {
+      type: 'object',
+      additionalProperties: true, // Tells Swagger it's a dynamic JSON schema object
+    },
   })
   async get() {
     return await this.deviceTypesService.getAll();
-  }
-
-  @Get('/testing')
-  @Public()
-  async testing() {
-    return await this.deviceTypesService.testing();
   }
 }

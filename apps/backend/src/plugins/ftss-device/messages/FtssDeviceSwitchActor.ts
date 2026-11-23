@@ -16,6 +16,9 @@ export class FtssDeviceSwitchActor extends MqttMessage<FtssDeviceSwitchActorType
     `ftss/${payload.device_id}/actor/switch`;
 
   constructor(data: FtssDeviceSwitchActorType) {
-    super(data);
+    super(data, {
+      qos: 0,
+      retain: false,
+    });
   }
 }

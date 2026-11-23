@@ -3,9 +3,12 @@ import { DeviceTypesService } from './device-types.service';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DeviceTypeNotFoundError } from './errors/device-type-not-found-error';
 import { TestBed } from '@suites/unit';
+import type { Mocked } from 'vitest';
+import { JsonSchemaGeneratorService } from '../../json-schema-generator/json-schema-generator.service';
 
 describe('DeviceTypesService', () => {
   let deviceTypesService: DeviceTypesService;
+  let jsonSchemaGenerator: Mocked<JsonSchemaGeneratorService>;
 
   const mockDevices: Partial<Device<any>>[] = [
     {
@@ -15,10 +18,14 @@ describe('DeviceTypesService', () => {
   ];
 
   beforeEach(async () => {
-    const { unit } = await TestBed.solitary(DeviceTypesService)
+    const { unit, unitRef } = await TestBed.solitary(DeviceTypesService)
       .mock<Device<any>[]>(DeviceIdentifier)
       .final([...(mockDevices as Device<any>[])])
       .compile();
+
+    jsonSchemaGenerator = unitRef.get(JsonSchemaGeneratorService);
+    jsonSchemaGenerator.generateSchema.mockResolvedValue({});
+    jsonSchemaGenerator.generateIfSchema.mockResolvedValue({});
 
     deviceTypesService = unit;
   });
@@ -30,12 +37,9 @@ describe('DeviceTypesService', () => {
   describe('getAll', () => {
     it('should return an array of device types', async () => {
       const result = await deviceTypesService.getAll();
-      expect(result).toMatchObject([
-        {
-          name: 'device1',
-          properties: expect.any(Array),
-        },
-      ]);
+
+      expect(jsonSchemaGenerator.generateSchema).toHaveBeenCalled();
+      expect(jsonSchemaGenerator.generateIfSchema).toHaveBeenCalled();
     });
   });
 

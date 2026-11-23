@@ -25,6 +25,7 @@
   "dependencies": {
     "@nestjs/common": "^11.1.24",
     "@nestjs/microservices": "^11.1.24",
-    "@nestjs/swagger": "^11.4.4"
+    "@nestjs/swagger": "^11.4.4",
+    "zod": "^4.6.7"
   }
 }

@@ -4,11 +4,16 @@ import {
   Logger,
   OnApplicationBootstrap,
 } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import {
+  ClientProxy,
+  MqttRecordBuilder,
+  MqttRecordOptions,
+} from '@nestjs/microservices';
 import { MQTT_SERVICE } from './mqtt-client.abstractions';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from '../config';
 import { MqttMessage } from '@overtheairbrew/mqtt';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class MqttService implements OnApplicationBootstrap {
@@ -28,7 +33,17 @@ export class MqttService implements OnApplicationBootstrap {
     const fullTopic = this.getTopic(topic);
 
     this.logger.debug(`Sending MQTT message to topic: ${fullTopic}`);
-    this.mqttClient.emit(fullTopic, message);
+
+    const record = new MqttRecordBuilder({
+      ...message,
+      messageId: randomUUID(), // messageId here so it can be tracked uniquely for each message
+      sentAt: Date.now(),
+    })
+      .setQoS(message.options.qos as MqttRecordOptions['qos'])
+      .setRetain(message.options?.retain ?? false)
+      .build();
+
+    this.mqttClient.emit(fullTopic, record);
   }
 
   async onApplicationBootstrap() {

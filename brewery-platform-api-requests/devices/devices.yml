@@ -24,9 +24,11 @@ runtime:
       code: |-
         let data = res.body;
         bru.setVar("device_id", data.id);
+        bru.setVar("device_code", data.code)
 
 settings:
   encodeUrl: true
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+  forwardAuthorizationHeader: true

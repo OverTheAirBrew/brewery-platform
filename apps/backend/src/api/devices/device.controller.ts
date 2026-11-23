@@ -8,18 +8,17 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common';
+import {
+  SingleUseCodeExchangeSchema,
+  SingleUseCodeExchangeDto,
+  SingleUseCodeExchangeResponseDto,
+} from '@overtheairbrew/models';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ZodBodyValidationPipe } from '../../validation/validation.pipe';
-import {
-  ActorTypeDto,
-  DeviceDto,
-  DeviceSchema,
-  SensorDto,
-  SensorSchema,
-  SensorTypeDto,
-} from '@overtheairbrew/models';
+import { DeviceDto, DeviceSchema } from '@overtheairbrew/models';
 import { DeviceService } from './device.service';
 import { IdResponseDto } from '../../id.response.dto';
+import { Public } from '../../auth/public.decorator';
 
 /* istanbul ignore start */
 @ApiTags('devices')
@@ -38,21 +37,47 @@ export class DevicesController {
     return this.deviceService.createDevice(deviceDto);
   }
 
-  @Get('/:id/sensor-types')
+  @Get('/sensor-types')
+  @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
-    type: SensorTypeDto,
-    isArray: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true, // Tells Swagger it's a dynamic JSON schema object
+    },
   })
-  async getSensorsTypesForDeviceId(@Param('id') id: string) {
-    return this.deviceService.getSensorTypesForDeviceId(id);
+  async getSensorTypes() {
+    return this.deviceService.getAllSensorTypes();
   }
 
-  @Get('/:id/actor-types')
+  @Get('/actor-types')
+  @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
-    type: ActorTypeDto,
-    isArray: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true, // Tells Swagger it's a dynamic JSON schema object
+    },
   })
-  async getActorTypesForDeviceId(@Param('id') id: string) {
-    return this.deviceService.getActorTypesForDeviceId(id);
+  async getActorTypes() {
+    return this.deviceService.getAllActorTypes();
+  }
+
+  @Post('/:device_id/refresh-code')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiCreatedResponse({
+    type: IdResponseDto,
+  })
+  async generateCode(@Param('device_id') deviceId: string) {
+    return this.deviceService.refreshCode(deviceId);
+  }
+
+  @Post('/exchange-code')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({
+    type: SingleUseCodeExchangeResponseDto,
+  })
+  @Public()
+  @UsePipes(new ZodBodyValidationPipe(SingleUseCodeExchangeSchema))
+  async exchangeSingleUseCode(@Body() body: SingleUseCodeExchangeDto) {
+    return this.deviceService.exchangeSingleUseCode(body.code);
   }
 }
